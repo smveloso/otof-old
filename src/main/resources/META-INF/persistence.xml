@@ -2,6 +2,7 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="org.smveloso_otof_jar_1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>org.smveloso.otof.model.Foto</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:/e:/env/work/workspaces/otof/h2/otofdatabase"/>
       <property name="javax.persistence.jdbc.password" value="otof"/>

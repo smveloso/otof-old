@@ -1,0 +1,12 @@
+\.orig$
+\.orig\..*$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+target
+h2
+hibernate
+workdir.*$
+.*~$
+.*\.swp$
+.*\.log.*

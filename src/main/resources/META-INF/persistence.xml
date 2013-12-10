@@ -10,6 +10,13 @@
       <property name="javax.persistence.jdbc.user" value="otof"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+      
+      <!--
+      <property name="hibernate.connection.username" value="otof"/>
+      <property name="hibernate.connection.password" value="otof"/>
+      -->
+      
     </properties>
   </persistence-unit>
 </persistence>

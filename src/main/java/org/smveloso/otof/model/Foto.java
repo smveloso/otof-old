@@ -1,10 +1,14 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -17,6 +21,19 @@ public class Foto implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataTirada;
+    
+    @Column(unique = true, length = 512, nullable = false)
+    private String arquivo;
+    
+    @Column(nullable = false)
+    private String digest;
+    
+    @Column(nullable = false)
+    private Long tamanhoArquivo;
+    
     public Long getId() {
         return id;
     }
@@ -25,6 +42,38 @@ public class Foto implements Serializable {
         this.id = id;
     }
 
+    public Date getDataTirada() {
+        return dataTirada;
+    }
+
+    public void setDataTirada(Date dataTirada) {
+        this.dataTirada = dataTirada;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
+    }
+
+    public Long getTamanhoArquivo() {
+        return tamanhoArquivo;
+    }
+
+    public void setTamanhoArquivo(Long tamanhoArquivo) {
+        this.tamanhoArquivo = tamanhoArquivo;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

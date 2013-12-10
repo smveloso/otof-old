@@ -60,11 +60,11 @@
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <version>1.0.1.Final</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.2.5.Final</version>
+            <version>3.6.10.Final</version>    
         </dependency>    
     
         <dependency>
@@ -75,6 +75,45 @@
     
     
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>ddl</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>hibernate3-maven-plugin</artifactId>
+                        <version>3.0</version>
+                        <configuration>
+                            <hibernatetool>
+                                <jpaconfiguration persistenceunit="org.smveloso_otof_jar_1-SNAPSHOTPU" />
+                                <hbm2ddl update="false" 
+                                         create="true" 
+                                         export="false"
+                                         outputfilename="schema.sql" 
+                                         format="true"
+                                         console="true" />
+                            </hibernatetool>
+                        </configuration>
+                        <!--
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.h2database</groupId>
+                                <artifactId>h2</artifactId>
+                                <version>1.3.174</version>                                
+                            </dependency>
+                        </dependencies>
+                        -->
+                    </plugin>         
+                </plugins>
+            </build>
+        </profile>
+        
+    </profiles>
 
 
 </project>

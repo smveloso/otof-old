@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -15,6 +16,7 @@ import javax.persistence.TemporalType;
  * @author sergiomv
  */
 @Entity
+@NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo")
 public class Foto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

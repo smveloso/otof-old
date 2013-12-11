@@ -6,6 +6,7 @@
 target
 h2
 hibernate
+work
 workdir.*$
 .*~$
 .*\.swp$

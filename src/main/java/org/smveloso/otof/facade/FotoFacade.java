@@ -3,6 +3,7 @@ package org.smveloso.otof.facade;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FileUtils;
 import org.smveloso.otof.digest.DigestException;
 import org.smveloso.otof.digest.DigestFacade;
@@ -11,6 +12,7 @@ import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.em.JpaManager;
 import org.smveloso.otof.exinf.ExinfException;
 import org.smveloso.otof.exinf.ExinfFacade;
+import org.smveloso.otof.gui.WaitWindowWorkerDialog;
 import org.smveloso.otof.model.Foto;
 
 /**
@@ -34,8 +36,7 @@ public class FotoFacade {
         return instance;
     }
 
-    
-    public void executaVarredura(File baseDir) throws FacadeException {
+    public synchronized void executaVarredura(File baseDir) throws FacadeException {
         
         try {
         
@@ -46,33 +47,32 @@ public class FotoFacade {
                 throw new FacadeException("Varredura não pode começar. Erro no acesso ao diretório base.");
             }
 
-            Collection<File> allfiles = FileUtils.listFiles(baseDir, new String[] {"jpg","JPG"}, true);
-
-            for (File file:allfiles) {
-
-                //LOG
-                Foto jaExiste = fotoJpaController.findFotoByArquivo(file.getAbsolutePath());
-                if (null != jaExiste) {
-                    // LOG
-                    continue;
-                }
-
-                // computar digest e cadastrar
-
-                Foto naoExiste = new Foto();
-                naoExiste.setArquivo(file.getAbsolutePath());
-                naoExiste.setDigest(DigestFacade.getSha1HexEncoded(file));
-                naoExiste.setDataTirada(ExinfFacade.getDataTirada(file));
-                naoExiste.setTamanhoArquivo(file.length());
-
-                fotoJpaController.create(naoExiste);
-
-            }
-        
+            Varredor varredor = new Varredor(baseDir);
+            varredor.setFotoJpaController(fotoJpaController);
+            
+            VarredorBatchJob batchJob = new VarredorBatchJob();
+            batchJob.setVarredor(varredor);
+            
+            BatchJobSwingWorker<Void,Void> batchJobWorker = new BatchJobSwingWorker<Void,Void>();
+            batchJobWorker.setBatchJob(batchJob);
+            
+            WaitWindowWorkerDialog workerDialog = new WaitWindowWorkerDialog(null, batchJobWorker);
+            workerDialog.setVisible(true);
+            
+            batchJobWorker.get();
+            
+             
+        /*
         } catch (EmException | DigestException | ExinfException e) {
             //LOG
             //TODO roll back ???
             throw new FacadeException("Erro durante varredura:" + e.getMessage(), e);
+        */  
+            
+        } catch (InterruptedException| ExecutionException e) {
+            throw new FacadeException("Job interrupted or failed: " + e.getMessage());
+        } finally {
+            
         }
 
     }

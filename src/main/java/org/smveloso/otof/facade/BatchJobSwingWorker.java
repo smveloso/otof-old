@@ -32,7 +32,7 @@ public class BatchJobSwingWorker<T,V> extends SwingWorker<T, V> {
         setProgress(0);
         
         while (batchJob.hasMoreItems()) {
-            Object item = batchJob.getNextItem();
+            Object item = batchJob.getLastProcessedItem();
             batchJob.process(item);
             setMensagem(batchJob.getMessage());
             setProgress(batchJob.getProgress());

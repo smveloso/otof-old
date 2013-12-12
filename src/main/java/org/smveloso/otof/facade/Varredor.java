@@ -1,6 +1,7 @@
 package org.smveloso.otof.facade;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -22,7 +23,7 @@ public class Varredor {
     private FotoJpaController fotoJpaController;
     
     private File baseDir;
-    private File currentFile;
+    private File lastProcessedFile;
     private Collection<File> files;
     private Iterator<File> iterator;
     private int remainingFiles;
@@ -39,7 +40,7 @@ public class Varredor {
 
         this.files = FileUtils.listFiles(baseDir, new String[]{"jpg", "JPG"}, true);
         this.iterator = this.files.iterator();
-        this.currentFile = null;
+        this.lastProcessedFile = null;
         this.remainingFiles = this.files.size();
         
     }
@@ -48,8 +49,8 @@ public class Varredor {
         this.fotoJpaController = fotoJpaController;
     }
     
-    public File getCurrentFile() {
-        return this.currentFile;
+    public File getLastProcessedFile() {
+        return this.lastProcessedFile;
     }
     
     public int getNumberOfFiles() {
@@ -69,18 +70,26 @@ public class Varredor {
         try {
         
             if (this.iterator.hasNext()) {
-                this.currentFile = this.iterator.next();
-
+                this.lastProcessedFile = this.iterator.next();
+                this.remainingFiles--;
+                
                 //LOG
-                Foto jaExiste = fotoJpaController.findFotoByArquivo(this.currentFile.getAbsolutePath());
+                Foto jaExiste = fotoJpaController.findFotoByArquivo(this.lastProcessedFile.getAbsolutePath());
                 if (null == jaExiste) {
 
                     // computar digest e cadastrar
                     Foto naoExiste = new Foto();
-                    naoExiste.setArquivo(this.currentFile.getAbsolutePath());
-                    naoExiste.setDigest(DigestFacade.getSha1HexEncoded(this.currentFile));
-                    naoExiste.setDataTirada(ExinfFacade.getDataTirada(this.currentFile));
-                    naoExiste.setTamanhoArquivo(this.currentFile.length());
+                    naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
+                    naoExiste.setDigest(DigestFacade.getSha1HexEncoded(this.lastProcessedFile));
+                    
+                    try {
+                        naoExiste.setDataTirada(ExinfFacade.getDataTirada(this.lastProcessedFile));
+                    } catch (ExinfException noPhoto) {
+                        //naoExiste.setDataTirada(Calendar.getInstance().getTime());
+                        naoExiste.setDataTirada(null);
+                    }
+                    
+                    naoExiste.setTamanhoArquivo(this.lastProcessedFile.length());
 
                     fotoJpaController.create(naoExiste);
 
@@ -90,7 +99,7 @@ public class Varredor {
                 throw new FacadeException("Illegal state: nothing to process.");
             }
         
-        } catch (DigestException| EmException| ExinfException e) {
+        } catch (DigestException| EmException e) {
             throw new FacadeException(e);
         }
         

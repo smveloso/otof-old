@@ -114,7 +114,7 @@
                                 <hbm2ddl update="false"
                                          drop="true"
                                          create="true" 
-                                         export="false"
+                                         export="true"
                                          outputfilename="schema.sql" 
                                          format="true"
                                          console="true" />

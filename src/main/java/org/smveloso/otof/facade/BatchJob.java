@@ -8,7 +8,7 @@ public interface BatchJob<T> {
 
     public boolean hasMoreItems();
     
-    public T getNextItem();
+    public T getLastProcessedItem();
     
     public int getProgress();
     

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Collection;
 import org.apache.commons.io.FileUtils;
+import org.smveloso.otof.digest.DigestException;
+import org.smveloso.otof.digest.DigestFacade;
 import org.smveloso.otof.em.EmException;
 import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.em.JpaManager;
@@ -43,7 +45,7 @@ public class FotoFacade {
                 throw new FacadeException("Varredura não pode começar. Erro no acesso ao diretório base.");
             }
 
-            Collection<File> allfiles = FileUtils.listFiles(baseDir, new String[] {"jpg"}, true);
+            Collection<File> allfiles = FileUtils.listFiles(baseDir, new String[] {"jpg","JPG"}, true);
 
             for (File file:allfiles) {
 
@@ -58,7 +60,7 @@ public class FotoFacade {
 
                 Foto naoExiste = new Foto();
                 naoExiste.setArquivo(file.getAbsolutePath());
-                naoExiste.setDigest("todo");
+                naoExiste.setDigest(DigestFacade.getSha1HexEncoded(file));
                 naoExiste.setDataTirada(ExinfFacade.getDataTirada(file));
                 naoExiste.setTamanhoArquivo(file.length());
 
@@ -66,7 +68,7 @@ public class FotoFacade {
 
             }
         
-        } catch (EmException e) {
+        } catch (EmException | DigestException e) {
             //LOG
             //TODO roll back ???
             throw new FacadeException("Erro durante varredura:" + e.getMessage(), e);

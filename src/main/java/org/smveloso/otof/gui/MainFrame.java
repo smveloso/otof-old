@@ -1,6 +1,7 @@
 package org.smveloso.otof.gui;
 
 import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.FotoFacade;
@@ -71,6 +72,11 @@ public class MainFrame extends javax.swing.JFrame {
         lblOpVarreduraBaseDir.setText("Diretório base:");
 
         btnOpVarreduraSearchBaseDir.setText("...");
+        btnOpVarreduraSearchBaseDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpVarreduraSearchBaseDirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlOpVarreduraLayout = new javax.swing.GroupLayout(pnlOpVarredura);
         pnlOpVarredura.setLayout(pnlOpVarreduraLayout);
@@ -132,6 +138,11 @@ public class MainFrame extends javax.swing.JFrame {
         tabpnlMain.addTab("Configurações", pnlConfig);
 
         btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlBottomLayout = new javax.swing.GroupLayout(pnlBottom);
         pnlBottom.setLayout(pnlBottomLayout);
@@ -175,14 +186,27 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpVarreduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraActionPerformed
-        actionIniciar();
+        actionVarreduraIniciar();
     }//GEN-LAST:event_btnOpVarreduraActionPerformed
+
+    private void btnOpVarreduraSearchBaseDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraSearchBaseDirActionPerformed
+        actionVarreduraEscolherDiretorioBase();
+    }//GEN-LAST:event_btnOpVarreduraSearchBaseDirActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        actionFechar();
+    }//GEN-LAST:event_btnFecharActionPerformed
 
     //
     // ACTIONS
     //
     
-    private void actionIniciar() {
+    private void actionFechar() {
+        this.setVisible(false);
+        this.dispose();
+    }
+    
+    private void actionVarreduraIniciar() {
         
         //TODO validações ...
         
@@ -196,7 +220,35 @@ public class MainFrame extends javax.swing.JFrame {
 
     }
     
+    private void actionVarreduraEscolherDiretorioBase() {
+        File baseDir = guiEscolheDiretorio();
+        if (null != baseDir) {            
+            if (baseDir.exists() && baseDir.isDirectory()) {
+                txtOpVarreduraBaseDir.setText(baseDir.getAbsolutePath());
+            } else {
+                guiMostraAviso("Diretório não encontrado.");
+            }
+        }
+    }
     
+    //
+    // GUI STUFF
+    //
+    
+    private File guiEscolheDiretorio() {
+        File arquivo = null;
+        JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.dir")));
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int op = chooser.showOpenDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION) {
+            arquivo = chooser.getSelectedFile();
+        }
+        return arquivo;
+    }
+    
+    private void guiMostraAviso(String texto) {
+        JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    }
     
     /**
      * @param args the command line arguments

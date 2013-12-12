@@ -1,8 +1,10 @@
 package org.smveloso.otof.gui;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.FotoFacade;
 
@@ -212,10 +214,21 @@ public class MainFrame extends javax.swing.JFrame {
         
         try {
             File baseDir = new File(txtOpVarreduraBaseDir.getText());
-            fotoFacade.executaVarredura(baseDir);
+            VarreduraWorker worker = new VarreduraWorker();
+            worker.setBaseDir(baseDir);
+            worker.setFotoFacade(fotoFacade);        
+            WaitWindowWorkerDialog workerDialog = new WaitWindowWorkerDialog(this, worker, false, false);
+            workerDialog.setVisible(true);
+            worker.get();
+
+        /*
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
+        */
+        } catch (InterruptedException | ExecutionException e) {
+            //throw new FacadeException("Job interrupted or failed: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage(),"Houve um erro",JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -248,6 +261,32 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void guiMostraAviso(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    //
+    // SwingWorkers
+    // 
+    
+    class VarreduraWorker extends SwingWorker<Object, Object> {
+
+
+        private File baseDir;
+        private FotoFacade fotoFacade;
+        
+        public void setBaseDir(File baseDir) {
+            this.baseDir = baseDir;
+        }
+
+        public void setFotoFacade(FotoFacade fotoFacade) {
+            this.fotoFacade = fotoFacade;
+        }
+        
+        @Override
+        protected Object doInBackground() throws Exception {
+            fotoFacade.executaVarredura(baseDir);
+            return null;
+        }
+
     }
     
     /**

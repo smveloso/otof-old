@@ -9,6 +9,7 @@ import org.smveloso.otof.digest.DigestFacade;
 import org.smveloso.otof.em.EmException;
 import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.em.JpaManager;
+import org.smveloso.otof.exinf.ExinfException;
 import org.smveloso.otof.exinf.ExinfFacade;
 import org.smveloso.otof.model.Foto;
 
@@ -68,7 +69,7 @@ public class FotoFacade {
 
             }
         
-        } catch (EmException | DigestException e) {
+        } catch (EmException | DigestException | ExinfException e) {
             //LOG
             //TODO roll back ???
             throw new FacadeException("Erro durante varredura:" + e.getMessage(), e);

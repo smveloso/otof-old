@@ -49,6 +49,7 @@ public class FotoFacade {
 
             Varredor varredor = new Varredor(baseDir);
             varredor.setFotoJpaController(fotoJpaController);
+            varredor.initialize();
             
             VarredorBatchJob batchJob = new VarredorBatchJob();
             batchJob.setVarredor(varredor);

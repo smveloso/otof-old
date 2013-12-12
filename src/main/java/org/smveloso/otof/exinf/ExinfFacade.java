@@ -22,8 +22,16 @@ public class ExinfFacade {
             //extractAttributes(file);
             Metadata metadata = ImageMetadataReader.readMetadata(file);
             ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
-            Date date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);            
-            return date;
+            if (null != directory) {
+                String tagName = directory.getTagName(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+                if (null != tagName) {
+                    return directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);            
+                } else {
+                    throw new ExinfException("No date time taken tag found in jpeg directory.");
+                }
+            } else {
+                throw new ExinfException("No jpeg directory.");
+            }
         } catch (ImageProcessingException | IOException e) {
             throw new ExinfException(e);
         }

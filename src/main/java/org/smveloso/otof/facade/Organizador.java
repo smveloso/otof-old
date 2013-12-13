@@ -9,6 +9,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.FileSystemUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.model.Foto;
 
@@ -133,18 +136,7 @@ public class Organizador {
         }
         
         if (isCreateCopies()) {
-        /*
-            int nroUnidades = unidades.size();
-            for (int k=0; k < nroUnidades; ++k) {
-                
-                safeSetMensagem("Copiando arquivo para unidade " + (k+1) + " : ");
-                Unidade unidade = unidades.get(k);
-                
-                
-                
-            }
-            
-        */    
+            criarCopias();
         }
         
     }
@@ -253,6 +245,39 @@ public class Organizador {
                     }
                 }
             }
+
+        }
+    }
+    
+    private void criarCopias() throws FacadeException {    
+        if (isCreateCopies()) {
+            
+            if ((getDestDir() == null) || (!getDestDir().exists()) || (!getDestDir().isDirectory()) || (!getDestDir().canWrite())) {
+                throw new FacadeException("Problemas para gravar no diretório de destino das cópias.");
+            }
+            
+            int nroUnidades = unidades.size();
+            for (int k = 0; k < nroUnidades; ++k) {
+
+                safeSetMensagem("Copiando arquivos para unidade " + (k + 1) + " : ");
+                Unidade unidade = unidades.get(k);
+
+                File destDirUnidade = new File(getDestDir(),unidade.getNome());
+                if (!destDirUnidade.mkdir()) {
+                    throw new FacadeException("Erro ao criar diretório para unidade: " + destDirUnidade.getAbsolutePath());
+                }
+                
+                for (Foto foto:unidade.getFotos()) {
+                    
+                    try {
+                        FileUtils.copyFileToDirectory(new File(foto.getArquivo()), destDirUnidade, true);
+                    } catch (IOException e) {
+                        throw new FacadeException("Erro ao copiar arquivo: " + foto.getArquivo(),e);
+                    }
+                    
+                } // iteracao na lista de fotos de uma unidade
+                
+            } // iteracao na lista de unidades
 
         }
     }

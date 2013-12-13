@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="OTOF"/>
@@ -31,7 +35,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="tabpnlMain" pref="358" max="32767" attributes="0"/>
+              <Component id="tabpnlMain" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlBottom" min="-2" pref="44" max="-2" attributes="0"/>
           </Group>
@@ -77,15 +81,18 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlOpVarredura" alignment="1" max="32767" attributes="0"/>
+                  <Component id="pnlOpVarredura" max="32767" attributes="0"/>
+                  <Component id="pnlOpOrganizacao" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnlOpVarredura" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="228" max="32767" attributes="0"/>
+                      <Component id="pnlOpVarredura" min="-2" pref="86" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlOpOrganizacao" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -125,13 +132,13 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblOpVarreduraBaseDir" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtOpVarreduraBaseDir" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnOpVarreduraSearchBaseDir" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="10" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnOpVarredura" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -160,6 +167,154 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpVarreduraSearchBaseDirActionPerformed"/>
                   </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="pnlOpOrganizacao">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Organiza&#xe7;&#xe3;o"/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="chkOpOrganizacaoCopiarArquivos" max="32767" attributes="0"/>
+                                      <Component id="chkOpOrganizacaoGerarManifest" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="0" pref="171" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="txtOpOrganizacaoTamanhoUnidade" min="-2" pref="145" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="txtOpOrganizacaoCopiarArquivosDiretorio" max="32767" attributes="0"/>
+                                              <Component id="txtOpOrganizacaoManifest" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="btnOpOrganizacaoManifestEscolherArquivo" alignment="1" min="-2" pref="34" max="-2" attributes="0"/>
+                                              <Component id="btnOpOrganizacaoCopiarArquivosEscolherDiretorio" alignment="1" min="-2" pref="34" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="btnOpOrganizacaoOrganizar" min="-2" pref="132" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="chkOpOrganizacaoTudo" min="-2" max="-2" attributes="0"/>
+                                      <Component id="chkOpOrganizacaoOrdernarPorData" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtOpOrganizacaoTamanhoUnidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="chkOpOrganizacaoGerarManifest" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtOpOrganizacaoManifest" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnOpOrganizacaoManifestEscolherArquivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="chkOpOrganizacaoCopiarArquivos" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtOpOrganizacaoCopiarArquivosDiretorio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnOpOrganizacaoCopiarArquivosEscolherDiretorio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="chkOpOrganizacaoOrdernarPorData" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="10" max="32767" attributes="0"/>
+                          <Component id="chkOpOrganizacaoTudo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="btnOpOrganizacaoOrganizar" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoTudo">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Incluir todas as fotos"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblOpOrganizacaoTamanhoUnidade">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Tamanho (bytes) de cada unidade:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtOpOrganizacaoTamanhoUnidade">
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoGerarManifest">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Gerar manifest"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtOpOrganizacaoManifest">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnOpOrganizacaoManifestEscolherArquivo">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="jButton1"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpOrganizacaoManifestEscolherArquivoActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoCopiarArquivos">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Copiar arquivos"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtOpOrganizacaoCopiarArquivosDiretorio">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnOpOrganizacaoCopiarArquivosEscolherDiretorio">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="jButton2"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnOpOrganizacaoOrganizar">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Organizar ..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpOrganizacaoOrganizarActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoOrdernarPorData">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Ordenar por data crescente"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

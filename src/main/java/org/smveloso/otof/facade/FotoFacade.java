@@ -78,4 +78,44 @@ public class FotoFacade {
 
     }
     
+    public synchronized void organiza(boolean everything,
+                                       boolean createCopies,
+                                       boolean createManifest,
+                                       File destDir,
+                                       File manifestFile,
+                                       long bytesPerUnit) throws FacadeException
+    {
+    
+        try {
+        
+            // validation ?!?
+
+            Organizador organizador = new Organizador();
+            organizador.setProcessEverything(everything);
+            organizador.setCreateCopies(createCopies);
+            organizador.setCreateManifest(createManifest);
+            organizador.setDestDir(destDir);
+            organizador.setManifest(manifestFile);
+            organizador.setBytesPerUnit(bytesPerUnit);
+
+            organizador.setFotoJpaController(fotoJpaController);
+
+            OrganizadorJob job = new OrganizadorJob();
+            job.setOrganizador(organizador);
+
+            JobSwingWorker<Void,Void> jobWorker = new JobSwingWorker<>();
+            jobWorker.setJob(job);
+            WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
+            workerDialogForInit.setVisible(true);
+
+            jobWorker.get(); // waits ...
+
+        } catch (InterruptedException| ExecutionException e) {
+            throw new FacadeException("Job interrupted or failed: " + e.getMessage());
+        } finally {
+            
+        }        
+        
+    }
+
 }

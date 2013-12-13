@@ -85,9 +85,10 @@ public class Varredor {
                     try {
                         naoExiste.setDataTirada(ExinfFacade.getDataTirada(this.lastProcessedFile));
                     } catch (ExinfException noPhoto) {
-                        //naoExiste.setDataTirada(Calendar.getInstance().getTime());
                         naoExiste.setDataTirada(null);
                     }
+                    
+                    naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
                     
                     naoExiste.setTamanhoArquivo(this.lastProcessedFile.length());
 

@@ -41,10 +41,12 @@ public class VarredorBatchJob implements BatchJob<File> {
     @Override
     public void process(File item) throws FacadeException {
 
+        /*
         try {
             Thread.currentThread().sleep(1000);
         } catch (InterruptedException ignored) {}
-        
+        */
+
         // ignores the argument ... should be the obj 
         // returned in the last time getNextItem was called
         varredor.processNextFile();

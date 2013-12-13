@@ -214,21 +214,17 @@ public class MainFrame extends javax.swing.JFrame {
         
         try {
             File baseDir = new File(txtOpVarreduraBaseDir.getText());
-            VarreduraWorker worker = new VarreduraWorker();
-            worker.setBaseDir(baseDir);
-            worker.setFotoFacade(fotoFacade);        
-            WaitWindowWorkerDialog workerDialog = new WaitWindowWorkerDialog(this, worker, false, false);
-            workerDialog.setVisible(true);
-            worker.get();
-
-        /*
+            fotoFacade.executaVarredura(baseDir);
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
-        */
+        /*
         } catch (InterruptedException | ExecutionException e) {
             //throw new FacadeException("Job interrupted or failed: " + e.getMessage());
             JOptionPane.showMessageDialog(this,e.getMessage(),"Houve um erro",JOptionPane.ERROR_MESSAGE);
+        */ 
+        } finally {
+            
         }
 
     }
@@ -261,32 +257,6 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void guiMostraAviso(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    //
-    // SwingWorkers
-    // 
-    
-    class VarreduraWorker extends SwingWorker<Object, Object> {
-
-
-        private File baseDir;
-        private FotoFacade fotoFacade;
-        
-        public void setBaseDir(File baseDir) {
-            this.baseDir = baseDir;
-        }
-
-        public void setFotoFacade(FotoFacade fotoFacade) {
-            this.fotoFacade = fotoFacade;
-        }
-        
-        @Override
-        protected Object doInBackground() throws Exception {
-            fotoFacade.executaVarredura(baseDir);
-            return null;
-        }
-
     }
     
     /**

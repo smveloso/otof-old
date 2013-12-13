@@ -27,6 +27,10 @@ public class Foto implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataTirada;
     
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataIdentificada;
+    
     @Column(unique = true, length = 512, nullable = false)
     private String arquivo;
     
@@ -52,6 +56,14 @@ public class Foto implements Serializable {
         this.dataTirada = dataTirada;
     }
 
+    public Date getDataIdentificada() {
+        return dataIdentificada;
+    }
+
+    public void setDataIdentificada(Date dataIdentificada) {
+        this.dataIdentificada = dataIdentificada;
+    }
+    
     public String getArquivo() {
         return arquivo;
     }

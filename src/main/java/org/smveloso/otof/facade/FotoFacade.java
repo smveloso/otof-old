@@ -1,19 +1,10 @@
 package org.smveloso.otof.facade;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.concurrent.ExecutionException;
-import org.apache.commons.io.FileUtils;
-import org.smveloso.otof.digest.DigestException;
-import org.smveloso.otof.digest.DigestFacade;
-import org.smveloso.otof.em.EmException;
 import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.em.JpaManager;
-import org.smveloso.otof.exinf.ExinfException;
-import org.smveloso.otof.exinf.ExinfFacade;
 import org.smveloso.otof.gui.WaitWindowWorkerDialog;
-import org.smveloso.otof.model.Foto;
 
 /**
  *
@@ -49,18 +40,27 @@ public class FotoFacade {
 
             Varredor varredor = new Varredor(baseDir);
             varredor.setFotoJpaController(fotoJpaController);
-            varredor.initialize();
+            
+            VarredorInitializeJob initJob = new VarredorInitializeJob();
+            initJob.setVarredor(varredor);
+            
+            JobSwingWorker<Void,Void> jobWorker = new JobSwingWorker<>();
+            jobWorker.setJob(initJob);
+            WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
+            workerDialogForInit.setVisible(true);
+            
+            jobWorker.get(); // waits ...
             
             VarredorBatchJob batchJob = new VarredorBatchJob();
             batchJob.setVarredor(varredor);
             
-            BatchJobSwingWorker<Void,Void> batchJobWorker = new BatchJobSwingWorker<Void,Void>();
+            BatchJobSwingWorker<Void,Void> batchJobWorker = new BatchJobSwingWorker<>();
             batchJobWorker.setBatchJob(batchJob);
             
             WaitWindowWorkerDialog workerDialog = new WaitWindowWorkerDialog(null, batchJobWorker);
             workerDialog.setVisible(true);
             
-            batchJobWorker.get();
+            batchJobWorker.get(); // waits ...
             
              
         /*

@@ -270,7 +270,14 @@ public class Organizador {
                 for (Foto foto:unidade.getFotos()) {
                     
                     try {
-                        FileUtils.copyFileToDirectory(new File(foto.getArquivo()), destDirUnidade, true);
+                        String fullFileName = foto.getArquivo();
+                        String fileName = extractNameFromPath(fullFileName);
+                        File destFile = new File(getDestDir(),fileName);
+                        int x = 0;
+                        while(destFile.exists()) {
+                            destFile = new File(getDestDir(), fileName + ".copia." + (++x));
+                        }
+                        FileUtils.copyFile(new File(foto.getArquivo()), destFile, true);
                     } catch (IOException e) {
                         throw new FacadeException("Erro ao copiar arquivo: " + foto.getArquivo(),e);
                     }
@@ -299,6 +306,20 @@ public class Organizador {
         boolean ok = true;
         return ok;
     }
+        
+    private String extractNameFromPath(String path) {
+        String name = null;
+        int lastBkSlash = path.lastIndexOf("\\");
+        
+        if (lastBkSlash == -1) {
+            name = path;
+        } else {
+            //TODO handle the case when the path ends with a backslash
+            name = path.substring((lastBkSlash + 1));
+        }
+        return name;
+    }
+    
     
 }
 

@@ -3,12 +3,11 @@
 \.chg\..*$
 \.rej$
 \.conflict\~$
-target
-h2
-hibernate
-work
-saida
-workdir.*$
+^target
+^h2
+^hibernate
+^work
+^saida
 .*~$
 .*\.swp$
 .*\.log.*

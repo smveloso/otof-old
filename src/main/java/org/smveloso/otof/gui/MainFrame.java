@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.FotoFacade;
 
@@ -18,6 +19,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
+        initLookAndFeel();
         initComponents();
         fotoFacade = FotoFacade.getInstance();
     }
@@ -53,11 +55,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addGap(0, 738, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGap(0, 330, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Consultas", pnlConsulta);
@@ -88,7 +90,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlOpVarreduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlOpVarreduraLayout.createSequentialGroup()
-                        .addGap(0, 550, Short.MAX_VALUE)
+                        .addGap(0, 570, Short.MAX_VALUE)
                         .addComponent(btnOpVarredura, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlOpVarreduraLayout.createSequentialGroup()
                         .addComponent(lblOpVarreduraBaseDir)
@@ -121,7 +123,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlOperacaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlOpVarredura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         tabpnlMain.addTab("Operações", pnlOperacao);
@@ -130,11 +132,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlConfig.setLayout(pnlConfigLayout);
         pnlConfigLayout.setHorizontalGroup(
             pnlConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addGap(0, 738, Short.MAX_VALUE)
         );
         pnlConfigLayout.setVerticalGroup(
             pnlConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGap(0, 330, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Configurações", pnlConfig);
@@ -167,21 +169,15 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tabpnlMain))
-                .addContainerGap())
+            .addComponent(tabpnlMain)
+            .addComponent(pnlBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabpnlMain)
+                .addComponent(tabpnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -259,33 +255,27 @@ public class MainFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.INFORMATION_MESSAGE);
     }
     
+    private String initLookAndFeel() {
+        //log.trace(">> initLookAndFeel()");
+        String lafName = UIManager.getLookAndFeel().getName();
+
+        try {
+            String systemLafName = UIManager.getSystemLookAndFeelClassName();
+            //log.debug("Trying system laf: " + systemLafName);
+            UIManager.setLookAndFeel(systemLafName);
+        } catch (Exception e) {
+            //log.warn("Could not set the LAF to native: " + e.getMessage());
+        }
+
+        //log.debug("Using LAF: " + UIManager.getLookAndFeel().getName());
+        //log.trace("<< initLookAndFeel()");
+        return lafName;
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

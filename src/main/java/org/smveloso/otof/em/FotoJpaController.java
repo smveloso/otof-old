@@ -1,6 +1,7 @@
 package org.smveloso.otof.em;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -110,7 +111,24 @@ public class FotoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
+    public List<Foto> findUnarchivedFotoEntities() throws EmException {
+        List<Foto> fotos = null;
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Foto> tq = em.createNamedQuery("Foto.naoArquivadas", Foto.class);
+            fotos = tq.getResultList();
+        } catch (NoResultException e) {
+            //throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+            fotos = new ArrayList<>();
+        } catch (PersistenceException e) {
+            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+        } finally {
+            em.close();
+        }        
+        return fotos;                
+    }
+    
     public Foto findFoto(Long id) {
         EntityManager em = getEntityManager();
         try {

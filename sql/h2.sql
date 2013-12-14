@@ -6,15 +6,19 @@
 select count(*) from "PUBLIC".FOTO;
 --select count(*) from "PUBLIC".FOTO where datatirada is  null;
 --select count(*) from "PUBLIC".FOTO where duplicate;
-select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
+--select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
 
-select * from "PUBLIC".FOTO where digest in 
-(select digest from "PUBLIC".FOTO  group by(digest) having count(*) > 1) order by digest;
+--select * from "PUBLIC".FOTO where digest in 
+--(select digest from "PUBLIC".FOTO  group by(digest) having count(*) > 1) order by digest;
 
 --select * from "PUBLIC".FOTO order by digest asc;
 
 --delete from FOTO where duplicate;
 
+--update FOTO set unidades = 'DVD1;DVD2';
+--update FOTO set unidades = null;
+
+select count(*) from FOTO where unidades is null;
 
 --select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) order by "count" desc;
 --select digest, count(*) as "count" from "PUBLIC".FOTO group by(digest) having "count" > 1;

@@ -3,15 +3,14 @@ package org.smveloso.otof.facade;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import org.apache.commons.io.FileSystemUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import org.smveloso.otof.em.EmException;
 import org.smveloso.otof.em.FotoJpaController;
 import org.smveloso.otof.model.Foto;
 
@@ -38,6 +37,7 @@ public class Organizador {
     private boolean createCopies;
     
     boolean processEverything = false;
+    boolean ignoreArchived = false;
     
     private File manifest = null;
     private File destDir = null;   
@@ -100,10 +100,19 @@ public class Organizador {
         this.bytesPerUnit = bytesPerUnit;
     }
 
+    public boolean isIgnoreArchived() {
+        return ignoreArchived;
+    }
+
+    public void setIgnoreArchived(boolean ignoreArchived) {
+        this.ignoreArchived = ignoreArchived;
+    }
+
     public void setWorkerDelegate(WorkerDelegate workerDelegate) {
         this.workerDelegate = workerDelegate;
     }
 
+    @SuppressWarnings("SleepWhileHoldingLock")
     public synchronized void organize() throws FacadeException {
         
         if (!validateOptions()) {
@@ -116,12 +125,25 @@ public class Organizador {
 
         safeSetProgress(0);
         safeSetMensagem("Montando lista de fotos a partir do banco de dados ...");
-        
-        todasAsFotos = fotoJpaController.findFotoEntities();
+
+        if (isIgnoreArchived()) {
+            try {
+                todasAsFotos = fotoJpaController.findUnarchivedFotoEntities();
+            } catch (EmException e) {
+                throw new FacadeException("Erro ao listar fotos não-arquivadas: " + e.getMessage(),e);
+            }        
+        } else {
+            // see sanity test for 'process everything' above
+            todasAsFotos = fotoJpaController.findFotoEntities();
+        }
 
         if ((null == todasAsFotos) || (todasAsFotos.isEmpty())) {
             safeSetProgress(100);
             safeSetMensagem("Nenhuma foto para processar!");
+            // let us give the user a chance to read the message ...
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {}
             return;
         }
         
@@ -256,6 +278,7 @@ public class Organizador {
                 throw new FacadeException("Problemas para gravar no diretório de destino das cópias.");
             }
             
+            String dateSuffixForArchive = new SimpleDateFormat("_yyyy_MM_dd").format(Calendar.getInstance().getTime());
             int nroUnidades = unidades.size();
             for (int k = 0; k < nroUnidades; ++k) {
 
@@ -279,8 +302,13 @@ public class Organizador {
                             destFile = new File(destDirUnidade, destFileName + ".copia." + (++x));
                         }
                         FileUtils.copyFile(new File(fullOrgFileName), destFile, true);
+                        // add the "unidade" to the list of archives that contain this photo (must be improved)
+                        foto.addUnidade(unidade.getNome() + dateSuffixForArchive);
+                        fotoJpaController.edit(foto);
                     } catch (IOException e) {
                         throw new FacadeException("Erro ao copiar arquivo: " + foto.getArquivo(),e);
+                    } catch (Exception e) {
+                        throw new FacadeException("Erro ao registrar arquivamento de: " + foto.getArquivo(),e);
                     }
                     
                 } // iteracao na lista de fotos de uma unidade

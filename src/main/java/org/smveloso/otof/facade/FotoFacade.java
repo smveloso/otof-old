@@ -79,6 +79,7 @@ public class FotoFacade {
     }
     
     public synchronized void organiza(boolean everything,
+                                       boolean ignoreArchived,
                                        boolean createCopies,
                                        boolean createManifest,
                                        File destDir,
@@ -92,6 +93,7 @@ public class FotoFacade {
 
             Organizador organizador = new Organizador();
             organizador.setProcessEverything(everything);
+            organizador.setIgnoreArchived(ignoreArchived);
             organizador.setCreateCopies(createCopies);
             organizador.setCreateManifest(createManifest);
             organizador.setDestDir(destDir);

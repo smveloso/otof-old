@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +21,10 @@ import javax.persistence.Transient;
  * @author sergiomv
  */
 @Entity
-@Access(AccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo"),
-    @NamedQuery(name="Foto.digestDuplicado", query="select f.digest from Foto f group by(f.digest) having count(f.digest) > 1")
+    @NamedQuery(name="Foto.digestDuplicado", query="select f.digest from Foto f group by(f.digest) having count(f.digest) > 1"),
+    @NamedQuery(name="Foto.naoArquivadas", query="from Foto f where f.unidades is null")
 })
 public class Foto implements Serializable {
     private static final long serialVersionUID = 1L;

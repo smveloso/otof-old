@@ -189,13 +189,25 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="chkOpOrganizacaoCopiarArquivos" max="32767" attributes="0"/>
-                                      <Component id="chkOpOrganizacaoGerarManifest" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="0" pref="171" max="32767" attributes="0"/>
+                                  <Component id="chkOpOrganizacaoOrdernarPorData" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="chkOpOrganizacaoCopiarArquivos" max="32767" attributes="0"/>
+                                          <Component id="chkOpOrganizacaoGerarManifest" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="0" pref="171" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="chkOpOrganizacaoTudo" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="chkOpOrganizacaoIgnorarArquivadas" min="-2" pref="158" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="btnOpOrganizacaoOrganizar" min="-2" pref="132" max="-2" attributes="0"/>
+                                      </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="txtOpOrganizacaoTamanhoUnidade" min="-2" pref="145" max="-2" attributes="0"/>
                                           <EmptySpace min="0" pref="386" max="32767" attributes="0"/>
@@ -212,15 +224,6 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="chkOpOrganizacaoOrdernarPorData" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="chkOpOrganizacaoTudo" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnOpOrganizacaoOrganizar" min="-2" pref="132" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -252,6 +255,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="chkOpOrganizacaoTudo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnOpOrganizacaoOrganizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkOpOrganizacaoIgnorarArquivadas" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -263,6 +267,7 @@
                   <Properties>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Incluir todas as fotos"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblOpOrganizacaoTamanhoUnidade">
@@ -317,6 +322,12 @@
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Ordenar por data crescente"/>
                     <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoIgnorarArquivadas">
+                  <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Ignorar j&#xe1; arquivadas"/>
                   </Properties>
                 </Component>
               </SubComponents>

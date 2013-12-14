@@ -56,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnOpOrganizacaoCopiarArquivosEscolherDiretorio = new javax.swing.JButton();
         btnOpOrganizacaoOrganizar = new javax.swing.JButton();
         chkOpOrganizacaoOrdernarPorData = new javax.swing.JCheckBox();
+        chkOpOrganizacaoIgnorarArquivadas = new javax.swing.JCheckBox();
         pnlOpLimpeza = new javax.swing.JPanel();
         btnOpLimpezaLimpar = new javax.swing.JButton();
         radioOpLimpezaMarcar = new javax.swing.JRadioButton();
@@ -132,6 +133,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         chkOpOrganizacaoTudo.setSelected(true);
         chkOpOrganizacaoTudo.setText("Incluir todas as fotos");
+        chkOpOrganizacaoTudo.setEnabled(false);
 
         lblOpOrganizacaoTamanhoUnidade.setText("Tamanho (bytes) de cada unidade:");
 
@@ -166,6 +168,9 @@ public class MainFrame extends javax.swing.JFrame {
         chkOpOrganizacaoOrdernarPorData.setText("Ordenar por data crescente");
         chkOpOrganizacaoOrdernarPorData.setEnabled(false);
 
+        chkOpOrganizacaoIgnorarArquivadas.setSelected(true);
+        chkOpOrganizacaoIgnorarArquivadas.setText("Ignorar já arquivadas");
+
         javax.swing.GroupLayout pnlOpOrganizacaoLayout = new javax.swing.GroupLayout(pnlOpOrganizacao);
         pnlOpOrganizacao.setLayout(pnlOpOrganizacaoLayout);
         pnlOpOrganizacaoLayout.setHorizontalGroup(
@@ -174,12 +179,21 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
-                        .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(chkOpOrganizacaoCopiarArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chkOpOrganizacaoGerarManifest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                        .addComponent(chkOpOrganizacaoOrdernarPorData)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
+                        .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(chkOpOrganizacaoCopiarArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(chkOpOrganizacaoGerarManifest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                            .addComponent(chkOpOrganizacaoTudo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
+                                .addComponent(chkOpOrganizacaoIgnorarArquivadas, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnOpOrganizacaoOrganizar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
                                 .addComponent(txtOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 386, Short.MAX_VALUE))
@@ -190,14 +204,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnOpOrganizacaoManifestEscolherArquivo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnOpOrganizacaoCopiarArquivosEscolherDiretorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
-                        .addComponent(chkOpOrganizacaoOrdernarPorData)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
-                        .addComponent(chkOpOrganizacaoTudo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnOpOrganizacaoOrganizar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnOpOrganizacaoCopiarArquivosEscolherDiretorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap())
         );
         pnlOpOrganizacaoLayout.setVerticalGroup(
@@ -221,7 +228,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkOpOrganizacaoTudo)
-                    .addComponent(btnOpOrganizacaoOrganizar))
+                    .addComponent(btnOpOrganizacaoOrganizar)
+                    .addComponent(chkOpOrganizacaoIgnorarArquivadas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -468,6 +476,7 @@ public class MainFrame extends javax.swing.JFrame {
         boolean createManifest = false;
         boolean createCopies = false;
         boolean everything = false;
+        boolean ignoreArchived = false;
         File manifest = null;
         File destDir = null;        
         
@@ -488,6 +497,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         everything = chkOpOrganizacaoTudo.isSelected();
+        ignoreArchived = chkOpOrganizacaoIgnorarArquivadas.isSelected();
         
         if (!everything) {
             guiMostraAviso("Somente processamento de todos os arquivos é suportado nesta versão.");
@@ -512,7 +522,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         try {
             
-            fotoFacade.organiza(everything, createCopies, createManifest, destDir, manifest, bytesPorUnidade);
+            fotoFacade.organiza(everything, ignoreArchived, createCopies, createManifest, destDir, manifest, bytesPorUnidade);
             
         } catch (FacadeException e) {
             String msg = e.getMessage();
@@ -596,6 +606,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOpVarreduraSearchBaseDir;
     private javax.swing.JCheckBox chkOpOrganizacaoCopiarArquivos;
     private javax.swing.JCheckBox chkOpOrganizacaoGerarManifest;
+    private javax.swing.JCheckBox chkOpOrganizacaoIgnorarArquivadas;
     private javax.swing.JCheckBox chkOpOrganizacaoOrdernarPorData;
     private javax.swing.JCheckBox chkOpOrganizacaoTudo;
     private javax.swing.JLabel lblOpOrganizacaoTamanhoUnidade;

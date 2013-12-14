@@ -139,6 +139,8 @@ public class FotoJpaController implements Serializable {
         return foto;
     }
 
+    
+    
     public int getFotoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -152,4 +154,24 @@ public class FotoJpaController implements Serializable {
         }
     }
 
+    public List<Foto> findDuplicadasPorDigest() throws EmException {
+        List<Foto> fotos = null;
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Foto> tq = em.createNamedQuery("Foto.digestDuplicado", Foto.class);
+            fotos = tq.getResultList();
+        } catch (NoResultException e) {
+            //throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+        } catch (NonUniqueResultException e) {
+            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+        } catch (PersistenceException e) {
+            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+        } finally {
+            em.close();
+        }        
+        return fotos;
+    }
+    
+    
+    
 }

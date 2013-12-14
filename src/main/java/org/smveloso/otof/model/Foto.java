@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,7 +17,10 @@ import javax.persistence.TemporalType;
  * @author sergiomv
  */
 @Entity
-@NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo")
+@NamedQueries({
+    @NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo"),
+    @NamedQuery(name="Foto.digestDuplicado", query="select f.digest from Foto f group by(f.digest) having count(f.digest) > 1")
+})
 public class Foto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,6 +43,9 @@ public class Foto implements Serializable {
     
     @Column(nullable = false)
     private Long tamanhoArquivo;
+    
+    @Column(nullable = true)
+    private Boolean duplicate;
     
     public Long getId() {
         return id;
@@ -87,6 +94,16 @@ public class Foto implements Serializable {
     public void setTamanhoArquivo(Long tamanhoArquivo) {
         this.tamanhoArquivo = tamanhoArquivo;
     }
+
+    public Boolean isDuplicate() {
+        return duplicate;
+    }
+
+    public void setDuplicate(Boolean duplicate) {
+        this.duplicate = duplicate;
+    }
+
+    
     
     @Override
     public int hashCode() {

@@ -1,11 +1,17 @@
+--alter table FOTO add column (duplicate boolean);
+
 --delete from FOTO;
-select * from "PUBLIC".FOTO order by datatirada asc;
+--select * from "PUBLIC".FOTO order by datatirada asc;
 select count(*) from "PUBLIC".FOTO;
-select count(*) from "PUBLIC".FOTO where datatirada is  null;
+--select count(*) from "PUBLIC".FOTO where datatirada is  null;
+--select count(*) from "PUBLIC".FOTO where duplicate;
+--select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
 
-select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
 
-select * from FOTO where digest = 'F7A6DBD6893E603CC1426BA3B196EF46CB647AAC';
+--select * from "PUBLIC".FOTO order by digest asc;
+
+--delete from FOTO where duplicate;
+
 
 --select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) order by "count" desc;
 --select digest, count(*) as "count" from "PUBLIC".FOTO group by(digest) having "count" > 1;

@@ -118,4 +118,30 @@ public class FotoFacade {
         
     }
 
+    public synchronized void limpa(Limpador.OPERACAO op) throws FacadeException {
+
+        try {
+        
+            Limpador limpador = new Limpador();
+            limpador.setFotoJpaController(fotoJpaController);
+            limpador.setOperacao(op);
+            LimpadorJob job = new LimpadorJob();
+            job.setLimpador(limpador);
+
+            JobSwingWorker<Void, Void> jobWorker = new JobSwingWorker<>();
+            jobWorker.setJob(job);
+            WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
+            workerDialogForInit.setVisible(true);
+            
+            jobWorker.get(); // waits ...
+        
+        } catch (InterruptedException| ExecutionException e) {
+            throw new FacadeException("Job interrupted or failed: " + e.getMessage());
+        } finally {
+            
+        }        
+        
+        
+    }
+    
 }

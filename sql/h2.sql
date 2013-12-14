@@ -1,12 +1,15 @@
 --alter table FOTO add column (duplicate boolean);
+--alter table FOTO add column (unidades varchar(255));
 
 --delete from FOTO;
 --select * from "PUBLIC".FOTO order by datatirada asc;
 select count(*) from "PUBLIC".FOTO;
 --select count(*) from "PUBLIC".FOTO where datatirada is  null;
 --select count(*) from "PUBLIC".FOTO where duplicate;
---select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
+select digest, count(*) as "count" from "PUBLIC".FOTO  group by(digest) having "count" > 1 order by "count" desc;
 
+select * from "PUBLIC".FOTO where digest in 
+(select digest from "PUBLIC".FOTO  group by(digest) having count(*) > 1) order by digest;
 
 --select * from "PUBLIC".FOTO order by digest asc;
 

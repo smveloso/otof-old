@@ -1,7 +1,12 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,12 +16,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
  * @author sergiomv
  */
 @Entity
+@Access(AccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo"),
     @NamedQuery(name="Foto.digestDuplicado", query="select f.digest from Foto f group by(f.digest) having count(f.digest) > 1")
@@ -46,6 +53,9 @@ public class Foto implements Serializable {
     
     @Column(nullable = true)
     private Boolean duplicate;
+
+    @Column(nullable = true)
+    private String unidades;
     
     public Long getId() {
         return id;
@@ -103,8 +113,31 @@ public class Foto implements Serializable {
         this.duplicate = duplicate;
     }
 
+    public String getUnidades() {
+        return unidades;
+    }
+
+    @Transient
+    public void addUnidade(String unidade) {
+        if (this.unidades == null) {
+            this.unidades = unidade;
+        } else {
+            this.unidades += ";" + unidade;
+        }
+    }
     
-    
+    @Transient
+    public List<String> getUnidadesAsList() {
+        List<String> unidadesAsList = null;
+        if (this.unidades != null) {
+            unidadesAsList = Arrays.asList(this.unidades.split(";"));
+        }
+        if (unidadesAsList == null) {
+            unidadesAsList = new ArrayList<>();
+        }
+        return unidadesAsList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

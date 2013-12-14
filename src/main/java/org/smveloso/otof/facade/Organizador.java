@@ -270,14 +270,15 @@ public class Organizador {
                 for (Foto foto:unidade.getFotos()) {
                     
                     try {
-                        String fullFileName = foto.getArquivo();
-                        String fileName = extractNameFromPath(fullFileName);
-                        File destFile = new File(getDestDir(),fileName);
+                        String fullOrgFileName = foto.getArquivo();
+                        String destFileName = extractNameFromPath(fullOrgFileName);
+                        File destFile = new File(destDirUnidade,destFileName); // a principio tera o mesmo nome da origem
                         int x = 0;
                         while(destFile.exists()) {
-                            destFile = new File(getDestDir(), fileName + ".copia." + (++x));
+                            // colisao no nome do arquivo no diretorio de destino
+                            destFile = new File(destDirUnidade, destFileName + ".copia." + (++x));
                         }
-                        FileUtils.copyFile(new File(foto.getArquivo()), destFile, true);
+                        FileUtils.copyFile(new File(fullOrgFileName), destFile, true);
                     } catch (IOException e) {
                         throw new FacadeException("Erro ao copiar arquivo: " + foto.getArquivo(),e);
                     }
@@ -307,15 +308,15 @@ public class Organizador {
         return ok;
     }
         
-    private String extractNameFromPath(String path) {
+    protected String extractNameFromPath(String path) {
         String name = null;
-        int lastBkSlash = path.lastIndexOf("\\");
+        int lastSeparator = path.lastIndexOf(File.separator);
         
-        if (lastBkSlash == -1) {
+        if (lastSeparator == -1) {
             name = path;
         } else {
             //TODO handle the case when the path ends with a backslash
-            name = path.substring((lastBkSlash + 1));
+            name = path.substring((lastSeparator + 1));
         }
         return name;
     }

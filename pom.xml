@@ -166,6 +166,8 @@
                                 <argument>${h2.webPort}</argument>
                                 <argument>-tcpPassword</argument>
                                 <argument>${h2.tcpPassword}</argument>
+                                <argument>-baseDir</argument>
+                                <argument>${basedir}/h2</argument>
                             </arguments>
                         </configuration>
                     </plugin>

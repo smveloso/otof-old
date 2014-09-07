@@ -72,11 +72,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlConsulta.setLayout(pnlConsultaLayout);
         pnlConsultaLayout.setHorizontalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 738, Short.MAX_VALUE)
+            .addGap(0, 748, Short.MAX_VALUE)
         );
         pnlConsultaLayout.setVerticalGroup(
             pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 485, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Consultas", pnlConsulta);
@@ -107,7 +107,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlOpVarreduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlOpVarreduraLayout.createSequentialGroup()
-                        .addGap(0, 574, Short.MAX_VALUE)
+                        .addGap(0, 582, Short.MAX_VALUE)
                         .addComponent(btnOpVarredura, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlOpVarreduraLayout.createSequentialGroup()
                         .addComponent(lblOpVarreduraBaseDir)
@@ -135,7 +135,7 @@ public class MainFrame extends javax.swing.JFrame {
         chkOpOrganizacaoTudo.setText("Incluir todas as fotos");
         chkOpOrganizacaoTudo.setEnabled(false);
 
-        lblOpOrganizacaoTamanhoUnidade.setText("Tamanho (bytes) de cada unidade:");
+        lblOpOrganizacaoTamanhoUnidade.setText("Capacidade (B):");
 
         chkOpOrganizacaoGerarManifest.setSelected(true);
         chkOpOrganizacaoGerarManifest.setText("Gerar manifest");
@@ -191,7 +191,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
-                                .addComponent(chkOpOrganizacaoIgnorarArquivadas, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chkOpOrganizacaoIgnorarArquivadas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnOpOrganizacaoOrganizar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
@@ -300,11 +300,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlConfig.setLayout(pnlConfigLayout);
         pnlConfigLayout.setHorizontalGroup(
             pnlConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 738, Short.MAX_VALUE)
+            .addGap(0, 748, Short.MAX_VALUE)
         );
         pnlConfigLayout.setVerticalGroup(
             pnlConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 485, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Configurações", pnlConfig);

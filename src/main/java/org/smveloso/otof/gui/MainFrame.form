@@ -59,12 +59,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="738" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="748" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="470" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="485" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -117,7 +117,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="574" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="582" max="32767" attributes="0"/>
                                   <Component id="btnOpVarredura" min="-2" pref="132" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
@@ -204,7 +204,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="chkOpOrganizacaoIgnorarArquivadas" min="-2" pref="158" max="-2" attributes="0"/>
+                                          <Component id="chkOpOrganizacaoIgnorarArquivadas" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="btnOpOrganizacaoOrganizar" min="-2" pref="132" max="-2" attributes="0"/>
                                       </Group>
@@ -272,7 +272,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblOpOrganizacaoTamanhoUnidade">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Tamanho (bytes) de cada unidade:"/>
+                    <Property name="text" type="java.lang.String" value="Capacidade (B):"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtOpOrganizacaoTamanhoUnidade">
@@ -413,12 +413,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="738" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="748" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="470" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="485" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

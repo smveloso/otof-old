@@ -338,7 +338,7 @@ public class Organizador {
         
     protected String extractNameFromPath(String path) {
         String name = null;
-        int lastSeparator = path.lastIndexOf(File.separator);
+        int lastSeparator = path.lastIndexOf(determinePathSeparator(path));
         
         if (lastSeparator == -1) {
             name = path;
@@ -347,6 +347,44 @@ public class Organizador {
             name = path.substring((lastSeparator + 1));
         }
         return name;
+    }
+    
+    protected String determinePathSeparator(String path) {
+
+        String separator;
+        
+        // windows drive letters
+        if (path.matches("[A-Z,a-z]:.*")) {
+            separator = "\\";
+        } else if (path.startsWith("\\\\")) {
+            // windows UNC path
+            separator = "\\";
+        } else if (path.startsWith("/")) {
+            // linux full path
+            separator = "/";
+        } else {
+            
+            // non-absolute paths
+            
+            // Note that special cases in which "/" and/or "\" are 
+            // used in file names (not as separators) may not be 
+            // correctly identified.
+            
+            // (side)Note: In Linux in general you cannot use "/" as part of
+            // a file name. Some apps will actually use u2044 for that effect.
+            
+            if (path.contains("/")) {
+                separator = "/";
+            } else if (path.contains("\\")) {
+                separator = "\\";
+            } else {
+                // no separator found, will return OS's default
+                separator = File.separator;
+            }
+            
+        }
+        
+        return separator;
     }
     
     

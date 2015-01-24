@@ -146,4 +146,8 @@ public class FotoFacade {
         
     }
     
+    public int getNumeroDeFotos() {
+        return fotoJpaController.getFotoCount();
+    }
+    
 }

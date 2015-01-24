@@ -4,7 +4,7 @@
   
     <groupId>org.smveloso</groupId>
     <artifactId>otof</artifactId>
-    <version>1-COLECAO-SNAPSHOT</version>
+    <version>1-ORGANIZAR-POR-DATA-SNAPSHOT</version>
     <description>otof photo manager</description>
 
     <packaging>jar</packaging>

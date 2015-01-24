@@ -34,22 +34,52 @@ public class OrganizadorTest {
     }
 
     @Test
+    public void testDetermineSeparator() {
+        
+        Organizador org = new Organizador();
+        
+        assertEquals("Letter drive should be windows.", "\\", org.determinePathSeparator("c:\\teste\\teste.txt"));
+        assertEquals("Cap letter drive should be windows.", "\\", org.determinePathSeparator("Z:\\teste\\teste.txt"));
+        assertEquals("UNC style should be windows", "\\", org.determinePathSeparator("\\\\teste\\teste.txt"));
+        
+        assertEquals("Full linux path should be linux", "/", org.determinePathSeparator("/home/teste/teste.txt"));
+
+        assertEquals("Partial windows path should be windows", "\\", org.determinePathSeparator("windowsdir\\windowssubdir\\file.txt"));
+
+        assertEquals("Partial linux path should be linux", "/", org.determinePathSeparator("linuxdir/linuxsubdir/file.txt"));
+
+        assertEquals("Filename only should assume system's separator", File.separator, org.determinePathSeparator("file.txt"));
+       
+    }
+    
+    @Test
     public void testExtractNameFromPath() {
     
         Organizador org = new Organizador();
         
-        String pathSep = File.pathSeparator;
-        String windowsSep = "\\";
-        String linuxSep = "/";
-        
         String path;
                 
-        path = "C:\\windows\\path\\test\\file.txt";
-        assertEquals("Wrong for windows path: ", "file.txt", org.extractNameFromPath(path));
+        path = "c:\\windows\\path\\test\\file.txt";
+        assertEquals("Wrong for windows drive-letter path: ", "file.txt", org.extractNameFromPath(path));
 
-        /* TODO open issue on bitbucket to support any separator
-        path = "/home/path/file.txt";
-        assertEquals("Wrong for linux path: ", "file.txt", org.extractNameFromPath(path));                
-        */        
+        path = "C:\\windows\\path\\test\\file.txt";
+        assertEquals("Wrong for windows cap drive-letter path: ", "file.txt", org.extractNameFromPath(path));
+
+        path = "\\\\server\\windows\\path\\test\\file.txt";
+        assertEquals("Wrong for windows UNC path: ", "file.txt", org.extractNameFromPath(path));
+
+        path = "/home/teste/file.txt";
+        assertEquals("Wrong for full linux path: ", "file.txt", org.extractNameFromPath(path));
+        
+        
+        path = "windowsdir\\windowssubdir\\file.txt";
+        assertEquals("Wrong for partial windows path: ", "file.txt", org.extractNameFromPath(path));
+        
+        path = "linuxdir/linuxsubdir/file.txt";
+        assertEquals("Wrong for partial Linux path: ", "file.txt", org.extractNameFromPath(path));
+
+        path = "file.txt";
+        assertEquals("Failed for filename only. ", "file.txt", org.extractNameFromPath(path));
+    
     }
 }

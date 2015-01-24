@@ -37,6 +37,23 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2</version>
+
+                <configuration>
+                    <executable>java</executable>
+                    <classpathScope>runtime</classpathScope>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>org.smveloso.otof.gui.MainFrame</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
     <properties>

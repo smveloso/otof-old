@@ -4,10 +4,7 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>org.smveloso.otof.model.Foto</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:/C:/Users/sergio/Env/otof/h2/otofdatabase"/>
-      <!--
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:file:/e:/env/work/workspaces/otof/h2/otofdatabase"/>
-      -->
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/otofdatabase"/>
       <property name="javax.persistence.jdbc.password" value="otof"/>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.user" value="otof"/>

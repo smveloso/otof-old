@@ -37,7 +37,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         radioGrpLimpeza = new javax.swing.ButtonGroup();
         tabpnlMain = new javax.swing.JTabbedPane();
-        pnlConsulta = new javax.swing.JPanel();
+        pnlRepositorio = new javax.swing.JPanel();
+        pnlImportacao = new javax.swing.JPanel();
+        pnlGerenciarColecoes = new javax.swing.JPanel();
         pnlOperacao = new javax.swing.JPanel();
         pnlOpVarredura = new javax.swing.JPanel();
         btnOpVarredura = new javax.swing.JButton();
@@ -68,18 +70,44 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OTOF");
 
-        javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
-        pnlConsulta.setLayout(pnlConsultaLayout);
-        pnlConsultaLayout.setHorizontalGroup(
-            pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlRepositorioLayout = new javax.swing.GroupLayout(pnlRepositorio);
+        pnlRepositorio.setLayout(pnlRepositorioLayout);
+        pnlRepositorioLayout.setHorizontalGroup(
+            pnlRepositorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 748, Short.MAX_VALUE)
         );
-        pnlConsultaLayout.setVerticalGroup(
-            pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 485, Short.MAX_VALUE)
+        pnlRepositorioLayout.setVerticalGroup(
+            pnlRepositorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 491, Short.MAX_VALUE)
         );
 
-        tabpnlMain.addTab("Consultas", pnlConsulta);
+        tabpnlMain.addTab("Repositório", pnlRepositorio);
+
+        javax.swing.GroupLayout pnlImportacaoLayout = new javax.swing.GroupLayout(pnlImportacao);
+        pnlImportacao.setLayout(pnlImportacaoLayout);
+        pnlImportacaoLayout.setHorizontalGroup(
+            pnlImportacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 748, Short.MAX_VALUE)
+        );
+        pnlImportacaoLayout.setVerticalGroup(
+            pnlImportacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 491, Short.MAX_VALUE)
+        );
+
+        tabpnlMain.addTab("Importar Fotos", pnlImportacao);
+
+        javax.swing.GroupLayout pnlGerenciarColecoesLayout = new javax.swing.GroupLayout(pnlGerenciarColecoes);
+        pnlGerenciarColecoes.setLayout(pnlGerenciarColecoesLayout);
+        pnlGerenciarColecoesLayout.setHorizontalGroup(
+            pnlGerenciarColecoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 748, Short.MAX_VALUE)
+        );
+        pnlGerenciarColecoesLayout.setVerticalGroup(
+            pnlGerenciarColecoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 491, Short.MAX_VALUE)
+        );
+
+        tabpnlMain.addTab("Gerenciar Coleções", pnlGerenciarColecoes);
 
         pnlOpVarredura.setBorder(javax.swing.BorderFactory.createTitledBorder("Varredura"));
 
@@ -129,7 +157,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(btnOpVarredura))
         );
 
-        pnlOpOrganizacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Organização"));
+        pnlOpOrganizacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Organização (exportar repositorio completo)"));
 
         chkOpOrganizacaoTudo.setSelected(true);
         chkOpOrganizacaoTudo.setText("Incluir todas as fotos");
@@ -148,7 +176,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         chkOpOrganizacaoCopiarArquivos.setSelected(true);
-        chkOpOrganizacaoCopiarArquivos.setText("Copiar arquivos");
+        chkOpOrganizacaoCopiarArquivos.setText("Copiar arquivos (se possivel)");
 
         btnOpOrganizacaoCopiarArquivosEscolherDiretorio.setText("jButton2");
         btnOpOrganizacaoCopiarArquivosEscolherDiretorio.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +214,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(chkOpOrganizacaoCopiarArquivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(chkOpOrganizacaoGerarManifest, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+                                .addComponent(lblOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(chkOpOrganizacaoTudo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +224,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(btnOpOrganizacaoOrganizar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlOpOrganizacaoLayout.createSequentialGroup()
                                 .addComponent(txtOpOrganizacaoTamanhoUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 386, Short.MAX_VALUE))
+                                .addGap(0, 328, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpOrganizacaoLayout.createSequentialGroup()
                                 .addGroup(pnlOpOrganizacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtOpOrganizacaoCopiarArquivosDiretorio)
@@ -270,7 +298,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(pnlOpLimpezaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioOpLimpezaMarcar)
                     .addComponent(radioOpLimpezaEliminarNoBanco))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(btnOpLimpezaLimpar))
         );
 
@@ -289,12 +317,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(pnlOpVarredura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlOpOrganizacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlOpLimpeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
-        tabpnlMain.addTab("Operações", pnlOperacao);
+        tabpnlMain.addTab("[OLD]Operações", pnlOperacao);
 
         javax.swing.GroupLayout pnlConfigLayout = new javax.swing.GroupLayout(pnlConfig);
         pnlConfig.setLayout(pnlConfigLayout);
@@ -304,10 +332,12 @@ public class MainFrame extends javax.swing.JFrame {
         );
         pnlConfigLayout.setVerticalGroup(
             pnlConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 485, Short.MAX_VALUE)
+            .addGap(0, 491, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Configurações", pnlConfig);
+
+        pnlBottom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -343,41 +373,41 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabpnlMain)
+                .addComponent(tabpnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnOpVarreduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraActionPerformed
-        actionVarreduraIniciar();
-    }//GEN-LAST:event_btnOpVarreduraActionPerformed
-
-    private void btnOpVarreduraSearchBaseDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraSearchBaseDirActionPerformed
-        actionVarreduraEscolherDiretorioBase();
-    }//GEN-LAST:event_btnOpVarreduraSearchBaseDirActionPerformed
-
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         actionFechar();
     }//GEN-LAST:event_btnFecharActionPerformed
 
-    private void btnOpOrganizacaoManifestEscolherArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoManifestEscolherArquivoActionPerformed
-        actionOrganizacaoEscolherManifest();
-    }//GEN-LAST:event_btnOpOrganizacaoManifestEscolherArquivoActionPerformed
-
-    private void btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed
-        actionOrganizacaoCopiarArquivosEscolherDiretorio();
-    }//GEN-LAST:event_btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed
+    private void btnOpLimpezaLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpLimpezaLimparActionPerformed
+        actionLimpezaLimpar();
+    }//GEN-LAST:event_btnOpLimpezaLimparActionPerformed
 
     private void btnOpOrganizacaoOrganizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoOrganizarActionPerformed
         actionOrganizacaoOrganizar();
     }//GEN-LAST:event_btnOpOrganizacaoOrganizarActionPerformed
 
-    private void btnOpLimpezaLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpLimpezaLimparActionPerformed
-        actionLimpezaLimpar();
-    }//GEN-LAST:event_btnOpLimpezaLimparActionPerformed
+    private void btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed
+        actionOrganizacaoCopiarArquivosEscolherDiretorio();
+    }//GEN-LAST:event_btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed
+
+    private void btnOpOrganizacaoManifestEscolherArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoManifestEscolherArquivoActionPerformed
+        actionOrganizacaoEscolherManifest();
+    }//GEN-LAST:event_btnOpOrganizacaoManifestEscolherArquivoActionPerformed
+
+    private void btnOpVarreduraSearchBaseDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraSearchBaseDirActionPerformed
+        actionVarreduraEscolherDiretorioBase();
+    }//GEN-LAST:event_btnOpVarreduraSearchBaseDirActionPerformed
+
+    private void btnOpVarreduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpVarreduraActionPerformed
+        actionVarreduraIniciar();
+    }//GEN-LAST:event_btnOpVarreduraActionPerformed
 
     //
     // ACTIONS
@@ -613,11 +643,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblOpVarreduraBaseDir;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlConfig;
-    private javax.swing.JPanel pnlConsulta;
+    private javax.swing.JPanel pnlGerenciarColecoes;
+    private javax.swing.JPanel pnlImportacao;
     private javax.swing.JPanel pnlOpLimpeza;
     private javax.swing.JPanel pnlOpOrganizacao;
     private javax.swing.JPanel pnlOpVarredura;
     private javax.swing.JPanel pnlOperacao;
+    private javax.swing.JPanel pnlRepositorio;
     private javax.swing.ButtonGroup radioGrpLimpeza;
     private javax.swing.JRadioButton radioOpLimpezaEliminarNoBanco;
     private javax.swing.JRadioButton radioOpLimpezaMarcar;

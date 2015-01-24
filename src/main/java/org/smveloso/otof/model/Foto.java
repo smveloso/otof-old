@@ -39,7 +39,8 @@ public class Foto implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataIdentificada;
-    
+
+    // TODO Remover isso. A localização passará a ser associada a uma coleção.
     @Column(unique = true, length = 512, nullable = false)
     private String arquivo;
     

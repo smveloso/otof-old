@@ -35,9 +35,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="tabpnlMain" max="32767" attributes="0"/>
+              <Component id="tabpnlMain" pref="518" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="pnlBottom" min="-2" pref="44" max="-2" attributes="0"/>
+              <Component id="pnlBottom" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -47,11 +47,11 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="pnlConsulta">
+        <Container class="javax.swing.JPanel" name="pnlRepositorio">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Consultas">
-                <Property name="tabTitle" type="java.lang.String" value="Consultas"/>
+              <JTabbedPaneConstraints tabName="Reposit&#xf3;rio">
+                <Property name="tabTitle" type="java.lang.String" value="Reposit&#xf3;rio"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -64,7 +64,51 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="485" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="491" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pnlImportacao">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Importar Fotos">
+                <Property name="tabTitle" type="java.lang.String" value="Importar Fotos"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="748" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="491" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pnlGerenciarColecoes">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Gerenciar Cole&#xe7;&#xf5;es">
+                <Property name="tabTitle" type="java.lang.String" value="Gerenciar Cole&#xe7;&#xf5;es"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="748" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="491" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -72,8 +116,8 @@
         <Container class="javax.swing.JPanel" name="pnlOperacao">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Opera&#xe7;&#xf5;es">
-                <Property name="tabTitle" type="java.lang.String" value="Opera&#xe7;&#xf5;es"/>
+              <JTabbedPaneConstraints tabName="[OLD]Opera&#xe7;&#xf5;es">
+                <Property name="tabTitle" type="java.lang.String" value="[OLD]Opera&#xe7;&#xf5;es"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -93,9 +137,9 @@
                       <Component id="pnlOpVarredura" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlOpOrganizacao" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlOpLimpeza" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                      <EmptySpace pref="86" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,7 +221,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Organiza&#xe7;&#xe3;o"/>
+                    <TitledBorder title="Organiza&#xe7;&#xe3;o (exportar repositorio completo)"/>
                   </Border>
                 </Property>
               </Properties>
@@ -197,7 +241,7 @@
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="chkOpOrganizacaoCopiarArquivos" max="32767" attributes="0"/>
                                           <Component id="chkOpOrganizacaoGerarManifest" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="0" pref="171" max="32767" attributes="0"/>
+                                          <Component id="lblOpOrganizacaoTamanhoUnidade" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="chkOpOrganizacaoTudo" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -210,7 +254,7 @@
                                       </Group>
                                       <Group type="102" attributes="0">
                                           <Component id="txtOpOrganizacaoTamanhoUnidade" min="-2" pref="145" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="386" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="328" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="1" attributes="0">
@@ -296,7 +340,7 @@
                 <Component class="javax.swing.JCheckBox" name="chkOpOrganizacaoCopiarArquivos">
                   <Properties>
                     <Property name="selected" type="boolean" value="true"/>
-                    <Property name="text" type="java.lang.String" value="Copiar arquivos"/>
+                    <Property name="text" type="java.lang.String" value="Copiar arquivos (se possivel)"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtOpOrganizacaoCopiarArquivosDiretorio">
@@ -365,7 +409,7 @@
                               <Component id="radioOpLimpezaMarcar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="radioOpLimpezaEliminarNoBanco" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="27" max="32767" attributes="0"/>
+                          <EmptySpace pref="31" max="32767" attributes="0"/>
                           <Component id="btnOpLimpezaLimpar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -418,7 +462,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="485" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="491" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -426,6 +470,13 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlBottom">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder/>
+          </Border>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">

@@ -1,7 +1,6 @@
 package org.smveloso.otof.em;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -111,24 +110,7 @@ public class FotoJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public List<Foto> findUnarchivedFotoEntities() throws EmException {
-        List<Foto> fotos = null;
-        EntityManager em = getEntityManager();
-        try {
-            TypedQuery<Foto> tq = em.createNamedQuery("Foto.naoArquivadas", Foto.class);
-            fotos = tq.getResultList();
-        } catch (NoResultException e) {
-            //throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
-            fotos = new ArrayList<>();
-        } catch (PersistenceException e) {
-            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
-        } finally {
-            em.close();
-        }        
-        return fotos;                
-    }
-    
+        
     public Foto findFoto(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -137,28 +119,7 @@ public class FotoJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public Foto findFotoByArquivo(String arquivo) throws EmException {
-        Foto foto = null;
-        EntityManager em = getEntityManager();
-        try {
-            TypedQuery<Foto> tq = em.createNamedQuery("Foto.porArquivo", Foto.class);
-            tq.setParameter("arquivo", arquivo);
-            foto = tq.getSingleResult();
-        } catch (NoResultException e) {
-            //throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
-        } catch (NonUniqueResultException e) {
-            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
-        } catch (PersistenceException e) {
-            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
-        } finally {
-            em.close();
-        }        
-        return foto;
-    }
 
-    
-    
     public int getFotoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -170,26 +131,24 @@ public class FotoJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
+    }    
 
-    public List<Foto> findDuplicadasPorDigest() throws EmException {
-        List<Foto> fotos = null;
+    public Foto findFotoByDigest(String digest) throws EmException {
+        Foto foto = null;
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Foto> tq = em.createNamedQuery("Foto.digestDuplicado", Foto.class);
-            fotos = tq.getResultList();
+            TypedQuery<Foto> tq = em.createNamedQuery("Foto.porDigest", Foto.class);
+            tq.setParameter("digest", digest);
+            foto = tq.getSingleResult();
         } catch (NoResultException e) {
-            //throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+            //throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(),e);
         } catch (NonUniqueResultException e) {
-            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+            throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(), e);
         } catch (PersistenceException e) {
-            throw new EmException("Erro ao buscar foto por arquivo: " + e.getMessage(),e);
+            throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(), e);
         } finally {
             em.close();
-        }        
-        return fotos;
-    }
-    
-    
-    
+        }
+        return foto;
+    }    
 }

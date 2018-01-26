@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import org.apache.commons.io.FileUtils;
 import org.smveloso.otof.digest.DigestException;
 import org.smveloso.otof.digest.DigestFacade;
@@ -21,6 +20,8 @@ import org.smveloso.otof.model.Foto;
 public class Varredor {
 
     private FotoJpaController fotoJpaController;
+    
+    //TODO Album here !!!
     
     private File baseDir;
     private File lastProcessedFile;
@@ -73,27 +74,33 @@ public class Varredor {
                 this.lastProcessedFile = this.iterator.next();
                 this.remainingFiles--;
                 
+                String digest = DigestFacade.getSha1HexEncoded(this.lastProcessedFile);
+                
                 //LOG
-                Foto jaExiste = fotoJpaController.findFotoByArquivo(this.lastProcessedFile.getAbsolutePath());
+                Foto jaExiste = fotoJpaController.findFotoByDigest(digest);
                 if (null == jaExiste) {
 
                     // computar digest e cadastrar
                     Foto naoExiste = new Foto();
-                    naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
-                    naoExiste.setDigest(DigestFacade.getSha1HexEncoded(this.lastProcessedFile));
+                    // vou usar um album aqui
+                    //naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
+                    naoExiste.setDigest(digest);
                     
                     try {
                         naoExiste.setDataTirada(ExinfFacade.getDataTirada(this.lastProcessedFile));
-                    } catch (ExinfException noPhoto) {
+                    } catch (ExinfException noData) {
                         naoExiste.setDataTirada(null);
                     }
                     
-                    naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
+                    // data identificacao associada ao album !!!
+                    //naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
                     
                     naoExiste.setTamanhoArquivo(this.lastProcessedFile.length());
 
                     fotoJpaController.create(naoExiste);
 
+                } else {
+                    
                 }
                 
             } else {

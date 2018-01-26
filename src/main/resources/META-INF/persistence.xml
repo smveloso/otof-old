@@ -3,6 +3,8 @@
   <persistence-unit name="org.smveloso_otof_jar_1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>org.smveloso.otof.model.Foto</class>
+    <class>org.smveloso.otof.model.Album</class>
+    <class>org.smveloso.otof.model.Caminho</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/otofdatabase"/>
       <property name="javax.persistence.jdbc.password" value="otof"/>
@@ -11,12 +13,10 @@
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.hbm2ddl.auto" value="validate"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-      
       <!--
       <property name="hibernate.connection.username" value="otof"/>
       <property name="hibernate.connection.password" value="otof"/>
       -->
-      
     </properties>
   </persistence-unit>
 </persistence>

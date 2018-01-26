@@ -1,10 +1,8 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,22 +10,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 /**
  *
  * @author sergiomv
  */
 @Entity
+@Table(name="foto")
 @NamedQueries({
-    @NamedQuery(name="Foto.porArquivo", query = "from Foto f where f.arquivo = :arquivo"),
-    @NamedQuery(name="Foto.digestDuplicado", query="select f.digest from Foto f group by(f.digest) having count(f.digest) > 1"),
-    @NamedQuery(name="Foto.naoArquivadas", query="from Foto f where f.unidades is null")
+    @NamedQuery(name="Foto.porDigest", query="from Foto f where f.digest = :digest")
 })
+
 public class Foto implements Serializable {
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,26 +36,15 @@ public class Foto implements Serializable {
     @Column(nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataTirada;
-    
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataIdentificada;
-
-    // TODO Remover isso. A localização passará a ser associada a uma coleção.
-    @Column(unique = true, length = 512, nullable = false)
-    private String arquivo;
-    
-    @Column(nullable = false)
+        
+    @Column(nullable = false, unique = true)
     private String digest;
     
     @Column(nullable = false)
     private Long tamanhoArquivo;
-    
-    @Column(nullable = true)
-    private Boolean duplicate;
 
-    @Column(nullable = true)
-    private String unidades;
+    @OneToMany(mappedBy = "foto")
+    public Set<Caminho> caminhos;
     
     public Long getId() {
         return id;
@@ -72,22 +62,6 @@ public class Foto implements Serializable {
         this.dataTirada = dataTirada;
     }
 
-    public Date getDataIdentificada() {
-        return dataIdentificada;
-    }
-
-    public void setDataIdentificada(Date dataIdentificada) {
-        this.dataIdentificada = dataIdentificada;
-    }
-    
-    public String getArquivo() {
-        return arquivo;
-    }
-
-    public void setArquivo(String arquivo) {
-        this.arquivo = arquivo;
-    }
-
     public String getDigest() {
         return digest;
     }
@@ -102,39 +76,6 @@ public class Foto implements Serializable {
 
     public void setTamanhoArquivo(Long tamanhoArquivo) {
         this.tamanhoArquivo = tamanhoArquivo;
-    }
-
-    public Boolean isDuplicate() {
-        return duplicate;
-    }
-
-    public void setDuplicate(Boolean duplicate) {
-        this.duplicate = duplicate;
-    }
-
-    public String getUnidades() {
-        return unidades;
-    }
-
-    @Transient
-    public void addUnidade(String unidade) {
-        if (this.unidades == null) {
-            this.unidades = unidade;
-        } else {
-            this.unidades += ";" + unidade;
-        }
-    }
-    
-    @Transient
-    public List<String> getUnidadesAsList() {
-        List<String> unidadesAsList = null;
-        if (this.unidades != null) {
-            unidadesAsList = Arrays.asList(this.unidades.split(";"));
-        }
-        if (unidadesAsList == null) {
-            unidadesAsList = new ArrayList<>();
-        }
-        return unidadesAsList;
     }
 
     @Override

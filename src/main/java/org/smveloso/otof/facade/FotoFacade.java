@@ -77,75 +77,7 @@ public class FotoFacade {
         }
 
     }
-    
-    public synchronized void organiza(boolean everything,
-                                       boolean ignoreArchived,
-                                       boolean createCopies,
-                                       boolean createManifest,
-                                       File destDir,
-                                       File manifestFile,
-                                       long bytesPerUnit) throws FacadeException
-    {
-    
-        try {
         
-            // validation ?!?
-
-            Organizador organizador = new Organizador();
-            organizador.setProcessEverything(everything);
-            organizador.setIgnoreArchived(ignoreArchived);
-            organizador.setCreateCopies(createCopies);
-            organizador.setCreateManifest(createManifest);
-            organizador.setDestDir(destDir);
-            organizador.setManifest(manifestFile);
-            organizador.setBytesPerUnit(bytesPerUnit);
-
-            organizador.setFotoJpaController(fotoJpaController);
-
-            OrganizadorJob job = new OrganizadorJob();
-            job.setOrganizador(organizador);
-
-            JobSwingWorker<Void,Void> jobWorker = new JobSwingWorker<>();
-            jobWorker.setJob(job);
-            WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
-            workerDialogForInit.setVisible(true);
-
-            jobWorker.get(); // waits ...
-
-        } catch (InterruptedException| ExecutionException e) {
-            throw new FacadeException("Job interrupted or failed: " + e.getMessage());
-        } finally {
-            
-        }        
-        
-    }
-
-    public synchronized void limpa(Limpador.OPERACAO op) throws FacadeException {
-
-        try {
-        
-            Limpador limpador = new Limpador();
-            limpador.setFotoJpaController(fotoJpaController);
-            limpador.setOperacao(op);
-            LimpadorJob job = new LimpadorJob();
-            job.setLimpador(limpador);
-
-            JobSwingWorker<Void, Void> jobWorker = new JobSwingWorker<>();
-            jobWorker.setJob(job);
-            WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
-            workerDialogForInit.setVisible(true);
-            
-            jobWorker.get(); // waits ...
-        
-        } catch (InterruptedException| ExecutionException e) {
-            throw new FacadeException("Job interrupted or failed: " + e.getMessage());
-        } finally {
-            
-        }        
-        
-        
-    }
-    
     public int getNumeroDeFotos() {
         return fotoJpaController.getFotoCount();
     }

@@ -1,17 +1,20 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author sergio
  */
 @Entity
-public class Colecao implements Serializable {
+public class Caminho implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +28,39 @@ public class Colecao implements Serializable {
         this.id = id;
     }
 
+    @Column(nullable = false) //TODO unique per Album !!!!
+    private String caminho;
+    
+    @ManyToOne
+    private Album album;
+    
+    @ManyToOne
+    private Foto foto;
+
+    public String getCaminho() {
+        return caminho;
+    }
+
+    public void setCaminho(String caminho) {
+        this.caminho = caminho;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -35,10 +71,10 @@ public class Colecao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Colecao)) {
+        if (!(object instanceof Caminho)) {
             return false;
         }
-        Colecao other = (Colecao) object;
+        Caminho other = (Caminho) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -47,7 +83,7 @@ public class Colecao implements Serializable {
 
     @Override
     public String toString() {
-        return "org.smveloso.otof.model.Colecao[ id=" + id + " ]";
+        return "org.smveloso.otof.model.Caminho[ id=" + id + " ]";
     }
     
 }

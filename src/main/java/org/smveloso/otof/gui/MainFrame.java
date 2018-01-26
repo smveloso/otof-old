@@ -6,7 +6,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.FotoFacade;
-import org.smveloso.otof.facade.Limpador;
 
 /**
  *
@@ -386,11 +385,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnOpLimpezaLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpLimpezaLimparActionPerformed
-        actionLimpezaLimpar();
+        //actionLimpezaLimpar();
     }//GEN-LAST:event_btnOpLimpezaLimparActionPerformed
 
     private void btnOpOrganizacaoOrganizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoOrganizarActionPerformed
-        actionOrganizacaoOrganizar();
+        //actionOrganizacaoOrganizar();
     }//GEN-LAST:event_btnOpOrganizacaoOrganizarActionPerformed
 
     private void btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpOrganizacaoCopiarArquivosEscolherDiretorioActionPerformed
@@ -470,101 +469,6 @@ public class MainFrame extends javax.swing.JFrame {
                 guiMostraAviso("Arquivo já existe.");
             }
         }        
-    }
-    
-    private void actionLimpezaLimpar() {
-        
-        try {
-            
-            Limpador.OPERACAO op;
-            if (radioOpLimpezaMarcar.isSelected()) {
-                op = Limpador.OPERACAO.MARCAR;
-            } else {
-                op = Limpador.OPERACAO.ELIMINAR_NO_BANCO;
-            }
-
-            fotoFacade.limpa(op);
-            
-        } catch (FacadeException e) {
-            String msg = e.getMessage();
-            JOptionPane.showMessageDialog(this, msg, "Houve um erro", JOptionPane.ERROR_MESSAGE);
-        /*
-         } catch (InterruptedException | ExecutionException e) {
-         //throw new FacadeException("Job interrupted or failed: " + e.getMessage());
-         JOptionPane.showMessageDialog(this,e.getMessage(),"Houve um erro",JOptionPane.ERROR_MESSAGE);
-         */
-        } finally {
-        }
-        
-    }
-    
-    private void actionOrganizacaoOrganizar() {
-        
-        // dados a obter da gui
-        
-        long bytesPorUnidade = 0;
-        boolean createManifest = false;
-        boolean createCopies = false;
-        boolean everything = false;
-        boolean ignoreArchived = false;
-        File manifest = null;
-        File destDir = null;        
-        
-        // processa dados na gui
-        
-        String bytesPorUnidadeStr = txtOpOrganizacaoTamanhoUnidade.getText();
-        
-        if ((bytesPorUnidadeStr == null) || (bytesPorUnidadeStr.isEmpty())) {
-            guiMostraAviso("Informe o tamanho em bytes de cada unidade.");
-            return;
-        }
-        
-        try {
-            bytesPorUnidade = Long.valueOf(bytesPorUnidadeStr);
-        } catch (NumberFormatException e) {
-            guiMostraAviso("Tamanho em bytes de cada unidade deve ser um número inteiro.");
-            return;            
-        }
-
-        everything = chkOpOrganizacaoTudo.isSelected();
-        ignoreArchived = chkOpOrganizacaoIgnorarArquivadas.isSelected();
-        
-        if (!everything) {
-            guiMostraAviso("Somente processamento de todos os arquivos é suportado nesta versão.");
-            return;                        
-        }
-        
-        createManifest = chkOpOrganizacaoGerarManifest.isSelected();
-        createCopies = chkOpOrganizacaoCopiarArquivos.isSelected();
-        
-        if (!createManifest && !createCopies) {
-            guiMostraAviso("Nada a fazer. Escolha criar manifesto e/ou copiar arquivos.");
-            return;            
-        }
-        
-        if (createManifest) {
-            manifest = new File(txtOpOrganizacaoManifest.getText());               //TODO validate !!!!
-        }
-        
-        if (createCopies) {
-            destDir = new File(txtOpOrganizacaoCopiarArquivosDiretorio.getText()); //TODO validate !!!!
-        }
-        
-        try {
-            
-            fotoFacade.organiza(everything, ignoreArchived, createCopies, createManifest, destDir, manifest, bytesPorUnidade);
-            
-        } catch (FacadeException e) {
-            String msg = e.getMessage();
-            JOptionPane.showMessageDialog(this, msg, "Houve um erro", JOptionPane.ERROR_MESSAGE);
-        /*
-         } catch (InterruptedException | ExecutionException e) {
-         //throw new FacadeException("Job interrupted or failed: " + e.getMessage());
-         JOptionPane.showMessageDialog(this,e.getMessage(),"Houve um erro",JOptionPane.ERROR_MESSAGE);
-         */
-        } finally {
-        }
-        
     }
     
     //

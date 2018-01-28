@@ -1,10 +1,14 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
+
+import org.smveloso.otof.gui.job.DisplayMessageSwingWorker;
+import org.smveloso.otof.gui.job.WorkerDelegate;
+import org.smveloso.otof.gui.job.DefaultWorkerDelegate;
 
 /**
  *
  * @author sergiomv
  */
-public class JobSwingWorker<T,V> extends MensagemSwingWorker<T, V>{
+public class JobSwingWorker<T,V> extends DisplayMessageSwingWorker<T, V>{
 
     private Job job;
     private WorkerDelegate workerDelegate;

@@ -1,4 +1,4 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
 
 /**
  *
@@ -6,10 +6,10 @@ package org.smveloso.otof.facade;
  */
 public class DefaultWorkerDelegate implements WorkerDelegate {
 
-    private MensagemSwingWorker worker;
+    private DisplayMessageSwingWorker worker;
     
     @Override
-    public void setWorker(MensagemSwingWorker worker) {
+    public void setWorker(DisplayMessageSwingWorker worker) {
         this.worker = worker;
     }
 

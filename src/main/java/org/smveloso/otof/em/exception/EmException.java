@@ -1,4 +1,4 @@
-package org.smveloso.otof.em;
+package org.smveloso.otof.em.exception;
 
 import org.smveloso.otof.OtofException;
 

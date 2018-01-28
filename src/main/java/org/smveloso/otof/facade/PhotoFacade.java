@@ -1,33 +1,38 @@
 package org.smveloso.otof.facade;
 
+import org.smveloso.otof.ops.AlbumUpdater;
+import org.smveloso.otof.gui.job.AlbumUpdaterBatchJob;
+import org.smveloso.otof.gui.job.AlbumUpdaterInitializeJob;
+import org.smveloso.otof.gui.job.JobSwingWorker;
+import org.smveloso.otof.gui.job.BatchJobSwingWorker;
 import java.io.File;
 import java.util.concurrent.ExecutionException;
-import org.smveloso.otof.em.FotoJpaController;
+import org.smveloso.otof.em.PhotoJpaController;
 import org.smveloso.otof.em.JpaManager;
-import org.smveloso.otof.gui.WaitWindowWorkerDialog;
+import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
 
 /**
  *
  * @author sergiomv
  */
-public class FotoFacade {
+public class PhotoFacade {
 
-    private FotoJpaController fotoJpaController;
+    private PhotoJpaController fotoJpaController;
 
-    private FotoFacade() {
-        fotoJpaController = new FotoJpaController(JpaManager.getInstance().getFactory());
+    private PhotoFacade() {
+        fotoJpaController = new PhotoJpaController(JpaManager.getInstance().getFactory());
     }
   
-    private static FotoFacade instance = null;
+    private static PhotoFacade instance = null;
     
-    public static synchronized FotoFacade getInstance() {
+    public static synchronized PhotoFacade getInstance() {
         if (null == instance) {
-            instance = new FotoFacade();
+            instance = new PhotoFacade();
         }
         return instance;
     }
 
-    public synchronized void executaVarredura(File baseDir) throws FacadeException {
+    public synchronized void performAlbumUpdate(File baseDir) throws FacadeException {
         
         try {
         
@@ -38,10 +43,10 @@ public class FotoFacade {
                 throw new FacadeException("Varredura não pode começar. Erro no acesso ao diretório base.");
             }
 
-            Varredor varredor = new Varredor(baseDir);
-            varredor.setFotoJpaController(fotoJpaController);
+            AlbumUpdater varredor = new AlbumUpdater(baseDir);
+            varredor.setPhotoJpaController(fotoJpaController);
             
-            VarredorInitializeJob initJob = new VarredorInitializeJob();
+            AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();
             initJob.setVarredor(varredor);
             
             JobSwingWorker<Void,Void> jobWorker = new JobSwingWorker<>();
@@ -51,7 +56,7 @@ public class FotoFacade {
             
             jobWorker.get(); // waits ...
             
-            VarredorBatchJob batchJob = new VarredorBatchJob();
+            AlbumUpdaterBatchJob batchJob = new AlbumUpdaterBatchJob();
             batchJob.setVarredor(varredor);
             
             BatchJobSwingWorker<Void,Void> batchJobWorker = new BatchJobSwingWorker<>();
@@ -78,8 +83,8 @@ public class FotoFacade {
 
     }
         
-    public int getNumeroDeFotos() {
-        return fotoJpaController.getFotoCount();
+    public int getTotalPhotoCount() {
+        return fotoJpaController.getTotalPhotoCount();
     }
     
 }

@@ -20,12 +20,12 @@ import javax.persistence.TemporalType;
  * @author sergiomv
  */
 @Entity
-@Table(name="foto")
+@Table(name="photo")
 @NamedQueries({
-    @NamedQuery(name="Foto.porDigest", query="from Foto f where f.digest = :digest")
+    @NamedQuery(name="Photo.byDigest", query="from Photo f where f.fileDigest = :fileDigest")
 })
 
-public class Foto implements Serializable {
+public class Photo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,16 +35,16 @@ public class Foto implements Serializable {
 
     @Column(nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataTirada;
+    private Date dateTaken;
         
     @Column(nullable = false, unique = true)
-    private String digest;
+    private String fileDigest;
     
     @Column(nullable = false)
-    private Long tamanhoArquivo;
+    private Long fileSize;
 
-    @OneToMany(mappedBy = "foto")
-    public Set<Caminho> caminhos;
+    @OneToMany(mappedBy = "photo")
+    public Set<Location> locations;
     
     public Long getId() {
         return id;
@@ -54,28 +54,28 @@ public class Foto implements Serializable {
         this.id = id;
     }
 
-    public Date getDataTirada() {
-        return dataTirada;
+    public Date getDateTaken() {
+        return dateTaken;
     }
 
-    public void setDataTirada(Date dataTirada) {
-        this.dataTirada = dataTirada;
+    public void setDateTaken(Date dateTaken) {
+        this.dateTaken = dateTaken;
     }
 
-    public String getDigest() {
-        return digest;
+    public String getFileDigest() {
+        return fileDigest;
     }
 
-    public void setDigest(String digest) {
-        this.digest = digest;
+    public void setFileDigest(String fileDigest) {
+        this.fileDigest = fileDigest;
     }
 
-    public Long getTamanhoArquivo() {
-        return tamanhoArquivo;
+    public Long getFileSize() {
+        return fileSize;
     }
 
-    public void setTamanhoArquivo(Long tamanhoArquivo) {
-        this.tamanhoArquivo = tamanhoArquivo;
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
     }
 
     @Override
@@ -88,10 +88,10 @@ public class Foto implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Foto)) {
+        if (!(object instanceof Photo)) {
             return false;
         }
-        Foto other = (Foto) object;
+        Photo other = (Photo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +100,7 @@ public class Foto implements Serializable {
 
     @Override
     public String toString() {
-        return "org.smveloso.otof.model.Foto[ id=" + id + " ]";
+        return "org.smveloso.otof.model.Photo[ id=" + id + " ]";
     }
 
 }

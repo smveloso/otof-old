@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author sergio
  */
 @Entity
-public class Caminho implements Serializable {
+@Table(name="location")
+public class Location implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,20 +31,20 @@ public class Caminho implements Serializable {
     }
 
     @Column(nullable = false) //TODO unique per Album !!!!
-    private String caminho;
+    private String path;
     
     @ManyToOne
     private Album album;
     
     @ManyToOne
-    private Foto foto;
+    private Photo photo;
 
-    public String getCaminho() {
-        return caminho;
+    public String getPath() {
+        return path;
     }
 
-    public void setCaminho(String caminho) {
-        this.caminho = caminho;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Album getAlbum() {
@@ -53,12 +55,12 @@ public class Caminho implements Serializable {
         this.album = album;
     }
 
-    public Foto getFoto() {
-        return foto;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setFoto(Foto foto) {
-        this.foto = foto;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
     
     @Override
@@ -71,10 +73,10 @@ public class Caminho implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Caminho)) {
+        if (!(object instanceof Location)) {
             return false;
         }
-        Caminho other = (Caminho) object;
+        Location other = (Location) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -83,7 +85,7 @@ public class Caminho implements Serializable {
 
     @Override
     public String toString() {
-        return "org.smveloso.otof.model.Caminho[ id=" + id + " ]";
+        return "org.smveloso.otof.model.Location[ id=" + id + " ]";
     }
     
 }

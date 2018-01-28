@@ -1,4 +1,4 @@
-package org.smveloso.otof.em;
+package org.smveloso.otof.em.exception;
 
 public class NonexistentEntityException extends Exception {
     public NonexistentEntityException(String message, Throwable cause) {

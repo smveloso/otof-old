@@ -1,4 +1,4 @@
-package org.smveloso.otof.em;
+package org.smveloso.otof.em.exception;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {

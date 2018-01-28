@@ -32,7 +32,7 @@ public class Album implements Serializable {
     }
 
     @OneToMany(mappedBy = "album")
-    public Set<Caminho> caminhos;
+    public Set<Location> locations;
     
     @Override
     public int hashCode() {

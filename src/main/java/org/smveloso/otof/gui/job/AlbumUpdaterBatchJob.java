@@ -1,20 +1,23 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
 
+import org.smveloso.otof.gui.job.BatchJob;
 import java.io.File;
+import org.smveloso.otof.facade.FacadeException;
+import org.smveloso.otof.ops.AlbumUpdater;
 
 /**
  *
  * @author sergiomv
  */
-public class VarredorBatchJob implements BatchJob<File> {
+public class AlbumUpdaterBatchJob implements BatchJob<File> {
 
-    private Varredor varredor;
+    private AlbumUpdater varredor;
 
-    public Varredor getVarredor() {
+    public AlbumUpdater getVarredor() {
         return varredor;
     }
 
-    public void setVarredor(Varredor varredor) {
+    public void setVarredor(AlbumUpdater varredor) {
         this.varredor = varredor;
     }
     

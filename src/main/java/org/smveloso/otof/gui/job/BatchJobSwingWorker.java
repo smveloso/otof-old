@@ -1,10 +1,10 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
 
 /**
  *
  * @author sergiomv
  */
-public class BatchJobSwingWorker<T,V> extends MensagemSwingWorker<T, V> {
+public class BatchJobSwingWorker<T,V> extends DisplayMessageSwingWorker<T, V> {
 
     private BatchJob batchJob;
     

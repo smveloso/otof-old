@@ -1,5 +1,7 @@
 package org.smveloso.otof.em;
 
+import org.smveloso.otof.em.exception.EmException;
+import org.smveloso.otof.em.exception.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -12,15 +14,15 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.smveloso.otof.model.Foto;
+import org.smveloso.otof.model.Photo;
 
 /**
  *
  * @author sergiomv
  */
-public class FotoJpaController implements Serializable {
+public class PhotoJpaController implements Serializable {
 
-    public FotoJpaController(EntityManagerFactory emf) {
+    public PhotoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -29,7 +31,7 @@ public class FotoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Foto foto) {
+    public void create(Photo foto) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -43,7 +45,7 @@ public class FotoJpaController implements Serializable {
         }
     }
 
-    public void edit(Foto foto) throws NonexistentEntityException, Exception {
+    public void edit(Photo foto) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -71,9 +73,9 @@ public class FotoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Foto foto;
+            Photo foto;
             try {
-                foto = em.getReference(Foto.class, id);
+                foto = em.getReference(Photo.class, id);
                 foto.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The foto with id " + id + " no longer exists.", enfe);
@@ -87,19 +89,19 @@ public class FotoJpaController implements Serializable {
         }
     }
 
-    public List<Foto> findFotoEntities() {
+    public List<Photo> findFotoEntities() {
         return findFotoEntities(true, -1, -1);
     }
 
-    public List<Foto> findFotoEntities(int maxResults, int firstResult) {
+    public List<Photo> findFotoEntities(int maxResults, int firstResult) {
         return findFotoEntities(false, maxResults, firstResult);
     }
 
-    private List<Foto> findFotoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Photo> findFotoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Foto.class));
+            cq.select(cq.from(Photo.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -111,20 +113,20 @@ public class FotoJpaController implements Serializable {
         }
     }
         
-    public Foto findFoto(Long id) {
+    public Photo findFoto(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Foto.class, id);
+            return em.find(Photo.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getFotoCount() {
+    public int getTotalPhotoCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Foto> rt = cq.from(Foto.class);
+            Root<Photo> rt = cq.from(Photo.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -133,11 +135,11 @@ public class FotoJpaController implements Serializable {
         }
     }    
 
-    public Foto findFotoByDigest(String digest) throws EmException {
-        Foto foto = null;
+    public Photo findFotoByDigest(String digest) throws EmException {
+        Photo foto = null;
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Foto> tq = em.createNamedQuery("Foto.porDigest", Foto.class);
+            TypedQuery<Photo> tq = em.createNamedQuery("Foto.porDigest", Photo.class);
             tq.setParameter("digest", digest);
             foto = tq.getSingleResult();
         } catch (NoResultException e) {

@@ -1,4 +1,4 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.ops;
 
 import java.io.File;
 import java.util.Calendar;
@@ -7,19 +7,20 @@ import java.util.Iterator;
 import org.apache.commons.io.FileUtils;
 import org.smveloso.otof.digest.DigestException;
 import org.smveloso.otof.digest.DigestFacade;
-import org.smveloso.otof.em.EmException;
-import org.smveloso.otof.em.FotoJpaController;
+import org.smveloso.otof.em.exception.EmException;
+import org.smveloso.otof.em.PhotoJpaController;
 import org.smveloso.otof.exinf.ExinfException;
 import org.smveloso.otof.exinf.ExinfFacade;
-import org.smveloso.otof.model.Foto;
+import org.smveloso.otof.facade.FacadeException;
+import org.smveloso.otof.model.Photo;
 
 /**
  *
  * @author sergiomv
  */
-public class Varredor {
+public class AlbumUpdater {
 
-    private FotoJpaController fotoJpaController;
+    private PhotoJpaController photoJpaController;
     
     //TODO Album here !!!
     
@@ -29,7 +30,7 @@ public class Varredor {
     private Iterator<File> iterator;
     private int remainingFiles;
     
-    public Varredor(File baseDir) {
+    public AlbumUpdater(File baseDir) {
         this.baseDir = baseDir;
     }
 
@@ -46,8 +47,8 @@ public class Varredor {
         
     }
 
-    public void setFotoJpaController(FotoJpaController fotoJpaController) {
-        this.fotoJpaController = fotoJpaController;
+    public void setPhotoJpaController(PhotoJpaController photoJpaController) {
+        this.photoJpaController = photoJpaController;
     }
     
     public File getLastProcessedFile() {
@@ -77,27 +78,27 @@ public class Varredor {
                 String digest = DigestFacade.getSha1HexEncoded(this.lastProcessedFile);
                 
                 //LOG
-                Foto jaExiste = fotoJpaController.findFotoByDigest(digest);
+                Photo jaExiste = photoJpaController.findFotoByDigest(digest);
                 if (null == jaExiste) {
 
                     // computar digest e cadastrar
-                    Foto naoExiste = new Foto();
+                    Photo naoExiste = new Photo();
                     // vou usar um album aqui
                     //naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
-                    naoExiste.setDigest(digest);
+                    naoExiste.setFileDigest(digest);
                     
                     try {
-                        naoExiste.setDataTirada(ExinfFacade.getDataTirada(this.lastProcessedFile));
+                        naoExiste.setDateTaken(ExinfFacade.getDataTirada(this.lastProcessedFile));
                     } catch (ExinfException noData) {
-                        naoExiste.setDataTirada(null);
+                        naoExiste.setDateTaken(null);
                     }
                     
                     // data identificacao associada ao album !!!
                     //naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
                     
-                    naoExiste.setTamanhoArquivo(this.lastProcessedFile.length());
+                    naoExiste.setFileSize(this.lastProcessedFile.length());
 
-                    fotoJpaController.create(naoExiste);
+                    photoJpaController.create(naoExiste);
 
                 } else {
                     

@@ -1,4 +1,4 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
 
 /**
  *
@@ -6,7 +6,7 @@ package org.smveloso.otof.facade;
  */
 public interface WorkerDelegate {
 
-    public void setWorker(MensagemSwingWorker worker);
+    public void setWorker(DisplayMessageSwingWorker worker);
 
     public void setMensagem(String mensagem);
 

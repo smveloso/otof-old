@@ -1,4 +1,4 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
 
 import javax.swing.SwingWorker;
 
@@ -6,7 +6,7 @@ import javax.swing.SwingWorker;
  *
  * @author sergiomv
  */
-public abstract class MensagemSwingWorker<T,V> extends SwingWorker<T, V> {
+public abstract class DisplayMessageSwingWorker<T,V> extends SwingWorker<T, V> {
     
     protected String mensagem;
 

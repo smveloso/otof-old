@@ -1,20 +1,25 @@
-package org.smveloso.otof.facade;
+package org.smveloso.otof.gui.job;
+
+import org.smveloso.otof.facade.FacadeException;
+import org.smveloso.otof.ops.AlbumUpdater;
+import org.smveloso.otof.gui.job.Job;
+import org.smveloso.otof.gui.job.WorkerDelegate;
 
 /**
  *
  * @author sergiomv
  */
-public class VarredorInitializeJob implements Job {
+public class AlbumUpdaterInitializeJob implements Job {
 
     private WorkerDelegate workerDelegate = null;
     
-    private Varredor varredor = null;
+    private AlbumUpdater varredor = null;
 
-    public Varredor getVarredor() {
+    public AlbumUpdater getVarredor() {
         return varredor;
     }
 
-    public void setVarredor(Varredor varredor) {
+    public void setVarredor(AlbumUpdater varredor) {
         this.varredor = varredor;
     }
     

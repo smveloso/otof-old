@@ -1,4 +1,4 @@
-package org.smveloso.otof.gui;
+package org.smveloso.otof.gui.job;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

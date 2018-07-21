@@ -1,4 +1,6 @@
-package org.smveloso.otof.gui.job;
+package org.smveloso.otof.gui.swingworker;
+
+import org.smveloso.otof.gui.job.BatchJob;
 
 /**
  *

@@ -1,5 +1,7 @@
 package org.smveloso.otof.gui.job;
 
+import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
+
 /**
  *
  * @author sergiomv

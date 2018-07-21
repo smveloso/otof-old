@@ -1,8 +1,11 @@
-package org.smveloso.otof.gui.job;
+package org.smveloso.otof.gui.swingworker;
 
-import org.smveloso.otof.gui.job.DisplayMessageSwingWorker;
+import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
 import org.smveloso.otof.gui.job.WorkerDelegate;
 import org.smveloso.otof.gui.job.DefaultWorkerDelegate;
+import org.smveloso.otof.gui.job.DefaultWorkerDelegate;
+import org.smveloso.otof.gui.job.Job;
+import org.smveloso.otof.gui.job.WorkerDelegate;
 
 /**
  *

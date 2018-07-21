@@ -27,7 +27,7 @@ public class JpegUtilTest {
         Date expResult = cal.getTime();
         Date result = JpegUtil.getDataTirada(file);
         // apenas a data
-        assertEquals(expResult, result);
+        assertTrue(util.compareDateOnly(result, expResult));
     }
     
 }

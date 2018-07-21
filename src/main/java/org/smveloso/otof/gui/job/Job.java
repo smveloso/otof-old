@@ -15,4 +15,27 @@ public abstract class Job implements Runnable {
         pcs.addPropertyChangeListener(pcl);
     }
 
+    private String mensagem = "";
+    private Integer progresso = 0;
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        String oldMensagem = this.mensagem;
+        this.mensagem = mensagem;
+        this.pcs.firePropertyChange("mensagem", oldMensagem, mensagem);
+    }
+
+    public Integer getProgresso() {
+        return progresso;
+    }
+
+    public void setProgresso(Integer progresso) {
+        Integer oldProgresso = this.progresso;
+        this.progresso = progresso;
+        this.pcs.firePropertyChange("progress", oldProgresso, progresso);
+    }
+
 }

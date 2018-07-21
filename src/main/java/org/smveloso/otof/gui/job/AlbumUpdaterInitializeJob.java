@@ -23,32 +23,16 @@ public class AlbumUpdaterInitializeJob extends Job {
         String msgUm = "Analyzing base directory ...";
         String msgDois = "Done";
 
-        // TODO should be inside a setter method !!!!
-        pcs.firePropertyChange("progress", 0, 0);
-        //TODO restore it
-        //pcs.firePropertyChange("mensagem","",msgUm);
-
-        //TODO remove this
-
-        try {        
-                Thread.currentThread().sleep(1000);
-                pcs.firePropertyChange("mensagem","","pass 1");
-                Thread.currentThread().sleep(1000);
-                pcs.firePropertyChange("mensagem","pass 1","pass 2");
-                Thread.currentThread().sleep(1000);
-                pcs.firePropertyChange("mensagem","pass 2",msgUm);
-        } catch (Throwable t) {
-                throw new RuntimeException("BOOM!",t);
-        }
-        
+        setProgresso(0);
+        setMensagem(msgUm);
         
         try {
             this.albumUpdater.initialize();
+            setProgresso(100);
+            setMensagem(msgDois);
         } catch (Throwable t) {
             throw new RuntimeException("ARG!",t);
         }
-        pcs.firePropertyChange("mensagem",msgUm,msgDois);
-        pcs.firePropertyChange("progress", 0, 100);
     }
     
 }

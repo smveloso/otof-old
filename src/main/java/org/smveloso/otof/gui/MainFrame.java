@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.PhotoFacade;
+import org.smveloso.otof.model.LocalFileSystemAlbum;
 
 /**
  *
@@ -394,8 +395,9 @@ public class MainFrame extends javax.swing.JFrame {
         //TODO validações ...
         
         try {
-            File baseDir = new File(txtOpVarreduraBaseDir.getText());
-            fotoFacade.performAlbumUpdate(baseDir);
+            //File baseDir = new File(txtOpVarreduraBaseDir.getText());
+            LocalFileSystemAlbum localFsAlbum = new LocalFileSystemAlbum();
+            fotoFacade.performAlbumUpdate(localFsAlbum);
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);

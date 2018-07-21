@@ -12,41 +12,59 @@ import org.smveloso.otof.em.PhotoJpaController;
 import org.smveloso.otof.exinf.ExinfException;
 import org.smveloso.otof.exinf.ExinfFacade;
 import org.smveloso.otof.facade.FacadeException;
+import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Photo;
 
 /**
  *
  * @author sergiomv
  */
-public class AlbumUpdater {
+public abstract class AlbumUpdater {
 
     private PhotoJpaController photoJpaController;
     
-    //TODO Album here !!!
-    
-    private File baseDir;
+    private final Album album;
+
     private File lastProcessedFile;
     private Collection<File> files;
     private Iterator<File> iterator;
     private int remainingFiles;
     
-    public AlbumUpdater(File baseDir) {
-        this.baseDir = baseDir;
+    public AlbumUpdater(Album album) {
+        this.album = album;
     }
 
     public void initialize() throws FacadeException {
 
-        if ((null == baseDir) || (!baseDir.exists()) || (!baseDir.isDirectory()) || (!baseDir.canRead())) {
-            throw new FacadeException("Varredura não pode começar. Erro no acesso ao diretório base.");
-        }
-
-        this.files = FileUtils.listFiles(baseDir, new String[]{"jpg", "JPG"}, true);
-        this.iterator = this.files.iterator();
+        //this.files = FileUtils.listFiles(baseDir, new String[]{"jpg", "JPG"}, true);
+        actualInitialization();
         this.lastProcessedFile = null;
-        this.remainingFiles = this.files.size();
+        this.iterator = getFileIterator();
+        this.remainingFiles = getNumberOfFilesToProcess();
         
     }
 
+    /** How many files are there to process 
+     *  during the creation/updating of the
+     *  album ?
+     * 
+     * @return 
+     */    
+    public abstract int getNumberOfFilesToProcess();
+
+    /** Implementations must provide an Iterator for Files
+     *  
+     * @return 
+     */
+    public abstract Iterator<File> getFileIterator();
+
+    /** Implementations must use this method to 
+     *  prepare to provide the number of files 
+     *  to process and an Iterator for accessing them.
+     * 
+     */
+    protected abstract void actualInitialization();
+    
     public void setPhotoJpaController(PhotoJpaController photoJpaController) {
         this.photoJpaController = photoJpaController;
     }
@@ -55,10 +73,6 @@ public class AlbumUpdater {
         return this.lastProcessedFile;
     }
     
-    public int getNumberOfFiles() {
-        return files.size();
-    }
-
     public int getRemainingFiles() {
         return remainingFiles;
     }
@@ -78,29 +92,45 @@ public class AlbumUpdater {
                 String digest = DigestFacade.getSha1HexEncoded(this.lastProcessedFile);
                 
                 //LOG
-                Photo jaExiste = photoJpaController.findFotoByDigest(digest);
-                if (null == jaExiste) {
+                Photo alreadySeenPhoto = photoJpaController.findFotoByDigest(digest);
+                if (null == alreadySeenPhoto) {
 
                     // computar digest e cadastrar
-                    Photo naoExiste = new Photo();
+                    Photo newPhoto = new Photo();
                     // vou usar um album aqui
                     //naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
-                    naoExiste.setFileDigest(digest);
+                    newPhoto.setFileDigest(digest);
                     
                     try {
-                        naoExiste.setDateTaken(ExinfFacade.getDataTirada(this.lastProcessedFile));
+                        newPhoto.setDateTaken(ExinfFacade.getDataTirada(this.lastProcessedFile));
                     } catch (ExinfException noData) {
-                        naoExiste.setDateTaken(null);
+                        newPhoto.setDateTaken(null);
                     }
                     
                     // data identificacao associada ao album !!!
                     //naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
                     
-                    naoExiste.setFileSize(this.lastProcessedFile.length());
+                    newPhoto.setFileSize(this.lastProcessedFile.length());
 
-                    photoJpaController.create(naoExiste);
+                    photoJpaController.create(newPhoto);
 
                 } else {
+                 
+                    // foi localizada uma copia de foto conhecida pelo otof
+                    
+                    // sera que o album em atualizacao ja a registra ?
+                    
+                    // 1. verificar se o 'path' existe para o album
+                    // 1.1. nao existe -> criar registro
+                    // 1.2. existe -> 2
+                    // 2. verificar se o 'path' corresponde aa mesma foto
+                    // 2.1. sim ? -> nada a fazer
+                    // 2.2. nao ? -> atualizar registro, apontando a foto certa
+                    
+                    
+                    
+                    
+
                     
                 }
                 

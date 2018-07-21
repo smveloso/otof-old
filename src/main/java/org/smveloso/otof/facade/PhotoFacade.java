@@ -10,6 +10,9 @@ import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoJpaController;
 import org.smveloso.otof.em.JpaManager;
 import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
+import org.smveloso.otof.model.Album;
+import org.smveloso.otof.model.LocalFileSystemAlbum;
+import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
 
 /**
  *
@@ -32,18 +35,15 @@ public class PhotoFacade {
         return instance;
     }
 
-    public synchronized void performAlbumUpdate(File baseDir) throws FacadeException {
+    // TODO ARGH ! I AM HARD-CODED !!!!
+    public synchronized void performAlbumUpdate(LocalFileSystemAlbum album) throws FacadeException {
         
         try {
         
             //TODO adaptar para rodar com um 'progress bar' visual
 
-            // sanidade
-            if ((null == baseDir) || (!baseDir.exists()) || (!baseDir.isDirectory()) || (!baseDir.canRead())) {
-                throw new FacadeException("Varredura não pode começar. Erro no acesso ao diretório base.");
-            }
-
-            AlbumUpdater varredor = new AlbumUpdater(baseDir);
+            // TODO ARGH ! I AM HARD-CODED !!!!
+            AlbumUpdater varredor = new LocalFileSystemAlbumUpdater(album);
             varredor.setPhotoJpaController(fotoJpaController);
             
             AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();

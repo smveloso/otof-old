@@ -28,7 +28,7 @@ public class AlbumUpdaterBatchJob implements BatchJob<File> {
 
     @Override
     public int getProgress() {
-        float percent = ((float) varredor.getRemainingFiles() / (float) varredor.getNumberOfFiles()) * 100;
+        float percent = ((float) varredor.getRemainingFiles() / (float) varredor.getNumberOfFilesToProcess()) * 100;
         return 100 - Math.round(percent);
     }
 

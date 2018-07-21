@@ -9,8 +9,8 @@ import org.smveloso.otof.digest.DigestException;
 import org.smveloso.otof.digest.DigestFacade;
 import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.em.PhotoJpaController;
-import org.smveloso.otof.util.jpeg.ExinfException;
-import org.smveloso.otof.util.jpeg.ExinfFacade;
+import org.smveloso.otof.util.jpeg.JpegUtilException;
+import org.smveloso.otof.util.jpeg.JpegUtil;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Photo;
@@ -102,8 +102,8 @@ public abstract class AlbumUpdater {
                     newPhoto.setFileDigest(digest);
                     
                     try {
-                        newPhoto.setDateTaken(ExinfFacade.getDataTirada(this.lastProcessedFile));
-                    } catch (ExinfException noData) {
+                        newPhoto.setDateTaken(JpegUtil.getDataTirada(this.lastProcessedFile));
+                    } catch (JpegUtilException noData) {
                         newPhoto.setDateTaken(null);
                     }
                     

@@ -15,9 +15,9 @@ import java.util.Date;
  *
  * @author sergiomv
  */
-public class ExinfFacade {
+public class JpegUtil {
     
-    public static Date getDataTirada(File file) throws ExinfException {
+    public static Date getDataTirada(File file) throws JpegUtilException {
         try {
             //extractAttributes(file);
             Metadata metadata = ImageMetadataReader.readMetadata(file);
@@ -27,13 +27,13 @@ public class ExinfFacade {
                 if (null != tagName) {
                     return directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);            
                 } else {
-                    throw new ExinfException("No date time taken tag found in jpeg directory.");
+                    throw new JpegUtilException("No date time taken tag found in jpeg directory.");
                 }
             } else {
-                throw new ExinfException("No jpeg directory.");
+                throw new JpegUtilException("No jpeg directory.");
             }
         } catch (ImageProcessingException | IOException e) {
-            throw new ExinfException(e);
+            throw new JpegUtilException(e);
         }
     }
         

@@ -1,12 +1,12 @@
 package org.smveloso.otof.facade;
 
-import org.smveloso.otof.ops.AlbumUpdater;
+import org.smveloso.otof.service.AlbumUpdater;
 import org.smveloso.otof.gui.job.AlbumUpdaterInitializeJob;
 import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
-import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
+import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
 
 /**
  *

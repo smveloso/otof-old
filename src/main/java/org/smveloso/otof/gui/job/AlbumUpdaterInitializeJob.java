@@ -1,6 +1,6 @@
 package org.smveloso.otof.gui.job;
 
-import org.smveloso.otof.ops.AlbumUpdater;
+import org.smveloso.otof.service.AlbumUpdater;
 
 /**
  *

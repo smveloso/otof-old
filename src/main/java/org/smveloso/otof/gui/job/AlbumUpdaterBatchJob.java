@@ -3,7 +3,7 @@ package org.smveloso.otof.gui.job;
 import org.smveloso.otof.gui.job.BatchJob;
 import java.io.File;
 import org.smveloso.otof.facade.FacadeException;
-import org.smveloso.otof.ops.AlbumUpdater;
+import org.smveloso.otof.service.AlbumUpdater;
 
 /**
  *

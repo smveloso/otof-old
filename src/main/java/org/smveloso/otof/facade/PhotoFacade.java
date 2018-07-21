@@ -39,9 +39,8 @@ public class PhotoFacade {
             initJob.setAlbumUpdater(albumUpdater);
             
             DisplayMessageSwingWorker<Void,Void> swingWorker = new DisplayMessageSwingWorker<>();
-            swingWorker.setJob(initJob);
-            swingWorker.execute();            
-            swingWorker.get(); // waits ...
+            swingWorker.executeJob(initJob);
+            swingWorker.get();
             
         } catch (InterruptedException| ExecutionException e) {
             throw new FacadeException("Job interrupted or failed: " + e.getMessage());

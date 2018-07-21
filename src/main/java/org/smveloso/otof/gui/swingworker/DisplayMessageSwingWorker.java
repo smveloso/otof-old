@@ -18,19 +18,14 @@ public class DisplayMessageSwingWorker<T,V> extends SwingWorker<T, V> {
 
     public DisplayMessageSwingWorker() {
         workerDialog = new WaitWindowWorkerDialog(null, this, false, true);  // displays messages but no progress
-        //this.addPropertyChangeListener(workerDialog);
-        workerDialog.setVisible(true);
+        this.addPropertyChangeListener(workerDialog);
     }
 
-    public DisplayMessageSwingWorker(WaitWindowWorkerDialog workerDialog) {
-        this.workerDialog = workerDialog;
-        //this.addPropertyChangeListener(workerDialog);
-        workerDialog.setVisible(true);
-    }
-
-    public void setJob(Job job) {
+    public void executeJob(Job job) {
         this.job = job;
         this.job.addPropertyChangeListener(workerDialog);
+        this.execute();
+        this.workerDialog.setVisible(true);
     }
     
     @Override

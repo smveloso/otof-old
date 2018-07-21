@@ -23,7 +23,7 @@ public class PhotoFacade {
     private PhotoJpaController fotoJpaController;
 
     private PhotoFacade() {
-        fotoJpaController = new PhotoJpaController(JpaManager.getInstance().getFactory());
+        fotoJpaController = PhotoJpaController.getInstance();
     }
   
     private static PhotoFacade instance = null;

@@ -1,9 +1,11 @@
 package org.smveloso.otof.em;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-/**
+/** Singleton.
+ *  <p>Inicializa e mantém uma "EntityManagerFactory".</p>
  *
  * @author sergiomv
  */
@@ -39,8 +41,13 @@ public class JpaManager {
         instance = null;
     }
     
-    public synchronized EntityManagerFactory getFactory() {
+    protected synchronized EntityManagerFactory getFactory() {
         return emFactory;
+    }
+
+    // EntityManager is NOT thread-safe
+    public EntityManager getEntityManager() {
+        return getFactory().createEntityManager();
     }
     
 }

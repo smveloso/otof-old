@@ -5,7 +5,6 @@ import org.smveloso.otof.em.exception.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -20,17 +19,20 @@ import org.smveloso.otof.model.Photo;
  *
  * @author sergiomv
  */
-public class PhotoJpaController implements Serializable {
+public class PhotoJpaController extends DAO implements Serializable {
 
-    public PhotoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    private static PhotoJpaController instance;
+    
+    private PhotoJpaController() {
     }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    
+    public static synchronized PhotoJpaController getInstance() {
+        if (null == instance) {
+            instance = new PhotoJpaController();
+        }
+        return instance;
     }
-
+    
     public void create(Photo foto) {
         EntityManager em = null;
         try {

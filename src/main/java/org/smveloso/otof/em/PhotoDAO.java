@@ -19,16 +19,16 @@ import org.smveloso.otof.model.Photo;
  *
  * @author sergiomv
  */
-public class PhotoJpaController extends DAO implements Serializable {
+public class PhotoDAO extends DAO implements Serializable {
 
-    private static PhotoJpaController instance;
+    private static PhotoDAO instance;
     
-    private PhotoJpaController() {
+    private PhotoDAO() {
     }
     
-    public static synchronized PhotoJpaController getInstance() {
+    public static synchronized PhotoDAO getInstance() {
         if (null == instance) {
-            instance = new PhotoJpaController();
+            instance = new PhotoDAO();
         }
         return instance;
     }
@@ -47,7 +47,7 @@ public class PhotoJpaController extends DAO implements Serializable {
         }
     }
 
-    public void edit(Photo foto) throws NonexistentEntityException, Exception {
+    public void update(Photo foto) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();

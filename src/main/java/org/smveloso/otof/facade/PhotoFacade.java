@@ -7,10 +7,8 @@ import org.smveloso.otof.gui.job.JobSwingWorker;
 import org.smveloso.otof.gui.job.BatchJobSwingWorker;
 import java.io.File;
 import java.util.concurrent.ExecutionException;
-import org.smveloso.otof.em.PhotoJpaController;
-import org.smveloso.otof.em.JpaManager;
+import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
-import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
 
@@ -20,10 +18,10 @@ import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
  */
 public class PhotoFacade {
 
-    private PhotoJpaController fotoJpaController;
+    private PhotoDAO fotoJpaController;
 
     private PhotoFacade() {
-        fotoJpaController = PhotoJpaController.getInstance();
+        fotoJpaController = PhotoDAO.getInstance();
     }
   
     private static PhotoFacade instance = null;

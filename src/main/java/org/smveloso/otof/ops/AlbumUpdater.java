@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.smveloso.otof.util.digest.DigestUtilException;
 import org.smveloso.otof.util.digest.DigestUtil;
 import org.smveloso.otof.em.exception.EmException;
-import org.smveloso.otof.em.PhotoJpaController;
+import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.util.jpeg.JpegUtilException;
 import org.smveloso.otof.util.jpeg.JpegUtil;
 import org.smveloso.otof.facade.FacadeException;
@@ -21,7 +21,7 @@ import org.smveloso.otof.model.Photo;
  */
 public abstract class AlbumUpdater {
 
-    private PhotoJpaController photoJpaController;
+    private PhotoDAO photoJpaController;
     
     private final Album album;
 
@@ -65,7 +65,7 @@ public abstract class AlbumUpdater {
      */
     protected abstract void actualInitialization();
     
-    public void setPhotoJpaController(PhotoJpaController photoJpaController) {
+    public void setPhotoJpaController(PhotoDAO photoJpaController) {
         this.photoJpaController = photoJpaController;
     }
     

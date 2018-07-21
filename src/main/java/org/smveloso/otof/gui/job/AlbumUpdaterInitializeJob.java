@@ -1,35 +1,54 @@
 package org.smveloso.otof.gui.job;
 
-import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.ops.AlbumUpdater;
-import org.smveloso.otof.gui.job.Job;
-import org.smveloso.otof.gui.job.WorkerDelegate;
 
 /**
  *
  * @author sergiomv
  */
-public class AlbumUpdaterInitializeJob implements Job {
-
-    private WorkerDelegate workerDelegate = null;
+public class AlbumUpdaterInitializeJob extends Job {
     
-    private AlbumUpdater varredor = null;
+    private AlbumUpdater albumUpdater = null;
 
-    public AlbumUpdater getVarredor() {
-        return varredor;
+    public AlbumUpdater getAlbumUpdater() {
+        return albumUpdater;
     }
 
-    public void setVarredor(AlbumUpdater varredor) {
-        this.varredor = varredor;
+    public void setAlbumUpdater(AlbumUpdater albumUpdater) {
+        this.albumUpdater = albumUpdater;
     }
     
     @Override
-    public void execute() throws FacadeException {
-        this.workerDelegate.setProgress(0);
-        this.workerDelegate.setMensagem("Analyzing base directory ...");
-        this.varredor.initialize();
-        this.workerDelegate.setMensagem("Done");
-        this.workerDelegate.setProgress(100);
+    public void run() {
+        String msgUm = "Analyzing base directory ...";
+        String msgDois = "Done";
+
+        // TODO should be inside a setter method !!!!
+        pcs.firePropertyChange("progress", 0, 0);
+        //TODO restore it
+        //pcs.firePropertyChange("mensagem","",msgUm);
+
+        //TODO remove this
+
+        try {        
+                Thread.currentThread().sleep(1000);
+                pcs.firePropertyChange("mensagem","","pass 1");
+                Thread.currentThread().sleep(1000);
+                pcs.firePropertyChange("mensagem","pass 1","pass 2");
+                Thread.currentThread().sleep(1000);
+                pcs.firePropertyChange("mensagem","pass 2",msgUm);
+        } catch (Throwable t) {
+                throw new RuntimeException("BOOM!",t);
+        }
+        
+        
+        try {
+            this.albumUpdater.initialize();
+        } catch (Throwable t) {
+            throw new RuntimeException("ARG!",t);
+        }
+        pcs.firePropertyChange("mensagem",msgUm,msgDois);
+        pcs.firePropertyChange("progress", 0, 100);
     }
     
 }

@@ -1,14 +1,18 @@
 package org.smveloso.otof.gui.job;
 
-import org.smveloso.otof.facade.FacadeException;
-import org.smveloso.otof.gui.job.WorkerDelegate;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-/**
+/** 
  *
  * @author sergiomv
  */
-public interface Job {
+public abstract class Job implements Runnable {
     
-    public void execute() throws FacadeException;
+    protected final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        pcs.addPropertyChangeListener(pcl);
+    }
+
 }

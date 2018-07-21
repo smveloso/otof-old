@@ -3,9 +3,6 @@ package org.smveloso.otof.gui.swingworker.dialog;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.SwingWorker;
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-
 
 /**
  *
@@ -18,7 +15,7 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
 
     //private static final Log log = LogFactory.getLog("applet");    
     
-    private SwingWorker worker;
+    private SwingWorker swingWorker;
 
     private boolean displayProgress;
     private boolean displayMensagem;
@@ -49,12 +46,6 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
         }
 
         pack();
-
-        //log.trace("[AppletWaitWindowWorkerDialog] will fire worker ...");
-        this.worker = worker;
-        this.worker.addPropertyChangeListener(this);
-        this.worker.execute();
-        //log.trace("[AppletWaitWindowWorkerDialog] worker fired !");
 
     }
 
@@ -139,7 +130,7 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
 
         if ("state".equals(evt.getPropertyName())) {
             if (SwingWorker.StateValue.DONE.equals(evt.getNewValue())) {
-                //log.debug("[AppletWaitWindowWorkerDialog] worker is done, will close dialog");
+                //log.debug("[AppletWaitWindowWorkerDialog] swingWorker is done, will close dialog");
                 this.setVisible(false);
                 this.dispose();
             }
@@ -173,10 +164,6 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
 
     public void setDisplayProgress(boolean displayProgress) {
         this.displayProgress = displayProgress;
-    }
-
-    public SwingWorker getWorker() {
-        return worker;
     }
 
 }

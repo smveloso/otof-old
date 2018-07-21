@@ -1,4 +1,4 @@
-package org.smveloso.otof.digest;
+package org.smveloso.otof.util.digest;
 
 import java.io.File;
 import java.io.FileInputStream;

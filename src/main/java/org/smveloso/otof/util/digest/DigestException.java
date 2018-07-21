@@ -1,4 +1,4 @@
-package org.smveloso.otof.digest;
+package org.smveloso.otof.util.digest;
 
 import org.smveloso.otof.OtofException;
 

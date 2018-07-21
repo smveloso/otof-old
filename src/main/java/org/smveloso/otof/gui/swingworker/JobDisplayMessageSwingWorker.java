@@ -24,7 +24,6 @@ public class JobDisplayMessageSwingWorker<T,V> extends DisplayMessageSwingWorker
         this.job = job;
         this.workerDelegate = new DefaultWorkerDelegate();
         this.workerDelegate.setWorker(this);
-        this.job.setWorkerDelegate(workerDelegate);
     }
     
     @Override

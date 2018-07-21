@@ -31,12 +31,5 @@ public class AlbumUpdaterInitializeJob implements Job {
         this.workerDelegate.setMensagem("Done");
         this.workerDelegate.setProgress(100);
     }
-
-    @Override
-    public void setWorkerDelegate(WorkerDelegate workerDelegate) {
-        this.workerDelegate = workerDelegate;
-    }
-
-    
     
 }

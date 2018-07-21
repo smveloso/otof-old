@@ -17,7 +17,7 @@ public class DisplayMessageSwingWorker<T,V> extends SwingWorker<T, V> {
     protected WaitWindowWorkerDialog workerDialog;
 
     public DisplayMessageSwingWorker() {
-        workerDialog = new WaitWindowWorkerDialog(null, this, false, true);  // displays messages but no progress
+        workerDialog = new WaitWindowWorkerDialog(null, false, true);  // displays messages but no progress
         this.addPropertyChangeListener(workerDialog);
     }
 

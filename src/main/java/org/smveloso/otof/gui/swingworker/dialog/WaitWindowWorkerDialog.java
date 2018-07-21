@@ -15,17 +15,15 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
 
     //private static final Log log = LogFactory.getLog("applet");    
     
-    private SwingWorker swingWorker;
-
     private boolean displayProgress;
     private boolean displayMensagem;
 
 
-    public WaitWindowWorkerDialog(java.awt.Frame parent, SwingWorker worker) {
-        this(parent,worker,true,true);
+    public WaitWindowWorkerDialog(java.awt.Frame parent) {
+        this(parent,true,true);
     }
 
-    public WaitWindowWorkerDialog(java.awt.Frame parent, SwingWorker worker, boolean displayProgress, boolean displayMensagem) {
+    public WaitWindowWorkerDialog(java.awt.Frame parent, boolean displayProgress, boolean displayMensagem) {
         super(parent, true);
         //log.trace("[AppletWaitWindowWorkerDialog] >>");
 
@@ -76,7 +74,7 @@ public class WaitWindowWorkerDialog extends javax.swing.JDialog implements Prope
         lblTitulo.setText("Por favor aguarde ...");
 
         lblMensagem.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblMensagem.setText("_");
+        lblMensagem.setText(" ");
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);

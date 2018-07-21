@@ -1,4 +1,4 @@
-package org.smveloso.otof.exinf;
+package org.smveloso.otof.util.jpeg;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;

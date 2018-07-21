@@ -1,4 +1,4 @@
-package org.smveloso.otof.exinf;
+package org.smveloso.otof.util.jpeg;
 
 import org.smveloso.otof.OtofException;
 

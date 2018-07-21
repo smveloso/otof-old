@@ -8,7 +8,7 @@ import org.smveloso.otof.gui.job.DefaultWorkerDelegate;
  *
  * @author sergiomv
  */
-public class JobSwingWorker<T,V> extends DisplayMessageSwingWorker<T, V>{
+public class JobDisplayMessageSwingWorker<T,V> extends DisplayMessageSwingWorker<T, V>{
 
     private Job job;
     private WorkerDelegate workerDelegate;

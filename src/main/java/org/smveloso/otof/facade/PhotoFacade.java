@@ -3,8 +3,8 @@ package org.smveloso.otof.facade;
 import org.smveloso.otof.ops.AlbumUpdater;
 import org.smveloso.otof.gui.job.AlbumUpdaterBatchJob;
 import org.smveloso.otof.gui.job.AlbumUpdaterInitializeJob;
-import org.smveloso.otof.gui.job.JobSwingWorker;
-import org.smveloso.otof.gui.job.BatchJobSwingWorker;
+import org.smveloso.otof.gui.job.JobDisplayMessageSwingWorker;
+import org.smveloso.otof.gui.job.BatchJobDisplayMessageSwingWorker;
 import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
@@ -46,7 +46,7 @@ public class PhotoFacade {
             AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();
             initJob.setVarredor(varredor);
             
-            JobSwingWorker<Void,Void> jobWorker = new JobSwingWorker<>();
+            JobDisplayMessageSwingWorker<Void,Void> jobWorker = new JobDisplayMessageSwingWorker<>();
             jobWorker.setJob(initJob);
             WaitWindowWorkerDialog workerDialogForInit = new WaitWindowWorkerDialog(null, jobWorker, false, true);  // displays messages but no progress
             workerDialogForInit.setVisible(true);
@@ -56,7 +56,7 @@ public class PhotoFacade {
             AlbumUpdaterBatchJob batchJob = new AlbumUpdaterBatchJob();
             batchJob.setVarredor(varredor);
             
-            BatchJobSwingWorker<Void,Void> batchJobWorker = new BatchJobSwingWorker<>();
+            BatchJobDisplayMessageSwingWorker<Void,Void> batchJobWorker = new BatchJobDisplayMessageSwingWorker<>();
             batchJobWorker.setBatchJob(batchJob);
             
             WaitWindowWorkerDialog workerDialog = new WaitWindowWorkerDialog(null, batchJobWorker);

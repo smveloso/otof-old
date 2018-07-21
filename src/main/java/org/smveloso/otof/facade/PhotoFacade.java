@@ -5,7 +5,6 @@ import org.smveloso.otof.gui.job.AlbumUpdaterBatchJob;
 import org.smveloso.otof.gui.job.AlbumUpdaterInitializeJob;
 import org.smveloso.otof.gui.job.JobSwingWorker;
 import org.smveloso.otof.gui.job.BatchJobSwingWorker;
-import java.io.File;
 import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
@@ -18,10 +17,10 @@ import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
  */
 public class PhotoFacade {
 
-    private PhotoDAO fotoJpaController;
+    private final PhotoDAO photoDAO;
 
     private PhotoFacade() {
-        fotoJpaController = PhotoDAO.getInstance();
+        photoDAO = PhotoDAO.getInstance();
     }
   
     private static PhotoFacade instance = null;
@@ -42,7 +41,7 @@ public class PhotoFacade {
 
             // TODO ARGH ! I AM HARD-CODED !!!!
             AlbumUpdater varredor = new LocalFileSystemAlbumUpdater(album);
-            varredor.setPhotoJpaController(fotoJpaController);
+            varredor.setPhotoJpaController(photoDAO);
             
             AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();
             initJob.setVarredor(varredor);
@@ -82,7 +81,7 @@ public class PhotoFacade {
     }
         
     public int getTotalPhotoCount() {
-        return fotoJpaController.getTotalPhotoCount();
+        return photoDAO.getTotalPhotoCount();
     }
     
 }

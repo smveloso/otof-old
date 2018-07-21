@@ -1,6 +1,10 @@
 package org.smveloso.otof.test;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class TestUtil {
@@ -14,25 +18,55 @@ public class TestUtil {
 
         while (tokenizer.hasMoreTokens()) {
             final String pathElement = tokenizer.nextToken();
-            final File directoryOrJar = new File(pathElement);
-            final File absoluteDirectoryOrJar = directoryOrJar.getAbsoluteFile();
-            if (absoluteDirectoryOrJar.isFile()) {
-                final File target = new File(absoluteDirectoryOrJar.getParent(), fileName);
-                if (target.exists()) {
-                    return target;
-                }
-            } else {
-                final File target = new File(directoryOrJar, fileName);
-                if (target.exists()) {
-                    return target;
-                }
+            final File file = new File(pathElement);
+            
+            File target = null;
+            if (file.isDirectory()) {
+                target = findFileInDirectory(file,fileName);
+            } else if (file.getName().equals(fileName)) {                
+                target = file;
+            } 
+            
+            if (null == target) {
+                throw new Exception("File not found: " + fileName);
             }
+              
+            return target;
+            
         }
+            
         throw new Exception("File not found in classpath: " + fileName);
     }
 
-    
-    
+    public File findFileInDirectory(File directory, String fileName) throws Exception {
+            
+        if (!directory.isDirectory()) {
+            throw new Exception("Not a directory: " + directory.getPath());
+        }
+        
+        File target = null;
+        List<File> directories = new ArrayList<>();
+        
+        for (File file:directory.listFiles()) {
+            if (file.isFile()) {
+                if (file.getName().equals(fileName)) {
+                    return file;
+                }
+            } else if (file.isDirectory()) {
+                directories.add(file);
+            }            
+        }
+        
+        for (File subDirectory:directories) {
+            target = findFileInDirectory(subDirectory, fileName);
+            if (null != target) {
+                return target;
+            }
+        }
+        
+        return target;
+    }
+        
     private static TestUtil instance = null;
     
     private TestUtil() {

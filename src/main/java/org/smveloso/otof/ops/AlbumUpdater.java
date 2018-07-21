@@ -5,8 +5,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import org.apache.commons.io.FileUtils;
-import org.smveloso.otof.util.digest.DigestException;
-import org.smveloso.otof.util.digest.DigestFacade;
+import org.smveloso.otof.util.digest.DigestUtilException;
+import org.smveloso.otof.util.digest.DigestUtil;
 import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.em.PhotoJpaController;
 import org.smveloso.otof.util.jpeg.JpegUtilException;
@@ -89,7 +89,7 @@ public abstract class AlbumUpdater {
                 this.lastProcessedFile = this.iterator.next();
                 this.remainingFiles--;
                 
-                String digest = DigestFacade.getSha1HexEncoded(this.lastProcessedFile);
+                String digest = DigestUtil.getSha1HexEncoded(this.lastProcessedFile);
                 
                 //LOG
                 Photo alreadySeenPhoto = photoJpaController.findFotoByDigest(digest);
@@ -138,7 +138,7 @@ public abstract class AlbumUpdater {
                 throw new FacadeException("Illegal state: nothing to process.");
             }
         
-        } catch (DigestException| EmException e) {
+        } catch (DigestUtilException | EmException e) {
             throw new FacadeException(e);
         }
         

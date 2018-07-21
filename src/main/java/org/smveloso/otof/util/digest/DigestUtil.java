@@ -11,9 +11,9 @@ import org.apache.commons.codec.binary.Hex;
  *
  * @author sergiomv
  */
-public class DigestFacade {
+public class DigestUtil {
 
-    public static String getSha1HexEncoded(File arquivo) throws DigestException {
+    public static String getSha1HexEncoded(File arquivo) throws DigestUtilException {
         
         FileInputStream fis = null;
         
@@ -37,7 +37,7 @@ public class DigestFacade {
             return sha1HexEncoded;
             
         } catch (NoSuchAlgorithmException | IOException e) {
-            throw new DigestException(e);
+            throw new DigestUtilException(e);
         } finally {
             
             if (null != fis) {

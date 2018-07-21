@@ -7,7 +7,7 @@ import org.smveloso.otof.gui.swingworker.JobDisplayMessageSwingWorker;
 import org.smveloso.otof.gui.swingworker.BatchJobDisplayMessageSwingWorker;
 import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoDAO;
-import org.smveloso.otof.gui.job.WaitWindowWorkerDialog;
+import org.smveloso.otof.gui.swingworker.dialog.WaitWindowWorkerDialog;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.ops.LocalFileSystemAlbumUpdater;
 

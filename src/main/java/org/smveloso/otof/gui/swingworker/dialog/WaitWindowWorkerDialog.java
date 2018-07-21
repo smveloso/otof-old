@@ -1,4 +1,4 @@
-package org.smveloso.otof.gui.job;
+package org.smveloso.otof.gui.swingworker.dialog;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

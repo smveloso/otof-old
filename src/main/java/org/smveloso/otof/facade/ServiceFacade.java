@@ -12,19 +12,19 @@ import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
  *
  * @author sergiomv
  */
-public class PhotoFacade {
+public class ServiceFacade {
 
     private final PhotoDAO photoDAO;
 
-    private PhotoFacade() {
+    private ServiceFacade() {
         photoDAO = PhotoDAO.getInstance();
     }
   
-    private static PhotoFacade instance = null;
+    private static ServiceFacade instance = null;
     
-    public static synchronized PhotoFacade getInstance() {
+    public static synchronized ServiceFacade getInstance() {
         if (null == instance) {
-            instance = new PhotoFacade();
+            instance = new ServiceFacade();
         }
         return instance;
     }

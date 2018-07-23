@@ -5,7 +5,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.smveloso.otof.facade.FacadeException;
-import org.smveloso.otof.facade.PhotoFacade;
+import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 
 /**
@@ -20,10 +20,10 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initLookAndFeel();
         initComponents();
-        fotoFacade = PhotoFacade.getInstance();
+        fotoFacade = ServiceFacade.getInstance();
     }
 
-    private PhotoFacade fotoFacade;
+    private ServiceFacade fotoFacade;
     
     
     /**

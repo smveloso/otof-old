@@ -26,7 +26,6 @@ public abstract class AlbumUpdater {
     private final Album album;
 
     private File lastProcessedFile;
-    private Collection<File> files;
     private Iterator<File> iterator;
     private int remainingFiles;
     

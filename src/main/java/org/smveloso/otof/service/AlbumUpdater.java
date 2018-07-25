@@ -1,10 +1,7 @@
 package org.smveloso.otof.service;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Iterator;
-import org.apache.commons.io.FileUtils;
 import org.smveloso.otof.util.digest.DigestUtilException;
 import org.smveloso.otof.util.digest.DigestUtil;
 import org.smveloso.otof.em.exception.EmException;
@@ -23,7 +20,7 @@ public abstract class AlbumUpdater {
 
     private PhotoDAO photoJpaController;
     
-    private final Album album;
+    protected final Album album;
 
     private File lastProcessedFile;
     private Iterator<File> iterator;
@@ -32,15 +29,12 @@ public abstract class AlbumUpdater {
     public AlbumUpdater(Album album) {
         this.album = album;
     }
-
+    
     public void initialize() throws FacadeException {
-
-        //this.files = FileUtils.listFiles(baseDir, new String[]{"jpg", "JPG"}, true);
         actualInitialization();
         this.lastProcessedFile = null;
         this.iterator = getFileIterator();
-        this.remainingFiles = getNumberOfFilesToProcess();
-        
+        this.remainingFiles = getNumberOfFilesToProcess();        
     }
 
     /** How many files are there to process 
@@ -89,28 +83,14 @@ public abstract class AlbumUpdater {
                 this.remainingFiles--;
                 
                 String digest = DigestUtil.getSha1HexEncoded(this.lastProcessedFile);
-                
-                //LOG
+
                 Photo alreadySeenPhoto = photoJpaController.findFotoByDigest(digest);
                 if (null == alreadySeenPhoto) {
 
-                    // computar digest e cadastrar
                     Photo newPhoto = new Photo();
-                    // vou usar um album aqui
-                    //naoExiste.setArquivo(this.lastProcessedFile.getAbsolutePath());
                     newPhoto.setFileDigest(digest);
-                    
-                    try {
-                        newPhoto.setDateTaken(JpegUtil.getDataTirada(this.lastProcessedFile));
-                    } catch (JpegUtilException noData) {
-                        newPhoto.setDateTaken(null);
-                    }
-                    
-                    // data identificacao associada ao album !!!
-                    //naoExiste.setDataIdentificada(Calendar.getInstance().getTime());
-                    
+                    newPhoto.setDateTaken(JpegUtil.safeGetDataTirada(this.lastProcessedFile));                                        
                     newPhoto.setFileSize(this.lastProcessedFile.length());
-
                     photoJpaController.create(newPhoto);
 
                 } else {

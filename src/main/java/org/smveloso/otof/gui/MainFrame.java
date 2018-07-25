@@ -201,7 +201,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpUpdateAlbumSearchBaseDirActionPerformed
 
     private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
-        actionVarreduraIniciar();
+        actionIniciarAtualizacaoAlbum();
     }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
 
     //
@@ -213,13 +213,13 @@ public class MainFrame extends javax.swing.JFrame {
         this.dispose();
     }
     
-    private void actionVarreduraIniciar() {
-        
-        //TODO validações ...
-        
+    private void actionIniciarAtualizacaoAlbum() {
+                
         try {
-            //File baseDir = new File(txtOpVarreduraBaseDir.getText());
+            //TODO validações ...
+            File baseDir = new File(txtOpUpdateAlbumBaseDir.getText());
             LocalFileSystemAlbum localFsAlbum = new LocalFileSystemAlbum();
+            localFsAlbum.setMountPoint(baseDir);
             fotoFacade.performAlbumUpdate(localFsAlbum);
         } catch (FacadeException e) {
             String msg = e.getMessage();

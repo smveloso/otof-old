@@ -17,6 +17,15 @@ import java.util.Date;
  */
 public class JpegUtil {
     
+    public static Date safeGetDataTirada(File file) {
+        Date dateOrNull = null;
+        try {
+           dateOrNull = getDataTirada(file);
+        } catch (JpegUtilException ignored) {
+        }
+        return dateOrNull;
+    }
+    
     public static Date getDataTirada(File file) throws JpegUtilException {
         try {
             //extractAttributes(file);

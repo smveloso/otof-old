@@ -2,7 +2,7 @@ package org.smveloso.otof.service;
 
 import java.io.File;
 import java.util.Iterator;
-import org.smveloso.otof.model.Album;
+import org.smveloso.otof.model.LocalFileSystemAlbum;
 
 /**
  *
@@ -10,13 +10,13 @@ import org.smveloso.otof.model.Album;
  */
 public class LocalFileSystemAlbumUpdater extends AlbumUpdater {
 
-    public LocalFileSystemAlbumUpdater(Album album) {
+    public LocalFileSystemAlbumUpdater(LocalFileSystemAlbum album) {
         super(album);
     }
     
     @Override
     protected void actualInitialization() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override

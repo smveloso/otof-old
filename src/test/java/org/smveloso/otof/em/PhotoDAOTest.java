@@ -18,7 +18,7 @@ public class PhotoDAOTest {
     public void testGetTotalPhotoCount() {
         System.out.println("getTotalPhotoCount");
         PhotoDAO instance = PhotoDAO.getInstance();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.getTotalPhotoCount();
         assertEquals(expResult, result);
     }
@@ -26,7 +26,7 @@ public class PhotoDAOTest {
     @Test
     public void testFindFotoByDigest()  throws Exception {
         PhotoDAO instance = PhotoDAO.getInstance();
-        String digest = "0123456789123456789";
+        String digest = "12345678901234567890";
         Photo photo = instance.findFotoByDigest(digest);
         assertNotNull("Foto nao encontrada por digest.",photo);
         

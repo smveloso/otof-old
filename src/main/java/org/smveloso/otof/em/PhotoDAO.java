@@ -141,7 +141,7 @@ public class PhotoDAO extends DAO implements Serializable {
         Photo foto = null;
         EntityManager em = getEntityManager();
         try {
-            TypedQuery<Photo> tq = em.createNamedQuery("Foto.porDigest", Photo.class);
+            TypedQuery<Photo> tq = em.createNamedQuery("Photo.byDigest", Photo.class);
             tq.setParameter("digest", digest);
             foto = tq.getSingleResult();
         } catch (NoResultException e) {

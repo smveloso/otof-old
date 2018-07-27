@@ -22,9 +22,8 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="photo")
 @NamedQueries({
-    @NamedQuery(name="Photo.byDigest", query="from Photo f where f.fileDigest = :fileDigest")
+    @NamedQuery(name="Photo.byDigest", query="from Photo p where p.fileDigest = :digest")
 })
-
 public class Photo implements Serializable {
 
     private static final long serialVersionUID = 1L;

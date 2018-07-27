@@ -6,7 +6,7 @@ import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
  *
  * @author sergiomv
  */
-public class AlbumUpdaterJob extends Job {
+public class LocalFileSystemAlbumUpdaterJob extends Job {
     
     private LocalFileSystemAlbumUpdater albumUpdater = null;
 

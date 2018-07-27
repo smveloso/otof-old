@@ -23,4 +23,35 @@ public class AlbumDAOTest {
         assertTrue(test.getClass().equals(LocalFileSystemAlbum.class));
     }
 
+    @Test
+    public void testCreateAlbum() throws Exception {
+        
+        String mp = "/var/album/";
+        String nm = "the album";
+        
+        AlbumDAO dao = AlbumDAO.getInstance();
+        LocalFileSystemAlbum album = new LocalFileSystemAlbum();
+        album.setMountPointAsString(mp);
+        album.setName(nm);
+        dao.create(album);
+        
+        Long id = album.getId();
+        assertNotNull(id);
+
+        // by id ...
+        Album retrievedAlbumById = dao.findAlbum(id);
+        assertNotNull(retrievedAlbumById);
+        assertEquals(retrievedAlbumById.getName(),nm);
+        assertTrue(retrievedAlbumById.getClass().equals(LocalFileSystemAlbum.class));
+        assertEquals(((LocalFileSystemAlbum) retrievedAlbumById).getMountPointAsString(), mp);
+        
+        // by name ...
+        Album retrievedAlbumByName = dao.findAlbumByName(nm);
+        assertNotNull(retrievedAlbumByName);
+        assertEquals(retrievedAlbumByName.getName(),nm);
+        assertTrue(retrievedAlbumByName.getClass().equals(LocalFileSystemAlbum.class));
+        assertEquals(((LocalFileSystemAlbum) retrievedAlbumByName).getMountPointAsString(), mp);
+        
+    }
+    
 }

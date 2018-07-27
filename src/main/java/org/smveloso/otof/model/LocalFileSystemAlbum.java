@@ -27,6 +27,7 @@ public class LocalFileSystemAlbum  extends Album {
 
     public void setMountPoint(File mountPoint) {
         this.mountPoint = mountPoint;
+        this.mountPointAsString = mountPoint.getAbsolutePath();
     }
 
     public String getMountPointAsString() {
@@ -35,6 +36,7 @@ public class LocalFileSystemAlbum  extends Album {
 
     public void setMountPointAsString(String mountPointAsString) {
         this.mountPointAsString = mountPointAsString;
+        this.mountPoint = new File(this.mountPointAsString);
     }
     
 }

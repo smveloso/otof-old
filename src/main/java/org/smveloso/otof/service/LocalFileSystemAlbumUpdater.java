@@ -20,7 +20,7 @@ public class LocalFileSystemAlbumUpdater extends AlbumUpdater {
     
     public LocalFileSystemAlbumUpdater(LocalFileSystemAlbum album) {
         super(album);
-        baseDirectory = getFileSystemAlbum().getMountPoint();
+        baseDirectory = ((LocalFileSystemAlbum) album).getMountPoint();
     }
     
     public LocalFileSystemAlbum getFileSystemAlbum() {

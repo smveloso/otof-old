@@ -1,14 +1,12 @@
 package org.smveloso.otof.gui.job;
 
-import net.sf.cglib.core.Local;
-import org.smveloso.otof.service.AlbumUpdater;
 import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
 
 /**
  *
  * @author sergiomv
  */
-public class AlbumUpdaterInitializeJob extends Job {
+public class AlbumUpdaterJob extends Job {
     
     private LocalFileSystemAlbumUpdater albumUpdater = null;
 

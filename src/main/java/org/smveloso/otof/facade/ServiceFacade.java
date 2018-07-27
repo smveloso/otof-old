@@ -1,7 +1,7 @@
 package org.smveloso.otof.facade;
 
 import org.smveloso.otof.service.AlbumUpdater;
-import org.smveloso.otof.gui.job.AlbumUpdaterInitializeJob;
+import org.smveloso.otof.gui.job.AlbumUpdaterJob;
 import java.util.concurrent.ExecutionException;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
@@ -35,7 +35,7 @@ public class ServiceFacade {
 
             LocalFileSystemAlbumUpdater albumUpdater = new LocalFileSystemAlbumUpdater(album);
             albumUpdater.setPhotoJpaController(photoDAO);
-            AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();
+            AlbumUpdaterJob initJob = new AlbumUpdaterJob();
             initJob.setAlbumUpdater(albumUpdater);
             
             DisplayMessageSwingWorker<Void,Void> swingWorker = new DisplayMessageSwingWorker<>();

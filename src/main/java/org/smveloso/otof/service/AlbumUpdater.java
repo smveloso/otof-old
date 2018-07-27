@@ -6,7 +6,6 @@ import org.smveloso.otof.util.digest.DigestUtilException;
 import org.smveloso.otof.util.digest.DigestUtil;
 import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.em.PhotoDAO;
-import org.smveloso.otof.util.jpeg.JpegUtilException;
 import org.smveloso.otof.util.jpeg.JpegUtil;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.model.Album;
@@ -97,23 +96,22 @@ public abstract class AlbumUpdater {
                     newPhoto.setFileSize(this.lastProcessedFile.length());
                     photoJpaController.create(newPhoto);
 
+                    // localtiondao.registraFotoEmAlbum(getAlbum(),newFoto)
+                    
                 } else {
                  
                     // foi localizada uma copia de foto conhecida pelo otof
                     
                     // sera que o album em atualizacao ja a registra ?
                     
-                    // 1. verificar se o 'path' existe para o album
-                    // 1.1. nao existe -> criar registro
-                    // 1.2. existe -> 2
-                    // 2. verificar se o 'path' corresponde aa mesma foto
-                    // 2.1. sim ? -> nada a fazer
-                    // 2.2. nao ? -> atualizar registro, apontando a foto certa
-                    
-                    
-                    
-                    
+                    // done = albumdao.isFotoInAlbum(getAlbum(),alreadySeenPhoto)
 
+                    // not done ?
+                    // localtiondao.registraFotoEmAlbum(getAlbum(),alreadySeenPhoto)
+
+                    // done !
+                    // maybe check if the photo is the same (by digest)
+                    //   -- update if not
                     
                 }
                 

@@ -1,6 +1,8 @@
 package org.smveloso.otof.gui.job;
 
+import net.sf.cglib.core.Local;
 import org.smveloso.otof.service.AlbumUpdater;
+import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
 
 /**
  *
@@ -8,30 +10,41 @@ import org.smveloso.otof.service.AlbumUpdater;
  */
 public class AlbumUpdaterInitializeJob extends Job {
     
-    private AlbumUpdater albumUpdater = null;
+    private LocalFileSystemAlbumUpdater albumUpdater = null;
 
-    public AlbumUpdater getAlbumUpdater() {
+    public LocalFileSystemAlbumUpdater getAlbumUpdater() {
         return albumUpdater;
     }
 
-    public void setAlbumUpdater(AlbumUpdater albumUpdater) {
+    public void setAlbumUpdater(LocalFileSystemAlbumUpdater albumUpdater) {
         this.albumUpdater = albumUpdater;
     }
     
     @Override
     public void run() {
-        String msgUm = "Analyzing base directory ...";
-        String msgDois = "Done";
 
         setProgresso(0);
-        setMensagem(msgUm);
+        setMensagem("Analisando diretório: " + albumUpdater.getFileSystemAlbum().getMountPoint());
         
         try {
             this.albumUpdater.initialize();
-            setProgresso(100);
-            setMensagem(msgDois);
+            
+            int total = albumUpdater.getNumberOfFilesToProcess();
+
+            if (total > 0) {
+            
+                int processed = 0;
+
+                do {
+                    albumUpdater.processNextFile();
+                    processed++;
+                    setMensagem("Processado " + processed + " de um total de " + total);
+                } while (albumUpdater.hasMoreFiles());
+            
+            }
+            
         } catch (Throwable t) {
-            throw new RuntimeException("ARG!",t);
+            throw new RuntimeException(t.getMessage(),t);
         }
     }
     

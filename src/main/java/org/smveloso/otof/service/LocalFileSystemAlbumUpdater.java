@@ -23,7 +23,7 @@ public class LocalFileSystemAlbumUpdater extends AlbumUpdater {
         baseDirectory = getFileSystemAlbum().getMountPoint();
     }
     
-    private LocalFileSystemAlbum getFileSystemAlbum() {
+    public LocalFileSystemAlbum getFileSystemAlbum() {
         return (LocalFileSystemAlbum) this.album;
     }
     

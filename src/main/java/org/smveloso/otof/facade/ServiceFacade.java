@@ -33,7 +33,7 @@ public class ServiceFacade {
         
         try {
 
-            AlbumUpdater albumUpdater = new LocalFileSystemAlbumUpdater(album);
+            LocalFileSystemAlbumUpdater albumUpdater = new LocalFileSystemAlbumUpdater(album);
             albumUpdater.setPhotoJpaController(photoDAO);
             AlbumUpdaterInitializeJob initJob = new AlbumUpdaterInitializeJob();
             initJob.setAlbumUpdater(albumUpdater);

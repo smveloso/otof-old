@@ -37,6 +37,10 @@ public abstract class AlbumUpdater {
         this.remainingFiles = getNumberOfFilesToProcess();        
     }
 
+    public Album getAlbum() {
+        return this.album;
+    }
+    
     /** How many files are there to process 
      *  during the creation/updating of the
      *  album ?

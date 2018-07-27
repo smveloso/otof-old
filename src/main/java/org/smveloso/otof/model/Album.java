@@ -2,7 +2,6 @@ package org.smveloso.otof.model;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,11 +24,14 @@ public abstract class Album implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    protected String name;
+        
     /** For future use.
      *  Is this album available only on the cloud side ?
      */
     @Column(nullable = false)
-    private boolean serverSide;
+    protected boolean serverSide;
     
     public Long getId() {
         return id;
@@ -46,7 +48,15 @@ public abstract class Album implements Serializable {
     public void setServerSide(boolean serverSide) {
         this.serverSide = serverSide;
     }
- 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+     
     @OneToMany(mappedBy = "album")
     public Set<Location> locations;
     

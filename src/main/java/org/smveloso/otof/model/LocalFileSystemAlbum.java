@@ -11,7 +11,7 @@ public class LocalFileSystemAlbum  extends Album {
     //TODO entity stuff !?
     
     public LocalFileSystemAlbum() {
-        setServerSide(false);
+        serverSide = false;
     }
 
     /** A File object that points to the

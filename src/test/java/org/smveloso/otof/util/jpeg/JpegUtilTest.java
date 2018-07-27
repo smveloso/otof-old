@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.smveloso.otof.test.TestUtil;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class JpegUtilTest {
     
@@ -27,7 +27,7 @@ public class JpegUtilTest {
         Date expResult = cal.getTime();
         Date result = JpegUtil.getDataTirada(file);
         // apenas a data
-        assertTrue(util.compareDateOnly(result, expResult));
+        Assert.assertTrue(util.compareDateOnly(result, expResult));
     }
     
 }

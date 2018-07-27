@@ -1,16 +1,16 @@
 package org.smveloso.otof.em;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.smveloso.otof.model.Photo;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class PhotoDAOTest {
     
     public PhotoDAOTest() {
     }
     
-    @Before
+    @BeforeClass
     public void setUp() {
     }
 
@@ -20,7 +20,7 @@ public class PhotoDAOTest {
         PhotoDAO instance = PhotoDAO.getInstance();
         int expResult = 1;
         int result = instance.getTotalPhotoCount();
-        assertEquals(expResult, result);
+        Assert.assertEquals(expResult, result);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class PhotoDAOTest {
         PhotoDAO instance = PhotoDAO.getInstance();
         String digest = "12345678901234567890";
         Photo photo = instance.findFotoByDigest(digest);
-        assertNotNull("Foto nao encontrada por digest.",photo);
+        Assert.assertNotNull(photo,"Foto nao encontrada por digest.");
         
     }
     

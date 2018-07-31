@@ -50,12 +50,6 @@
             </plugin>
 
             <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.26.1</version>                
-            </plugin>
-
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2</version>
@@ -178,6 +172,61 @@
                     </plugin>         
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>dbtest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.26.1</version>                
+                        <configuration>
+                            <images>
+                                <image>
+                                    <alias>h2db</alias>
+                                    <name>oscarfonts/h2</name>
+                                    <run>
+                                        <ports>
+                                            <port>1521:1521</port>
+                                            <port>81:81</port>
+                                        </ports>
+                                        <volumes>
+                                            <bind>
+                                                <volume>/home/sergio/Env/code/otof-old:/opt/h2-data</volume>
+                                            </bind>
+                                        </volumes>
+                                        <wait>
+                                            <!-- poderia usar <log> se a imagem confirmasse que o h2 subiu ... -->
+                                            <time>5000</time>
+                                        </wait>
+                                    </run>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>startdb</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stopdb</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>                    
+                </plugins>
+            </build>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
 
         <profile>

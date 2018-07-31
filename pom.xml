@@ -196,7 +196,7 @@
                                         </ports>
                                         <volumes>
                                             <bind>
-                                                <volume>/home/sergio/Env/code/otof-old:/opt/h2-data</volume>
+                                                <volume>/home/sergio/Env/code/otof-old/h2:/opt/h2-data</volume>
                                             </bind>
                                         </volumes>
                                         <wait>

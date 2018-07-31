@@ -43,8 +43,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
                 <configuration>
+                    <!-- exclui testes de integracao. veja failsafe-plugin. -->
                     <excludes>
-                        <exclude>**/*DAO*.java</exclude>
+                        <exclude>**/*DAOTest.java</exclude>
+                        <exclude>**/*IntTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -221,7 +223,28 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.22.0</version>
+                        <configuration>
+                            <includes>
+                                <include>**/*DAOTest.java</include>
+                                <include>**/*IntTest.java</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>                        
                     </plugin>                    
+                                                                                                    
                 </plugins>
             </build>
             <activation>

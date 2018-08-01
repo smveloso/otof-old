@@ -6,6 +6,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class PhotoDAOTest {
+
+    // Neste sistema, a hibernatefactory é alocada
+    // implicitamente (vide DAO e JpaManager.
+    
+    // Nao parece ser necessário usar um @Before{Class,Group,...)
+    // para ativar o mecanismo ORM.
+
+    // Por outro lado, o banco de dados sofre
+    // alterações externas entre os testes.
     
     public PhotoDAOTest() {
     }

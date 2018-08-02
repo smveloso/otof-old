@@ -18,6 +18,7 @@ public class JpegUtilTest {
 
     @Test
     public void testGetDataTirada() throws Exception {
+        System.out.println(">>> JpegUtilTest.testGetDataTirada");
         File file = util.searchFileInClasspath("foto-1.jpg");
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone("BRST"));

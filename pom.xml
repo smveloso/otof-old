@@ -47,6 +47,7 @@
                     <excludes>
                         <exclude>**/*DAOTest.java</exclude>
                         <exclude>**/*IntTest.java</exclude>
+                        <exclude>JpaBaseTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

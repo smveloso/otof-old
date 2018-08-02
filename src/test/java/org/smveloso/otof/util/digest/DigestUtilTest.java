@@ -14,6 +14,7 @@ public class DigestUtilTest {
     
     @Test
     public void testGetSha1HexEncoded() throws Exception {
+        System.out.println(">>> DigestUtilTest.testGetSha1HexEncoded");
         File arquivo = util.searchFileInClasspath("89db6573a0444b073bf6a454626e1816041e9424");
         Assert.assertTrue(arquivo.exists(),"Test file not found.");
         String expResult = "89db6573a0444b073bf6a454626e1816041e9424";

@@ -45,7 +45,7 @@ public abstract class JpaTestUtil {
     @BeforeClass(groups = "jpa-test")
     void prepareDataSet() throws Exception {        
         System.out.println(">>> prepareDataSet");
-        System.out.println(">>> WARNING: returning only true.");
+        System.out.println(">>> WARNING: if true return");
         
         if (true) {
             return;

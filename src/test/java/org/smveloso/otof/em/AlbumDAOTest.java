@@ -26,7 +26,7 @@ public class AlbumDAOTest extends JpaBaseTest {
 
     @Test(groups="jpa-test")
     public void testFindAlbumByName() throws Exception {
-        System.out.println(">>> testFindAlbumByName");
+        System.out.println(">>> AlbumDAOTest.testFindAlbumByName");
         AlbumDAO dao = AlbumDAO.getInstance();
         String name = "Test Album One";
         Album test = dao.findAlbumByName(name);
@@ -34,9 +34,9 @@ public class AlbumDAOTest extends JpaBaseTest {
         assertTrue(test.getClass().equals(LocalFileSystemAlbum.class));
     }
         
-    @Test
+    @Test(groups="jpa-test")
     public void testCreateAlbum() throws Exception {
-        System.out.println(">>> testCreateAlbum");
+        System.out.println(">>> AlbumDAOTest.testCreateAlbum");
         
         String mp = "/var/album/";
         String nm = "the album";
@@ -68,7 +68,7 @@ public class AlbumDAOTest extends JpaBaseTest {
 
     @Override
     protected void prepareSettings() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(">>> AlbumDAOTest.prepareSettings");
     }
     
 }

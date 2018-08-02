@@ -13,6 +13,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.smveloso.otof.em.JpaManager;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -31,52 +32,53 @@ public abstract class JpaBaseTest {
     private ReplacementDataSet dataSet;
 
     @BeforeTest(groups = "jpa-test")
-    void startEMFactory() throws Exception {
-        System.out.println(">>> startEMFactory");
+    public void startEMFactory() throws Exception {
+        System.out.println(">>> base.beforeTest");
         JpaManager.getInstance();
     }
 
     @AfterTest(groups = "jpa-test")
-    void stopEMFactory() throws Exception {
-        System.out.println(">>> stopEMFactory");
+    public void stopEMFactory() throws Exception {
+        System.out.println(">>> base.AfterTest");
         JpaManager.getInstance().finish();
     }
     
     @BeforeClass(groups = "jpa-test")
-    void prepareDataSet() throws Exception {        
-        System.out.println(">>> prepareDataSet");
-        System.out.println(">>> WARNING: if true return");
-        
-        if (true) {
-            return;
-        }
+    public void prepareDataSet() throws Exception {        
+        System.out.println(">>> base.BeforeClass");
 
         // Check if subclass has prepared everything        
         prepareSettings();
         if (dataSetLocation == null) {
-            throw new RuntimeException("Test subclass needs to prepare a dataset location");        
+            System.out.println(" WARN: no dataSetLocation defined.");
+        } else {
+            // Load the base dataset file        
+            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation); 
+            dataSet = new ReplacementDataSet(buildFlatXmlDataSet(input));        
+            dataSet.addReplacementObject("[NULL]", null);
         }
-        // Load the base dataset file        
-        InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation); 
-        dataSet = new ReplacementDataSet(buildFlatXmlDataSet(input));        
-        dataSet.addReplacementObject("[NULL]", null);    
     }    
+    
+    @AfterClass
+    public void afterClassPlaceHolder() {
+        System.out.println(">>> base.afterClassPlaceHolder");
+    }
     
     private FlatXmlDataSet buildFlatXmlDataSet(InputStream input) throws DataSetException {
         return new FlatXmlDataSetBuilder().build(input);
     }
     
-    @BeforeMethod(groups = "jpa-test")     
-    void beforeTestMethod() throws Exception {        
-        System.out.println(">>> beforeTestMethod");
+    @BeforeMethod()     
+    public void beforeTestMethod() throws Exception {        
+        System.out.println(">>> base.beforeTestMethod");
         for (DatabaseOperation op : beforeTestOperations ) {
             op.execute(getConnection(), dataSet);        
         }    
     }      
     
-    @AfterMethod(groups = "jpa-test")     
-    void afterTestMethod() throws Exception {
-        System.out.println(">>> afterTestMethod");
+    @AfterMethod()     
+    public void afterTestMethod() throws Exception {
+        System.out.println(">>> base.afterTestMethod");
         for (DatabaseOperation op : afterTestOperations ) {            
             op.execute(getConnection(), dataSet);        
         }    

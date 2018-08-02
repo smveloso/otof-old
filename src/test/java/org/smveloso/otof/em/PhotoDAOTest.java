@@ -1,10 +1,12 @@
 package org.smveloso.otof.em;
 
+import org.dbunit.operation.DatabaseOperation;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.test.JpaBaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PhotoDAOTest {
+public class PhotoDAOTest extends JpaBaseTest {
 
     // Neste sistema, a hibernatefactory é alocada
     // implicitamente (vide DAO e JpaManager.
@@ -35,6 +37,15 @@ public class PhotoDAOTest {
         Photo photo = instance.findFotoByDigest(digest);
         Assert.assertNotNull(photo,"Foto nao encontrada por digest.");
         
+    }
+
+    @Override
+    protected void prepareSettings() {
+         System.out.println(">>> PhotoDAOTest.prepareSettings");
+        dataSetLocation = "org/smveloso/otof/em/photoDAOTestDS.xml";
+        beforeTestOperations.add(DatabaseOperation.DELETE_ALL);
+        beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);
+        afterTestOperations.add(DatabaseOperation.DELETE_ALL);    
     }
     
 }

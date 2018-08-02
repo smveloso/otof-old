@@ -1,5 +1,6 @@
 package org.smveloso.otof.em;
 
+import org.dbunit.operation.DatabaseOperation;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.test.JpaBaseTest;
@@ -32,6 +33,7 @@ public class AlbumDAOTest extends JpaBaseTest {
         Album test = dao.findAlbumByName(name);
         assertNotNull(test,"Album nao encontrado por nome.");
         assertTrue(test.getClass().equals(LocalFileSystemAlbum.class));
+        assertTrue(((LocalFileSystemAlbum) test).getMountPointAsString().equals("/the/path"));
     }
         
     @Test(groups="jpa-test")
@@ -69,6 +71,10 @@ public class AlbumDAOTest extends JpaBaseTest {
     @Override
     protected void prepareSettings() {
         System.out.println(">>> AlbumDAOTest.prepareSettings");
+        dataSetLocation = "org/smveloso/otof/em/albumDAOTestDS.xml";
+        beforeTestOperations.add(DatabaseOperation.DELETE_ALL);
+        beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);
+        afterTestOperations.add(DatabaseOperation.DELETE_ALL);
     }
     
 }

@@ -52,8 +52,11 @@ public abstract class JpaBaseTest {
         if (dataSetLocation == null) {
             System.out.println(" WARN: no dataSetLocation defined.");
         } else {
-            // Load the base dataset file        
+            // Load the base dataset file
             InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation); 
+            if (null == input) {
+                throw new Exception("dataset nao encontrado: " + dataSetLocation);
+            }
             dataSet = new ReplacementDataSet(buildFlatXmlDataSet(input));        
             dataSet.addReplacementObject("[NULL]", null);
         }

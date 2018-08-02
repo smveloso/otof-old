@@ -23,7 +23,7 @@ import org.testng.annotations.BeforeTest;
  *
  * @author sergio
  */
-public abstract class JpaTestUtil {
+public abstract class JpaBaseTest {
 
     protected String dataSetLocation;     
     protected List<DatabaseOperation> beforeTestOperations = new ArrayList<>();

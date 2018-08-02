@@ -32,16 +32,25 @@ public abstract class JpaTestUtil {
 
     @BeforeTest(groups = "jpa-test")
     void startEMFactory() throws Exception {
+        System.out.println(">>> startEMFactory");
         JpaManager.getInstance();
     }
 
     @AfterTest(groups = "jpa-test")
     void stopEMFactory() throws Exception {
+        System.out.println(">>> stopEMFactory");
         JpaManager.getInstance().finish();
     }
     
     @BeforeClass(groups = "jpa-test")
     void prepareDataSet() throws Exception {        
+        System.out.println(">>> prepareDataSet");
+        System.out.println(">>> WARNING: returning only true.");
+        
+        if (true) {
+            return;
+        }
+
         // Check if subclass has prepared everything        
         prepareSettings();
         if (dataSetLocation == null) {
@@ -59,13 +68,15 @@ public abstract class JpaTestUtil {
     
     @BeforeMethod(groups = "jpa-test")     
     void beforeTestMethod() throws Exception {        
+        System.out.println(">>> beforeTestMethod");
         for (DatabaseOperation op : beforeTestOperations ) {
             op.execute(getConnection(), dataSet);        
         }    
     }      
     
     @AfterMethod(groups = "jpa-test")     
-    void afterTestMethod() throws Exception {        
+    void afterTestMethod() throws Exception {
+        System.out.println(">>> afterTestMethod");
         for (DatabaseOperation op : afterTestOperations ) {            
             op.execute(getConnection(), dataSet);        
         }    

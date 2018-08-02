@@ -26,19 +26,20 @@ public class JpaManager {
 
     private EntityManagerFactory emFactory = null;
     
-    private void init() {
-        if (null == emFactory) {
+    public synchronized boolean isInitialized() {
+        return (null != emFactory) && emFactory.isOpen();
+    }
+    
+    private synchronized void init() {
+        if (!isInitialized()) {
             emFactory = Persistence.createEntityManagerFactory("org.smveloso_otof_jar_1-SNAPSHOTPU");
         }
     }
     
     public synchronized void finish() {
-        // sanidade
-        if (null == emFactory) {
-            throw new IllegalStateException("EM Factory is null during finish.");
+        if (isInitialized()) {
+            emFactory.close();
         }
-        emFactory.close();
-        instance = null;
     }
     
     protected synchronized EntityManagerFactory getFactory() {

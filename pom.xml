@@ -72,6 +72,7 @@
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <h2.version>1.3.176</h2.version>
     </properties>
 
     <dependencies>
@@ -193,7 +194,7 @@
                                         </ports>
                                         <volumes>
                                             <bind>
-                                                <volume>/home/sergio/Env/code/otof-old/h2:/opt/h2-data</volume>
+                                                <volume>${basedir}/target/h2:/opt/h2-data</volume>
                                             </bind>
                                         </volumes>
                                         <wait>

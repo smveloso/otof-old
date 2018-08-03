@@ -6,7 +6,7 @@
     <class>org.smveloso.otof.model.Photo</class>
     <class>org.smveloso.otof.model.Location</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:1521/otofdatabase"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/otofdatabase"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

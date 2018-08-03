@@ -2,8 +2,10 @@ package org.smveloso.otof.test;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
@@ -12,6 +14,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
+import org.hibernate.jdbc.ReturningWork;
 import org.smveloso.otof.em.JpaManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -74,30 +77,43 @@ public abstract class JpaBaseTest {
     @BeforeMethod()     
     public void beforeTestMethod() throws Exception {        
         System.out.println(">>> base.beforeTestMethod");
-        for (DatabaseOperation op : beforeTestOperations ) {
-            op.execute(getConnection(), dataSet);        
-        }    
+        for (DatabaseOperation operation:beforeTestOperations) {
+            ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class))
+                    .doReturningWork(new InnerReturningWork(operation));
+        }
     }      
     
     @AfterMethod()     
     public void afterTestMethod() throws Exception {
         System.out.println(">>> base.afterTestMethod");
-        for (DatabaseOperation op : afterTestOperations ) {            
-            op.execute(getConnection(), dataSet);        
-        }    
+        for (DatabaseOperation operation:afterTestOperations) {
+            ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class))
+                    .doReturningWork(new InnerReturningWork(operation));
+        }
     }    
 
-    // Subclasses can/have to override the following methods    
-    protected IDatabaseConnection getConnection() throws Exception {         
-        
-        // Get a JDBC connection from Hibernate        
-        // WARNING: https://stackoverflow.com/questions/3493495/getting-database-connection-in-pure-jpa-setup
-        Connection con = ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class)).connection();
-        // Disable foreign key constraint checking
-        con.prepareStatement("set referential_integrity FALSE").execute();        
-        return new DatabaseConnection(con);
-    }    
-    
     protected abstract void prepareSettings(); 
+ 
+    class InnerReturningWork implements ReturningWork<Void> {
+
+        DatabaseOperation operation;
         
+        public InnerReturningWork(DatabaseOperation operation) {
+            this.operation = operation;
+        }
+        
+        @Override
+        public Void execute(Connection connection) throws SQLException {
+            try {
+                connection.prepareStatement("set referential_integrity FALSE").execute();            
+                DatabaseConnection dbConnection = new DatabaseConnection(connection);
+                operation.execute(dbConnection, dataSet);
+            } catch (DatabaseUnitException mapped) {
+                throw new SQLException("Mapped DatabaseUnitException: " + mapped.getMessage(),mapped);
+            }
+            return null;
+        }
+    
+    };
+    
 }

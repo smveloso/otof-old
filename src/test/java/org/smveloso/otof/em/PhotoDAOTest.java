@@ -35,6 +35,7 @@ public class PhotoDAOTest extends JpaBaseTest {
         PhotoDAO instance = PhotoDAO.getInstance();
         String digest = "12345678901234567890";
         Photo photo = instance.findFotoByDigest(digest);
+        System.out.println("FOTO IS NULL ? " + (null == photo));
         Assert.assertNotNull(photo,"Foto nao encontrada por digest.");
         
     }

@@ -73,6 +73,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <h2.version>1.3.176</h2.version>
+        <h2.tcpPort>9092</h2.tcpPort>
+        <h2.webPort>8082</h2.webPort>
+        <h2.tcpPassword></h2.tcpPassword>
     </properties>
 
     <dependencies>
@@ -189,8 +192,8 @@
                                     <name>oscarfonts/h2</name>
                                     <run>
                                         <ports>
-                                            <port>9092:1521</port>
-                                            <port>8082:81</port>
+                                            <port>${h2.tcpPort}:1521</port>
+                                            <port>${h2.webPort}:81</port>
                                         </ports>
                                         <volumes>
                                             <bind>
@@ -250,8 +253,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-        </profile>
-                                                                        
+        </profile>                                                                        
     </profiles>
 
 

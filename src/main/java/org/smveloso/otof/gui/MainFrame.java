@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
+import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 
 /**
@@ -20,10 +21,10 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initLookAndFeel();
         initComponents();
-        fotoFacade = ServiceFacade.getInstance();
+        serviceFacade = ServiceFacade.getInstance();
     }
 
-    private ServiceFacade fotoFacade;
+    private ServiceFacade serviceFacade;
     
     
     /**
@@ -44,6 +45,8 @@ public class MainFrame extends javax.swing.JFrame {
         lblOpUpdateAlbumBaseDir = new javax.swing.JLabel();
         txtOpUpdateAlbumBaseDir = new javax.swing.JTextField();
         btnOpUpdateAlbumSearchBaseDir = new javax.swing.JButton();
+        lblOpUpdateAlbumName = new javax.swing.JLabel();
+        txtOpUpdateAlbumName = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         pnlBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -82,20 +85,26 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        lblOpUpdateAlbumName.setText("Nome:");
+
         javax.swing.GroupLayout pnlOpUpdateAlbumLayout = new javax.swing.GroupLayout(pnlOpUpdateAlbum);
         pnlOpUpdateAlbum.setLayout(pnlOpUpdateAlbumLayout);
         pnlOpUpdateAlbumLayout.setHorizontalGroup(
             pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpUpdateAlbumLayout.createSequentialGroup()
+            .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
+                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpUpdateAlbumLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
-                        .addComponent(lblOpUpdateAlbumBaseDir)
+                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOpUpdateAlbumBaseDir)
+                            .addComponent(lblOpUpdateAlbumName))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                            .addComponent(txtOpUpdateAlbumName))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpUpdateAlbumSearchBaseDir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -105,9 +114,17 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOpUpdateAlbumBaseDir)
-                    .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOpUpdateAlbumSearchBaseDir))
+                    .addComponent(lblOpUpdateAlbumName)
+                    .addComponent(txtOpUpdateAlbumName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnOpUpdateAlbumSearchBaseDir))
+                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblOpUpdateAlbumBaseDir)
+                            .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOpUpdateAlbum))
         );
@@ -143,7 +160,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         tabpnlMain.addTab("Album", pnlAlbum);
@@ -217,10 +234,13 @@ public class MainFrame extends javax.swing.JFrame {
                 
         try {
             //TODO validações ...
-            File baseDir = new File(txtOpUpdateAlbumBaseDir.getText());
-            LocalFileSystemAlbum localFsAlbum = new LocalFileSystemAlbum();
-            localFsAlbum.setMountPoint(baseDir);
-            fotoFacade.performAlbumUpdate(localFsAlbum);
+            String baseDir = txtOpUpdateAlbumBaseDir.getText();
+            String albumName = txtOpUpdateAlbumName.getText();
+            Album album = serviceFacade.getAlbumByName(albumName);
+            if (null == album) {
+                album = serviceFacade.newLocalFileSystemAlbum(albumName, baseDir);
+            }
+            serviceFacade.performAlbumUpdate(album);
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
@@ -311,6 +331,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOpUpdateAlbumSearchBaseDir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblOpUpdateAlbumBaseDir;
+    private javax.swing.JLabel lblOpUpdateAlbumName;
     private javax.swing.JPanel pnlAlbum;
     private javax.swing.JPanel pnlBottom;
     private javax.swing.JPanel pnlOpUpdateAlbum;
@@ -318,5 +339,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup radioGrpLimpeza;
     private javax.swing.JTabbedPane tabpnlMain;
     private javax.swing.JTextField txtOpUpdateAlbumBaseDir;
+    private javax.swing.JTextField txtOpUpdateAlbumName;
     // End of variables declaration//GEN-END:variables
 }

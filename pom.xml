@@ -189,12 +189,14 @@
                                     <name>oscarfonts/h2</name>
                                     <run>
                                         <ports>
-                                            <port>1521:1521</port>
-                                            <port>81:81</port>
+                                            <port>9092:1521</port>
+                                            <port>8082:81</port>
                                         </ports>
                                         <volumes>
                                             <bind>
-                                                <volume>${basedir}/target/h2:/opt/h2-data</volume>
+                                                <!-- PRECISA CRIAR O ESQUEMA ANTES PARA PODER NAO USAR VOLUME LOCAL -->
+                                                <!-- <volume>${basedir}/target/h2:/opt/h2-data</volume> -->
+                                                <volume>${basedir}/h2:/opt/h2-data</volume>
                                             </bind>
                                         </volumes>
                                         <wait>

@@ -125,6 +125,12 @@ public class AlbumDAO extends DAO implements Serializable {
         }
     }
 
+    /* como o EM eh sempre re-criado, nunca será 'managed' ...
+    public boolean isManaged(Album album) {
+        return getEntityManager().contains(album);
+    }
+    */
+    
     public Album findAlbumByName(String name) throws EmException {
         Album album = null;
         EntityManager em = getEntityManager();

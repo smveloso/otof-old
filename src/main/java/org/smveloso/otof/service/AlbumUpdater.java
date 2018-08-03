@@ -2,6 +2,7 @@ package org.smveloso.otof.service;
 
 import java.io.File;
 import java.util.Iterator;
+import org.smveloso.otof.em.AlbumDAO;
 import org.smveloso.otof.util.digest.DigestUtilException;
 import org.smveloso.otof.util.digest.DigestUtil;
 import org.smveloso.otof.em.exception.EmException;
@@ -17,7 +18,8 @@ import org.smveloso.otof.model.Photo;
  */
 public abstract class AlbumUpdater {
 
-    private PhotoDAO photoJpaController;
+    private PhotoDAO photoDAO;
+    private AlbumDAO albumDAO;
     
     protected final Album album;
 
@@ -29,7 +31,7 @@ public abstract class AlbumUpdater {
         this.album = album;
     }
     
-    public void initialize() throws FacadeException {
+    public void initialize() throws FacadeException {      
         actualInitialization();
         this.lastProcessedFile = null;
         this.iterator = getFileIterator();
@@ -61,8 +63,12 @@ public abstract class AlbumUpdater {
      */
     protected abstract void actualInitialization();
     
-    public void setPhotoJpaController(PhotoDAO photoJpaController) {
-        this.photoJpaController = photoJpaController;
+    public void setPhotoDAO(PhotoDAO photoDAO) {
+        this.photoDAO = photoDAO;
+    }
+    
+    public void setAlbumDAO(AlbumDAO albumDAO) {
+        this.albumDAO = albumDAO;
     }
     
     public File getLastProcessedFile() {
@@ -87,33 +93,22 @@ public abstract class AlbumUpdater {
                 
                 String digest = DigestUtil.getSha1HexEncoded(this.lastProcessedFile);
 
-                Photo alreadySeenPhoto = photoJpaController.findFotoByDigest(digest);
-                if (null == alreadySeenPhoto) {
-
-                    Photo newPhoto = new Photo();
-                    newPhoto.setFileDigest(digest);
-                    newPhoto.setDateTaken(JpegUtil.safeGetDataTirada(this.lastProcessedFile));                                        
-                    newPhoto.setFileSize(this.lastProcessedFile.length());
-                    photoJpaController.create(newPhoto);
-
-                    // localtiondao.registraFotoEmAlbum(getAlbum(),newFoto)
-                    
-                } else {
-                 
-                    // foi localizada uma copia de foto conhecida pelo otof
-                    
-                    // sera que o album em atualizacao ja a registra ?
-                    
-                    // done = albumdao.isFotoInAlbum(getAlbum(),alreadySeenPhoto)
-
-                    // not done ?
-                    // localtiondao.registraFotoEmAlbum(getAlbum(),alreadySeenPhoto)
-
-                    // done !
-                    // maybe check if the photo is the same (by digest)
-                    //   -- update if not
-                    
+                Photo photo = photoDAO.findFotoByDigest(digest);
+                
+                if (null == photo) {
+                    photo = new Photo();
+                    photo.setFileDigest(digest);
+                    photo.setDateTaken(JpegUtil.safeGetDataTirada(this.lastProcessedFile));                                        
+                    photo.setFileSize(this.lastProcessedFile.length());
+                    photoDAO.create(photo);
                 }
+
+                // TODO checar se ha alguma foto associada ao album
+                //      pelo mesmo path e ...
+                //      se for a mesma foto, pular
+                //      se for outra foto, remover a associacao e criar outra
+                
+
                 
             } else {
                 throw new FacadeException("Illegal state: nothing to process.");

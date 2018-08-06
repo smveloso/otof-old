@@ -75,7 +75,6 @@
         <h2.version>1.3.176</h2.version>
         <h2.tcpPort>9092</h2.tcpPort>
         <h2.webPort>8082</h2.webPort>
-        <h2.tcpPassword></h2.tcpPassword>
     </properties>
 
     <dependencies>
@@ -94,19 +93,10 @@
             <scope>test</scope>
         </dependency>
          
-        <!-- There seems to be no 'official' jpa 2 api jar anywhere ... 
-             This one is actually included by the hibernate em
-        -->
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.1.Final</version>
-        </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.6.10.Final</version>    
+            <version>5.3.3.Final</version>    
         </dependency>    
     
         <dependency>
@@ -147,32 +137,13 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>hibernate3-maven-plugin</artifactId>
-                        <version>3.0</version>
+                        <groupId>de.juplo</groupId>
+                        <artifactId>hibernate-maven-plugin</artifactId>
+                        <version>2.1.1</version>
                         <configuration>
-                            <hibernatetool>
-                                <jpaconfiguration persistenceunit="org.smveloso_otof_jar_1-SNAPSHOTPU" />
-                                <!-- http://docs.jboss.org/tools/3.3.0.Final/en/hibernatetools/html_single/index.html#d0e4651 -->
-                                <hbm2ddl update="false"
-                                         drop="true"
-                                         create="true" 
-                                         export="false"
-                                         outputfilename="schema.sql" 
-                                         format="true"
-                                         console="true" />
-                            </hibernatetool>
+                            <execute>false</execute>
                         </configuration>
-                        <!--
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.h2database</groupId>
-                                <artifactId>h2</artifactId>
-                                <version>1.3.174</version>                                
-                            </dependency>
-                        </dependencies>
-                        -->
-                    </plugin>         
+                    </plugin>                                                    
                 </plugins>
             </build>
         </profile>
@@ -181,6 +152,7 @@
             <id>dbtest</id>
             <build>
                 <plugins>
+
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
@@ -197,13 +169,14 @@
                                         </ports>
                                         <volumes>
                                             <bind>
-                                                <volume>/home/sergio/Env/code/otof-old/h2:/opt/h2-data</volume>
+                                                <!-- <volume>${basedir}/target/h2:/opt/h2-data</volume> -->
                                             </bind>
                                         </volumes>
                                         <wait>
                                             <!-- poderia usar <log> se a imagem confirmasse que o h2 subiu ... -->
                                             <time>5000</time>
                                         </wait>
+                                        <cmd>java -cp /opt/h2/bin/h2-1.4.197.jar org.h2.tools.Server -trace   -web -webAllowOthers -webPort 81  -tcp -tcpAllowOthers -tcpPort 1521  -baseDir /opt/h2-data</cmd>
                                     </run>
                                 </image>
                             </images>
@@ -225,7 +198,24 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+
+                    <plugin>
+                        <groupId>de.juplo</groupId>
+                        <artifactId>hibernate-maven-plugin</artifactId>
+                        <version>2.1.1</version>
+                        <configuration>
+                            <execute>true</execute>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>create</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase>
+                            </execution>
+                        </executions>
+                    </plugin>                                                    
+                                                                                
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>

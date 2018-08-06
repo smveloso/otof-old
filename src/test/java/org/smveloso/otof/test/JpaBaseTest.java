@@ -2,8 +2,11 @@ package org.smveloso.otof.test;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
@@ -12,6 +15,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
+import org.hibernate.jdbc.ReturningWork;
 import org.smveloso.otof.em.JpaManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -73,31 +77,57 @@ public abstract class JpaBaseTest {
     
     @BeforeMethod()     
     public void beforeTestMethod() throws Exception {        
-        System.out.println(">>> base.beforeTestMethod");
-        for (DatabaseOperation op : beforeTestOperations ) {
-            op.execute(getConnection(), dataSet);        
-        }    
-    }      
+        System.out.println(Thread.currentThread().getId() + ">>> base.beforeTestMethod");
+        for (DatabaseOperation operation:beforeTestOperations) {
+            processOperation(operation);
+        }      
+    }
     
     @AfterMethod()     
     public void afterTestMethod() throws Exception {
-        System.out.println(">>> base.afterTestMethod");
-        for (DatabaseOperation op : afterTestOperations ) {            
-            op.execute(getConnection(), dataSet);        
-        }    
-    }    
+        System.out.println(Thread.currentThread().getId() + ">>> base.afterTestMethod");
+        for (DatabaseOperation operation:afterTestOperations) {
+            processOperation(operation);
+        }   
+    }
 
-    // Subclasses can/have to override the following methods    
-    protected IDatabaseConnection getConnection() throws Exception {         
-        
-        // Get a JDBC connection from Hibernate        
-        // WARNING: https://stackoverflow.com/questions/3493495/getting-database-connection-in-pure-jpa-setup
-        Connection con = ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class)).connection();
-        // Disable foreign key constraint checking
-        con.prepareStatement("set referential_integrity FALSE").execute();        
-        return new DatabaseConnection(con);
-    }    
-    
     protected abstract void prepareSettings(); 
+
+    protected void processOperation(DatabaseOperation operation) {
+        System.out.println(">>> processOperation op:" + operation.toString());        
+        EntityManager em = JpaManager.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try {
+            ((Session) em.unwrap(Session.class))
+                    .doReturningWork(new InnerReturningWork(operation));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        System.out.println("<<< processOperation op:" + operation.toString());        
+    }
+    
+    class InnerReturningWork implements ReturningWork<Void> {
+
+        DatabaseOperation operation;
         
+        public InnerReturningWork(DatabaseOperation operation) {
+            this.operation = operation;
+        }
+        
+        @Override
+        public Void execute(Connection connection) throws SQLException {
+            try {
+                System.out.println(Thread.currentThread().getId() + ">>>InnerReturningWork for op:" + operation.toString());
+                connection.prepareStatement("set referential_integrity FALSE").execute();            
+                DatabaseConnection dbConnection = new DatabaseConnection(connection);
+                operation.execute(dbConnection, dataSet);
+            } catch (DatabaseUnitException mapped) {
+                throw new SQLException("Mapped DatabaseUnitException: " + mapped.getMessage(),mapped);
+            }
+            return null;
+        }
+    
+    };
+    
 }

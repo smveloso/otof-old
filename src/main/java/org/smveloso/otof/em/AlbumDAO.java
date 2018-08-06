@@ -35,6 +35,8 @@ public class AlbumDAO extends DAO implements Serializable {
     }
     
     public void create(Album album) {
+        System.out.println(">> create");
+        try {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -46,6 +48,11 @@ public class AlbumDAO extends DAO implements Serializable {
                 em.close();
             }
         }
+    } catch (Throwable any) {
+        System.out.println("BOOM:" + any.getMessage());
+        throw any;
+    }
+        System.out.println("<< create");
     }
 
     public void update(Album album) throws NonexistentEntityException, Exception {

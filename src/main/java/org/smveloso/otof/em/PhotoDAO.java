@@ -125,6 +125,8 @@ public class PhotoDAO extends DAO implements Serializable {
     }
 
     public int getTotalPhotoCount() {
+            System.out.println(">> getTotalPhotoCont");
+
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -134,10 +136,12 @@ public class PhotoDAO extends DAO implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+            System.out.println("<< getTotalPhotoCont");
         }
     }    
 
     public Photo findFotoByDigest(String digest) throws EmException {
+        System.out.println(">> findFotoByDigest");
         Photo foto = null;
         EntityManager em = getEntityManager();
         try {
@@ -152,6 +156,7 @@ public class PhotoDAO extends DAO implements Serializable {
             throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(), e);
         } finally {
             em.close();
+            System.out.println("<< findFotoByDigest");
         }
         return foto;
     }    

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
@@ -76,24 +77,36 @@ public abstract class JpaBaseTest {
     
     @BeforeMethod()     
     public void beforeTestMethod() throws Exception {        
-        System.out.println(">>> base.beforeTestMethod");
+        System.out.println(Thread.currentThread().getId() + ">>> base.beforeTestMethod");
         for (DatabaseOperation operation:beforeTestOperations) {
-            ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class))
-                    .doReturningWork(new InnerReturningWork(operation));
-        }
-    }      
+            processOperation(operation);
+        }      
+    }
     
     @AfterMethod()     
     public void afterTestMethod() throws Exception {
-        System.out.println(">>> base.afterTestMethod");
+        System.out.println(Thread.currentThread().getId() + ">>> base.afterTestMethod");
         for (DatabaseOperation operation:afterTestOperations) {
-            ((Session) JpaManager.getInstance().getEntityManager().unwrap(Session.class))
-                    .doReturningWork(new InnerReturningWork(operation));
-        }
-    }    
+            processOperation(operation);
+        }   
+    }
 
     protected abstract void prepareSettings(); 
- 
+
+    protected void processOperation(DatabaseOperation operation) {
+        System.out.println(">>> processOperation op:" + operation.toString());        
+        EntityManager em = JpaManager.getInstance().getEntityManager();
+        em.getTransaction().begin();
+        try {
+            ((Session) em.unwrap(Session.class))
+                    .doReturningWork(new InnerReturningWork(operation));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        System.out.println("<<< processOperation op:" + operation.toString());        
+    }
+    
     class InnerReturningWork implements ReturningWork<Void> {
 
         DatabaseOperation operation;
@@ -105,6 +118,7 @@ public abstract class JpaBaseTest {
         @Override
         public Void execute(Connection connection) throws SQLException {
             try {
+                System.out.println(Thread.currentThread().getId() + ">>>InnerReturningWork for op:" + operation.toString());
                 connection.prepareStatement("set referential_integrity FALSE").execute();            
                 DatabaseConnection dbConnection = new DatabaseConnection(connection);
                 operation.execute(dbConnection, dataSet);

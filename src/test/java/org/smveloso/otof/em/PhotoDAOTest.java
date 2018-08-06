@@ -22,7 +22,7 @@ public class PhotoDAOTest extends JpaBaseTest {
     
     @Test
     public void testGetTotalPhotoCount() {
-        System.out.println(">>>> PhotoDAOTest.getTotalPhotoCount");
+        System.out.println(Thread.currentThread().getId() + ">>>> PhotoDAOTest.getTotalPhotoCount");
         PhotoDAO instance = PhotoDAO.getInstance();
         int expResult = 1;
         int result = instance.getTotalPhotoCount();
@@ -31,17 +31,18 @@ public class PhotoDAOTest extends JpaBaseTest {
 
     @Test
     public void testFindFotoByDigest()  throws Exception {
-        System.out.println(">>> PhotoDAOTest.testFindFotoByDigest");
+        System.out.println(Thread.currentThread().getId() + ">>> PhotoDAOTest.testFindFotoByDigest");
         PhotoDAO instance = PhotoDAO.getInstance();
         String digest = "12345678901234567890";
         Photo photo = instance.findFotoByDigest(digest);
+        System.out.println("FOTO IS NULL ? " + (null == photo));
         Assert.assertNotNull(photo,"Foto nao encontrada por digest.");
         
     }
 
     @Override
     protected void prepareSettings() {
-         System.out.println(">>> PhotoDAOTest.prepareSettings");
+        System.out.println(Thread.currentThread().getId() + ">>> PhotoDAOTest.prepareSettings");
         dataSetLocation = "org/smveloso/otof/em/photoDAOTestDS.xml";
         beforeTestOperations.add(DatabaseOperation.DELETE_ALL);
         beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);

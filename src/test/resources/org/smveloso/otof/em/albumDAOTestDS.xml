@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <dataset>
-    <ALBUM id="1" name="Test Album One" serverside="false"  />
-    <LOCALFILESYSTEMALBUM id="1" mountpointasstring="/the/path" />
+    <ALBUM id="1000" name="Test Album One" serverside="false"  />
+    <LOCALFILESYSTEMALBUM id="1000" mountpointasstring="/the/path" />
 </dataset>

@@ -1,6 +1,9 @@
 package org.smveloso.otof.em;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.smveloso.otof.model.Album;
+import org.smveloso.otof.model.Location;
+import org.smveloso.otof.model.Photo;
 import org.smveloso.otof.test.JpaBaseTest;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
@@ -16,7 +19,20 @@ public class LocationDAOTest extends JpaBaseTest {
 
     @Test(groups="jpa-test")
     public void testFindLocation() throws Exception {
-        fail("testing ...");
+        Location location = LocationDAO.getInstance().findLocation(1000l);
+        assertNotNull(location,"location not found (by id)");
+        Album album = location.getAlbum();
+        Photo photo = location.getPhoto();
+        
+        assertNotNull(album,"album null in location");
+        assertNotNull(photo,"photo null in location");
+        
+        assertNotNull(album.getName(),"null album name");
+        assertEquals(album.getName(),"ALBUM ONE","wrong album name");
+        
+        assertNotNull(photo.getFileDigest(),"null digest for photo file");
+        assertEquals(photo.getFileDigest(),"12345678901234567890","wrong photo file digest");
+
     }
     
     @Override

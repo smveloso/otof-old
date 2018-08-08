@@ -15,17 +15,20 @@ import org.smveloso.otof.model.Location;
  *
  * @author sergio
  */
-public class LocationDAO implements Serializable {
+public class LocationDAO extends DAO implements Serializable {
 
-    public LocationDAO(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    private static LocationDAO instance = null;
+    
+    private LocationDAO() {
     }
 
+    public static synchronized LocationDAO getInstance() {
+        if (null == instance) {
+            instance = new LocationDAO();
+        }
+        return instance;
+    }
+    
     public void create(Location location) {
         EntityManager em = null;
         try {

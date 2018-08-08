@@ -169,9 +169,7 @@
                                         </ports>
                                         <volumes>
                                             <bind>
-                                                <!-- PRECISA CRIAR O ESQUEMA ANTES PARA PODER NAO USAR VOLUME LOCAL -->
-                                                <!-- <volume>${basedir}/target/h2:/opt/h2-data</volume> -->
-                                                <volume>${basedir}/h2:/opt/h2-data</volume>
+                                                <volume>${basedir}/target/h2:/opt/h2-data</volume>
                                             </bind>
                                         </volumes>
                                         <wait>
@@ -207,6 +205,7 @@
                         <version>2.1.1</version>
                         <configuration>
                             <execute>true</execute>
+                            <force>true</force>
                         </configuration>
                         <executions>
                             <execution>

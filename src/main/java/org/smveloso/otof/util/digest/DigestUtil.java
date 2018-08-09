@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,8 +15,11 @@ import org.apache.commons.codec.binary.Hex;
  */
 public class DigestUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(DigestUtil.class);
+    
     public static String getSha1HexEncoded(File arquivo) throws DigestUtilException {
-        
+
+        logger.debug(">> getSha1HexEncoded(File)");
         FileInputStream fis = null;
         
         try {
@@ -33,7 +38,8 @@ public class DigestUtil {
             
             byte[] sha1 = md.digest();
             String sha1HexEncoded = Hex.encodeHexString(sha1).toUpperCase();
-            
+
+            logger.debug("<< getSha1HexEncoded(File)");
             return sha1HexEncoded;
             
         } catch (NoSuchAlgorithmException | IOException e) {
@@ -43,7 +49,9 @@ public class DigestUtil {
             if (null != fis) {
                 try {
                     fis.close();
-                } catch (IOException ignored) {}
+                } catch (IOException ignored) {
+                    logger.warn("Ignorando erro ao fechar fis: " + ignored.getMessage());
+                }
             }            
         }
         

@@ -1,0 +1,24 @@
+<configuration debug="true">
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <file>otof.log</file>
+    
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+       <!-- rollover daily -->
+       <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+       <!-- each file should be at most 1MB, keep 5 days worth of history, but at most 20MB -->
+       <maxFileSize>1MB</maxFileSize>    
+       <maxHistory>5</maxHistory>
+       <totalSizeCap>20MB</totalSizeCap>
+    </rollingPolicy>
+    
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>

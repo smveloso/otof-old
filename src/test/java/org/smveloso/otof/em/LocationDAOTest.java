@@ -108,6 +108,64 @@ public class LocationDAOTest extends JpaBaseTest {
         assertNotNull(LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo),"cant find new location by album and photo");
     }
 
+    @Test(groups="jpa-test")
+    public void testUpdate01() throws Exception {
+    
+        // case 1: existing entity (detached). update the 'path' only.
+        
+        Location location = LocationDAO.getInstance().findLocation(1000l);
+        String EXPECTED_PATH = "/var/tmp/photo.jpeg";
+        assertNotNull(location,"[1] cant test: null location");
+        assertEquals(location.getPath(),EXPECTED_PATH,"[1] cant test: wrong original path");
+
+        String NEW_PATH = "/new/path/photo.jpeg";
+        location.setPath(NEW_PATH);
+        LocationDAO.getInstance().update(location);
+        assertEquals(location.getPath(),NEW_PATH,"[1] cant test: wrong updated path after update");
+        location = LocationDAO.getInstance().findLocation(1000l);
+        assertEquals(location.getPath(),NEW_PATH,"[1] cant test: wrong updated path after update and re-read");
+        
+    }
+
+    /*
+    @Test(groups="jpa-test")
+    public void testUpdate02() throws Exception {
+    
+        // case 1: non-existing entity (new, with id). 
+        //         associated to existing album and photo (both detached after read)
+        //         update the 'path' only.
+
+        String EXPECTED_PATH = "/var/tmp/photo.jpeg";                
+        String NEW_PATH = "/the/new/path/photo.jpg";
+        Long NEW_ID = 2000l;
+        Long PHOTO_ID = 2000l;
+        Long ALBUM_ID = 2000l;
+        Location location = new Location();
+        location.setId(NEW_ID);
+        location.setPath(EXPECTED_PATH);
+        Album album = AlbumDAO.getInstance().findAlbum(ALBUM_ID);
+        Photo photo = PhotoDAO.getInstance().findFoto(PHOTO_ID);
+        assertNotNull(album,"[2] cant test: null album");
+        assertNotNull(photo,"[2] cant test: null photo");
+        location.setAlbum(album);
+        location.setPhoto(photo);
+
+        LocationDAO.getInstance().update(location);
+        
+        location = LocationDAO.getInstance().findLocation(NEW_ID);
+        assertNotNull(location,"[2] null location after update");
+        
+        
+//        location.setPath(NEW_PATH);
+//        LocationDAO.getInstance().update(location);
+//        assertEquals(location.getPath(),NEW_PATH,"[1] cant test: wrong updated path after update");
+//        location = LocationDAO.getInstance().findLocation(1000l);
+//        assertEquals(location.getPath(),NEW_PATH,"[1] cant test: wrong updated path after update and re-read");
+
+
+    }
+
+    */
     @Override
     protected void prepareSettings() {
         System.out.println(">>> LocationDAOTest.prepareSettings");

@@ -9,4 +9,9 @@
     <LOCALFILESYSTEMALBUM id="1001" mountpointasstring="/the/path/for/album/two" />
     <PHOTO id="1001" DATETAKEN="2010-01-01 15:00:00" FILEDIGEST="02345678901234567890" FILESIZE="1024000" />    
 
+    <ALBUM ID="2000" NAME="ALBUM THREE" SERVERSIDE="false" />
+    <LOCALFILESYSTEMALBUM id="2000" mountpointasstring="/the/path/for/album/three" />
+    <PHOTO id="2000" DATETAKEN="2010-01-01 15:00:00" FILEDIGEST="A2345678901234567890" FILESIZE="1024000" />    
+
+    
 </dataset>

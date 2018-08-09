@@ -7,14 +7,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.StringTokenizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(TestUtil.class);
+    
     final String classpath = System.getProperty("java.class.path");
     final String pathSeparator = System.getProperty("path.separator");
 
     public File searchFileInClasspath(String fileName) throws Exception {
-     
+        logger.trace(">> searchFileInClasspath(String) " + fileName);
         final StringTokenizer tokenizer = new StringTokenizer(classpath, pathSeparator);
 
         while (tokenizer.hasMoreTokens()) {

@@ -42,6 +42,11 @@ public class LocationDAOTest extends JpaBaseTest {
         String path = "/var/tmp/photo.jpeg";
         Location location = LocationDAO.getInstance().findLocationInAlbumByPath(album, path);
         assertNotNull(location,"location not found by album id and path");
+        
+        location = LocationDAO.getInstance().findLocationInAlbumByPath(album, "nosuchpath");
+        
+        assertNull(location,"location should be null");
+        
     }
     
     @Override

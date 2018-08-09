@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.smveloso.otof.em.exception.NonexistentEntityException;
@@ -143,6 +144,8 @@ public class LocationDAO extends DAO implements Serializable {
                     .setParameter("path", path).setParameter("aid", album.getId())
                     .getSingleResult();
             return location;
+        } catch (NoResultException notFoundIsOK) {
+            return null;
         } finally {
             em.close();
         }

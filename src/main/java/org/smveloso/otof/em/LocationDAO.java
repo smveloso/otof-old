@@ -9,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.smveloso.otof.em.exception.NonexistentEntityException;
+import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Location;
 
 /**
@@ -128,6 +129,20 @@ public class LocationDAO extends DAO implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Location findLocationInAlbumByPath(Album album, String path) {
+        EntityManager em = getEntityManager();
+        try {
+            Location location = 
+                    em.createQuery("select l from Location l where l.album.id = :aid and l.path = :path", 
+                                   Location.class)
+                    .setParameter("path", path).setParameter("aid", album.getId())
+                    .getSingleResult();
+            return location;
         } finally {
             em.close();
         }

@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import org.smveloso.otof.em.exception.NonexistentEntityException;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Location;
+import org.smveloso.otof.model.Photo;
 
 /**
  *
@@ -135,6 +136,7 @@ public class LocationDAO extends DAO implements Serializable {
         }
     }
     
+    //TODO what to do with multiple locations in the same album (should I even allow it ?)
     public Location findLocationInAlbumByPath(Album album, String path) {
         EntityManager em = getEntityManager();
         try {
@@ -149,6 +151,23 @@ public class LocationDAO extends DAO implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    //TODO what to do with multiple locations in the same album (should I even allow it ?)    
+    public Location findLocationInAlbumByPhoto(Album album, Photo photo) {
+        EntityManager em = getEntityManager();
+        try {
+            Location location = 
+                    em.createQuery("select l from Location l where l.album.id = :aid and l.photo.id = :pid", 
+                                   Location.class)
+                    .setParameter("pid", photo.getId()).setParameter("aid", album.getId())
+                    .getSingleResult();
+            return location;
+        } catch (NoResultException notFoundIsOK) {
+            return null;
+        } finally {
+            em.close();
+        }        
     }
     
 }

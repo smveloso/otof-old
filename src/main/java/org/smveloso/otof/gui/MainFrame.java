@@ -4,6 +4,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
@@ -15,6 +17,8 @@ import org.smveloso.otof.model.LocalFileSystemAlbum;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private static final Logger logger = LoggerFactory.getLogger(MainFrame.class);
+    
     /**
      * Creates new form MainFrame
      */
@@ -238,8 +242,10 @@ public class MainFrame extends javax.swing.JFrame {
             String albumName = txtOpUpdateAlbumName.getText();
             Album album = serviceFacade.getAlbumByName(albumName);
             if (null == album) {
+                logger.debug("album will be created: %s",albumName);
                 album = serviceFacade.newLocalFileSystemAlbum(albumName, baseDir);
             }
+            logger.debug("calling serviceFacade to performAlbumUpdate ...");
             serviceFacade.performAlbumUpdate(album);
         } catch (FacadeException e) {
             String msg = e.getMessage();

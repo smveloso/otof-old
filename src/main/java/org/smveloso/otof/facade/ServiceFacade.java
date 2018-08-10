@@ -3,6 +3,8 @@ package org.smveloso.otof.facade;
 import org.smveloso.otof.service.AlbumUpdater;
 import org.smveloso.otof.gui.job.LocalFileSystemAlbumUpdaterJob;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.AlbumDAO;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.em.exception.EmException;
@@ -17,6 +19,8 @@ import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
  */
 public class ServiceFacade {
 
+    private static final Logger logger = LoggerFactory.getLogger(ServiceFacade.class);
+    
     private final PhotoDAO photoDAO;
     private final AlbumDAO albumDAO;
     
@@ -57,6 +61,8 @@ public class ServiceFacade {
     //TODO esta tratando apenas um tipo de album
     public synchronized void performAlbumUpdate(Album album) throws FacadeException {
 
+        logger.debug(">> performAlbumUpdate(Album)");
+        
         if (album.getClass() != LocalFileSystemAlbum.class) {
             throw new IllegalArgumentException("For now I only care for local file system !");
         }
@@ -69,10 +75,16 @@ public class ServiceFacade {
             initJob.setAlbumUpdater(albumUpdater);
             
             DisplayMessageSwingWorker<Void,Void> swingWorker = new DisplayMessageSwingWorker<>();
+            
+            logger.debug("will call executeJob ...");
             swingWorker.executeJob(initJob);
+            logger.debug("will call get() ...");
             swingWorker.get();
+    
+            logger.debug("<< performAlbumUpdate(Album)");
             
         } catch (InterruptedException| ExecutionException e) {
+            logger.error("Job interrupted or failed: " + e.getMessage(),e);
             throw new FacadeException("Job interrupted or failed: " + e.getMessage());
         } finally {
             

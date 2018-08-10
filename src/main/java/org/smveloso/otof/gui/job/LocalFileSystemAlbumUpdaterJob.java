@@ -1,5 +1,7 @@
 package org.smveloso.otof.gui.job;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
 
 /**
@@ -7,6 +9,8 @@ import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
  * @author sergiomv
  */
 public class LocalFileSystemAlbumUpdaterJob extends Job {
+    
+    private static final Logger logger = LoggerFactory.getLogger(LocalFileSystemAlbumUpdaterJob.class);
     
     private LocalFileSystemAlbumUpdater albumUpdater = null;
 
@@ -42,6 +46,9 @@ public class LocalFileSystemAlbumUpdaterJob extends Job {
             }
             
         } catch (Throwable t) {
+            logger.error("Caught Throwable: " + t.getClass().getName());
+            logger.error("MSG: " + t.getMessage());
+            logger.error("STACKTRACE",t);
             throw new RuntimeException(t.getMessage(),t);
         }
     }

@@ -1,6 +1,6 @@
 <configuration debug="true">
 
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <appender name="OTOF" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
     <file>otof.log</file>
     
@@ -12,13 +12,22 @@
        <maxHistory>5</maxHistory>
        <totalSizeCap>20MB</totalSizeCap>
     </rollingPolicy>
-    
+        
     <encoder>
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
 
+  <logger name="org.hibernate" level="INFO" additivity="FALSE">
+      <appender-ref ref="OTOF"/>
+  </logger> 
+    
+  <logger name="org.smveloso.otof" level="TRACE" additivity="FALSE"> 
+      <appender-ref ref="OTOF"/>
+  </logger>
+    
   <root level="debug">
-    <appender-ref ref="FILE" />
+    <appender-ref ref="OTOF" />
   </root>
+
 </configuration>

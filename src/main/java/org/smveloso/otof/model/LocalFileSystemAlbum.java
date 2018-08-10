@@ -22,6 +22,12 @@ public class LocalFileSystemAlbum  extends Album {
     private String mountPointAsString;
     
     public File getMountPoint() {
+        // TODO quando objeto eh lido do banco, o 
+        //      setter de mountPointAsString nao
+        //      eh chamado. Ha como fazer ?
+        if ((this.mountPoint) == null && (this.mountPointAsString != null)) {
+            this.mountPoint = new File(this.mountPointAsString);
+        }
         return mountPoint;
     }
 

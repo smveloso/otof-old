@@ -13,5 +13,6 @@
     <LOCALFILESYSTEMALBUM id="2000" mountpointasstring="/the/path/for/album/three" />
     <PHOTO id="2000" DATETAKEN="2010-01-01 15:00:00" FILEDIGEST="A2345678901234567890" FILESIZE="1024000" />    
 
+    <LOCATION ID="3000" ALBUM_ID="2000" PHOTO_ID="2000" PATH="data/photo.jpeg" />
     
 </dataset>

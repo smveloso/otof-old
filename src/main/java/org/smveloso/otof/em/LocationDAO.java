@@ -154,6 +154,7 @@ public class LocationDAO extends DAO implements Serializable {
     }
 
     //TODO what to do with multiple locations in the same album (should I even allow it ?)    
+    //     must allow it: multiple occurrences of a photo in an album in different locations
     public Location findLocationInAlbumByPhoto(Album album, Photo photo) {
         EntityManager em = getEntityManager();
         try {

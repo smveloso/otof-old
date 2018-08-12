@@ -1,6 +1,8 @@
 package org.smveloso.otof.em;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.model.Location;
@@ -14,6 +16,8 @@ import org.testng.annotations.Test;
  * @author sergio
  */
 public class LocationDAOTest extends JpaBaseTest {
+    
+    private static final Logger logger = LoggerFactory.getLogger(LocationDAOTest.class);
     
     public LocationDAOTest() {
     }
@@ -166,6 +170,37 @@ public class LocationDAOTest extends JpaBaseTest {
     }
 
     */
+
+    @Test
+    public void testPathUniquenessInAlbum() throws Exception {
+        Location location = LocationDAO.getInstance().findLocation(3000l);
+        assertNotNull(location,"cant test: no location");
+        assertNotNull(location.getAlbum(),"cant test: null album");
+        assertEquals(location.getPath(),"data/photo.jpeg","cant test: wrong location path");
+        
+        Location location2 = new Location();
+        location2.setAlbum(location.getAlbum());
+        location2.setPhoto(location.getPhoto());
+        location2.setPath("a different path");
+        
+        LocationDAO.getInstance().create(location2);
+        assertNotNull(location2.getId(),"new location, same alb and photo, different path, not created!");
+        
+        Location location3 = new Location();
+        location3.setAlbum(location.getAlbum());
+        location3.setPhoto(location.getPhoto());
+        location3.setPath("data/photo.jpeg");
+        
+        try {
+            LocationDAO.getInstance().create(location3);
+            fail("Permitiu cadastrar nova location com path jah existente no album.");
+        } catch (javax.persistence.PersistenceException expected) {
+            logger.debug("EXPECTED: " + expected.getMessage());
+            logger.trace("STACK:",expected);
+        }
+        
+    }
+    
     @Override
     protected void prepareSettings() {
         System.out.println(">>> LocationDAOTest.prepareSettings");

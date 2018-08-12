@@ -6,20 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author sergio
  */
 @Entity
-@Table(name="location")
-//@NamedQueries({
-//    @NamedQuery(name="Location.byAlbumAndPhoto", query="from Location l where .album.id = 1")
-//})
+@Table(name="location",uniqueConstraints = @UniqueConstraint(columnNames = {"path","album_id"}))
 public class Location implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,13 +32,15 @@ public class Location implements Serializable {
         this.id = id;
     }
 
-    @Column(nullable = false) //TODO unique per Album !!!!
+    @Column(nullable = false, name = "path")
     private String path;
     
     @ManyToOne
+    @JoinColumn(name = "album_id")
     private Album album;
     
     @ManyToOne
+    @JoinColumn(name = "photo_id")
     private Photo photo;
 
     public String getPath() {

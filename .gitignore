@@ -1,3 +1,5 @@
 target
 h2
 /nbproject/
+**/*.txt
+**/*.log

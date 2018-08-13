@@ -14,5 +14,14 @@
     <PHOTO id="2000" DATETAKEN="2010-01-01 15:00:00" FILEDIGEST="A2345678901234567890" FILESIZE="1024000" />    
 
     <LOCATION ID="3000" ALBUM_ID="2000" PHOTO_ID="2000" PATH="data/photo.jpeg" />
+
     
+    <ALBUM ID="4000" NAME="ALBUM FOUR K" SERVERSIDE="false" />
+    <LOCALFILESYSTEMALBUM id="4000" mountpointasstring="/the/path/for/album/4k" />
+    <PHOTO id="4000" DATETAKEN="2010-01-01 15:00:00" FILEDIGEST="EE345678901234567890" FILESIZE="1024000" />    
+
+    <LOCATION ID="4000" ALBUM_ID="4000" PHOTO_ID="4000" PATH="data/photo_copia_1.jpeg" />
+    <LOCATION ID="4001" ALBUM_ID="4000" PHOTO_ID="4000" PATH="data/photo_copia_2.jpeg" />
+    
+        
 </dataset>

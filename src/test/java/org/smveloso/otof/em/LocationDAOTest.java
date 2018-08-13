@@ -83,7 +83,10 @@ public class LocationDAOTest extends JpaBaseTest {
         
         // case 3: there are more than one associations
         
-        
+        album = new LocalFileSystemAlbum(); album.setId(4000l);
+        photo = new Photo(); photo.setId(4000l);
+        locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
+        assertEquals(locations.size(),2,"two locations should have been found");
         
     }
 

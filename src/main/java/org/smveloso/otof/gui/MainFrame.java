@@ -40,18 +40,20 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        radioGrpLimpeza = new javax.swing.ButtonGroup();
         tabpnlMain = new javax.swing.JTabbedPane();
         pnlSearch = new javax.swing.JPanel();
-        pnlAlbum = new javax.swing.JPanel();
-        pnlOpUpdateAlbum = new javax.swing.JPanel();
-        btnOpUpdateAlbum = new javax.swing.JButton();
-        lblOpUpdateAlbumBaseDir = new javax.swing.JLabel();
-        txtOpUpdateAlbumBaseDir = new javax.swing.JTextField();
-        btnOpUpdateAlbumSearchBaseDir = new javax.swing.JButton();
-        lblOpUpdateAlbumName = new javax.swing.JLabel();
-        txtOpUpdateAlbumName = new javax.swing.JTextField();
+        pnlAlbumTab = new javax.swing.JPanel();
+        pnlAlbumFotos = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
+        pnlAlbums = new javax.swing.JPanel();
+        scrollTableAlbums = new javax.swing.JScrollPane();
+        tableAlbums = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btnOpUpdateAlbum = new javax.swing.JButton();
+        pnlHouseKeeping = new javax.swing.JPanel();
         pnlBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
 
@@ -62,112 +64,157 @@ public class MainFrame extends javax.swing.JFrame {
         pnlSearch.setLayout(pnlSearchLayout);
         pnlSearchLayout.setHorizontalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 748, Short.MAX_VALUE)
+            .addGap(0, 1027, Short.MAX_VALUE)
         );
         pnlSearchLayout.setVerticalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 491, Short.MAX_VALUE)
+            .addGap(0, 589, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Search", pnlSearch);
 
-        pnlOpUpdateAlbum.setBorder(javax.swing.BorderFactory.createTitledBorder("Update Album"));
+        pnlAlbumFotos.setBorder(javax.swing.BorderFactory.createTitledBorder("Fotos"));
 
-        btnOpUpdateAlbum.setText("Iniciar ...");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 314, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 242, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlAlbumFotosLayout = new javax.swing.GroupLayout(pnlAlbumFotos);
+        pnlAlbumFotos.setLayout(pnlAlbumFotosLayout);
+        pnlAlbumFotosLayout.setHorizontalGroup(
+            pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlAlbumFotosLayout.setVerticalGroup(
+            pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlAlbums.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
+
+        tableAlbums.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrollTableAlbums.setViewportView(tableAlbums);
+
+        jButton1.setText("Novo");
+
+        jButton2.setText("Remover");
+
+        btnOpUpdateAlbum.setText("Sincronizar");
         btnOpUpdateAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpUpdateAlbumActionPerformed(evt);
             }
         });
 
-        lblOpUpdateAlbumBaseDir.setText("Diretório base:");
-
-        btnOpUpdateAlbumSearchBaseDir.setText("...");
-        btnOpUpdateAlbumSearchBaseDir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOpUpdateAlbumSearchBaseDirActionPerformed(evt);
-            }
-        });
-
-        lblOpUpdateAlbumName.setText("Nome:");
-
-        javax.swing.GroupLayout pnlOpUpdateAlbumLayout = new javax.swing.GroupLayout(pnlOpUpdateAlbum);
-        pnlOpUpdateAlbum.setLayout(pnlOpUpdateAlbumLayout);
-        pnlOpUpdateAlbumLayout.setHorizontalGroup(
-            pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAlbumsLayout = new javax.swing.GroupLayout(pnlAlbums);
+        pnlAlbums.setLayout(pnlAlbumsLayout);
+        pnlAlbumsLayout.setHorizontalGroup(
+            pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpUpdateAlbumLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
-                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblOpUpdateAlbumBaseDir)
-                            .addComponent(lblOpUpdateAlbumName))
+                .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollTableAlbums, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlAlbumsLayout.createSequentialGroup()
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
-                            .addComponent(txtOpUpdateAlbumName))
+                        .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOpUpdateAlbumSearchBaseDir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        pnlOpUpdateAlbumLayout.setVerticalGroup(
-            pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOpUpdateAlbumName)
-                    .addComponent(txtOpUpdateAlbumName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnOpUpdateAlbumSearchBaseDir))
-                    .addGroup(pnlOpUpdateAlbumLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(pnlOpUpdateAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblOpUpdateAlbumBaseDir)
-                            .addComponent(txtOpUpdateAlbumBaseDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+
+        pnlAlbumsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnOpUpdateAlbum, jButton1, jButton2});
+
+        pnlAlbumsLayout.setVerticalGroup(
+            pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumsLayout.createSequentialGroup()
+                .addComponent(scrollTableAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOpUpdateAlbum))
+                .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(btnOpUpdateAlbum))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Available Albums"));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pnlAlbumLayout = new javax.swing.GroupLayout(pnlAlbum);
-        pnlAlbum.setLayout(pnlAlbumLayout);
-        pnlAlbumLayout.setHorizontalGroup(
-            pnlAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAlbumLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlAlbumTabLayout = new javax.swing.GroupLayout(pnlAlbumTab);
+        pnlAlbumTab.setLayout(pnlAlbumTabLayout);
+        pnlAlbumTabLayout.setHorizontalGroup(
+            pnlAlbumTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlOpUpdateAlbum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlAlbumTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAlbums, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        pnlAlbumLayout.setVerticalGroup(
-            pnlAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlAlbumLayout.createSequentialGroup()
+        pnlAlbumTabLayout.setVerticalGroup(
+            pnlAlbumTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAlbumTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(224, Short.MAX_VALUE))
+                .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        tabpnlMain.addTab("Album", pnlAlbum);
+        tabpnlMain.addTab("Album", pnlAlbumTab);
+
+        javax.swing.GroupLayout pnlHouseKeepingLayout = new javax.swing.GroupLayout(pnlHouseKeeping);
+        pnlHouseKeeping.setLayout(pnlHouseKeepingLayout);
+        pnlHouseKeepingLayout.setHorizontalGroup(
+            pnlHouseKeepingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1027, Short.MAX_VALUE)
+        );
+        pnlHouseKeepingLayout.setVerticalGroup(
+            pnlHouseKeepingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 589, Short.MAX_VALUE)
+        );
+
+        tabpnlMain.addTab("Limpeza", pnlHouseKeeping);
 
         pnlBottom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -216,10 +263,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         actionFechar();
     }//GEN-LAST:event_btnCloseActionPerformed
-
-    private void btnOpUpdateAlbumSearchBaseDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumSearchBaseDirActionPerformed
-        actionVarreduraEscolherDiretorioBase();
-    }//GEN-LAST:event_btnOpUpdateAlbumSearchBaseDirActionPerformed
 
     private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
         actionIniciarAtualizacaoAlbum();
@@ -334,17 +377,19 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnOpUpdateAlbum;
-    private javax.swing.JButton btnOpUpdateAlbumSearchBaseDir;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblOpUpdateAlbumBaseDir;
-    private javax.swing.JLabel lblOpUpdateAlbumName;
-    private javax.swing.JPanel pnlAlbum;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel pnlAlbumFotos;
+    private javax.swing.JPanel pnlAlbumTab;
+    private javax.swing.JPanel pnlAlbums;
     private javax.swing.JPanel pnlBottom;
-    private javax.swing.JPanel pnlOpUpdateAlbum;
+    private javax.swing.JPanel pnlHouseKeeping;
     private javax.swing.JPanel pnlSearch;
-    private javax.swing.ButtonGroup radioGrpLimpeza;
+    private javax.swing.JScrollPane scrollTableAlbums;
+    private javax.swing.JTable tableAlbums;
     private javax.swing.JTabbedPane tabpnlMain;
-    private javax.swing.JTextField txtOpUpdateAlbumBaseDir;
-    private javax.swing.JTextField txtOpUpdateAlbumName;
     // End of variables declaration//GEN-END:variables
 }

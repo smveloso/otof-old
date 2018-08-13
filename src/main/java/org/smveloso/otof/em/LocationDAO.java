@@ -153,17 +153,15 @@ public class LocationDAO extends DAO implements Serializable {
         }
     }
 
-    //TODO what to do with multiple locations in the same album (should I even allow it ?)    
-    //     must allow it: multiple occurrences of a photo in an album in different locations
-    public Location findLocationInAlbumByPhoto(Album album, Photo photo) {
+    public List<Location> findLocationInAlbumByPhoto(Album album, Photo photo) {
         EntityManager em = getEntityManager();
         try {
-            Location location = 
+            List<Location> locations = 
                     em.createQuery("select l from Location l where l.album.id = :aid and l.photo.id = :pid", 
                                    Location.class)
                     .setParameter("pid", photo.getId()).setParameter("aid", album.getId())
-                    .getSingleResult();
-            return location;
+                    .getResultList();
+            return locations;
         } catch (NoResultException notFoundIsOK) {
             return null;
         } finally {

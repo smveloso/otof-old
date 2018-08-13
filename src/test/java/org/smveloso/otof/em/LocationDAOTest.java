@@ -1,5 +1,6 @@
 package org.smveloso.otof.em;
 
+import java.util.List;
 import org.dbunit.operation.DatabaseOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,13 +58,16 @@ public class LocationDAOTest extends JpaBaseTest {
     @Test(groups="jpa-test")
     public void testFindLocationByAlbumAndPhoto() throws Exception {
 
-        // case 1: there is an association
+        // case 1: there is a single association
         
         Album album = new LocalFileSystemAlbum(); album.setId(1000l);
         Photo photo = new Photo(); photo.setId(1000l);
         String path = "/var/tmp/photo.jpeg";
-        Location location = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
-        assertNotNull(location,"location not found by album id and photo");
+        List<Location> locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
+        assertNotNull(locations,"no locations found by album id and photo");
+        assertEquals(locations.size(),1,"more than one location found, expetec just one");
+        Location location = locations.get(0);
+        
         assertEquals(location.getPath(),path,"path differs");
         assertNotNull(location.getAlbum(),"album is null for found location");
         assertEquals(location.getAlbum().getName(),"ALBUM ONE","album name is wrong");
@@ -74,8 +78,12 @@ public class LocationDAOTest extends JpaBaseTest {
 
         album = new LocalFileSystemAlbum(); album.setId(1001l);
         photo = new Photo(); photo.setId(1001l);
-        location = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
-        assertNull(location,"location should be null for there is no association between album and photo");
+        locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
+        assertTrue(locations.isEmpty(),"locations should be empty for there is no association between album and photo");
+        
+        // case 3: there are more than one associations
+        
+        
         
     }
 
@@ -89,7 +97,7 @@ public class LocationDAOTest extends JpaBaseTest {
         
         assertNotNull(album,"cant test: album not found");
         assertNotNull(photo,"cant test: photo not found");
-        assertNull(LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo),"cant test: association already exists");
+        assertTrue(LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo).isEmpty(),"cant test: association already exists");
 
         //TODO create de location album (ou photo) "new" irá criá-los (album e/ou photo) ?
         //TODO verificar as propagacoes de criacao e update e delete na associacoes (cascade e etc ...)

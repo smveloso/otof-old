@@ -10,6 +10,7 @@ import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
+import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
 
 /**
  *
@@ -75,7 +76,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbumFotos.setBorder(javax.swing.BorderFactory.createTitledBorder("Fotos"));
 
-        jTable1.setModel(null);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
@@ -114,7 +122,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbums.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
 
-        tableAlbums.setModel(null);
+        tableAlbums.setModel(new AlbumListTableModel());
         scrollTableAlbums.setViewportView(tableAlbums);
 
         jButton1.setText("Novo");

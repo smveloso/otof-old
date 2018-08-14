@@ -77,6 +77,7 @@ public class AlbumListTableModel extends AbstractTableModel {
             throw new IllegalArgumentException("null album!");
         }
         this.albums = albums;
+        fireTableDataChanged();
     }
     
 }

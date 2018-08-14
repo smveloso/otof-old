@@ -1,6 +1,8 @@
 package org.smveloso.otof.gui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -31,7 +33,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     private ServiceFacade serviceFacade;
     
-    
+    private AlbumListTableModel albumListTableModel = new AlbumListTableModel();
+
+    public AlbumListTableModel getAlbumListTableModel() {
+        return albumListTableModel;
+    }
+
+    // TODO para um 'state'
+    private List<Album> albumList = new ArrayList<>();
+
+    public List<Album> getAlbumList() {
+        return albumList;
+    }
+
+    public void setAlbumList(List<Album> albumList) {
+        this.albumList = albumList;
+        //TODO via 'state' e 'pcs'
+        getAlbumListTableModel().setAlbums(albumList);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,10 +142,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbums.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
 
-        tableAlbums.setModel(new AlbumListTableModel());
+        tableAlbums.setModel(getAlbumListTableModel());
         scrollTableAlbums.setViewportView(tableAlbums);
 
         jButton1.setText("Novo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Remover");
 
@@ -255,6 +280,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
         actionIniciarAtualizacaoAlbum();
     }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        LocalFileSystemAlbum a = new LocalFileSystemAlbum();
+        a.setId(100l); a.setName("foo one"); a.setServerSide(false);a.setMountPointAsString("/var/opt");
+        
+        List<Album> newAlbumList = new ArrayList<>();
+        newAlbumList.add(a);
+        setAlbumList(newAlbumList);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     //
     // ACTIONS

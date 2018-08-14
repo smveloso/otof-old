@@ -24,7 +24,7 @@ public class CascadeIntTest extends JpaBaseTest {
 
     @Test(groups="jpa-test")
     public void deleteLocationSingleLocation() throws Exception {
-        logger.debug(">>> deleteLocation");
+        logger.debug(">>> deleteLocationSingleLocation");
 
         long LOCATION_ID = 1000l;
         long ALBUM_ID = 1000l;
@@ -50,7 +50,28 @@ public class CascadeIntTest extends JpaBaseTest {
         
     }
 
-    //TODO remocao do album deve remover locations mas nao as photos !!!
+    @Test(groups = "jpa-test")
+    public void deleteAlbum() throws Exception {
+        logger.debug(">>> deleteAlbum");
+
+        long LOCATION_ID = 2000l;
+        long LOCATION_ID_2 = 2001l;
+        long ALBUM_ID = 2000l;
+        long PHOTO_ID = 2000l;
+
+        assertNotNull(LocationDAO.getInstance().findLocation(LOCATION_ID),"cant test: location not found");
+        assertNotNull(LocationDAO.getInstance().findLocation(LOCATION_ID_2),"cant test: location 2 not found");
+        assertNotNull(PhotoDAO.getInstance().findFoto(PHOTO_ID),"cant test: photo not found");
+        assertNotNull(AlbumDAO.getInstance().findAlbum(ALBUM_ID),"cant test: album not found");
+        
+        AlbumDAO.getInstance().destroy(ALBUM_ID);
+        
+        assertNull(LocationDAO.getInstance().findLocation(LOCATION_ID),"location not deleted !");
+        assertNull(LocationDAO.getInstance().findLocation(LOCATION_ID_2),"location 2 not deleted !");
+        assertNotNull(PhotoDAO.getInstance().findFoto(PHOTO_ID),"photo deleted !");
+        assertNull(AlbumDAO.getInstance().findAlbum(ALBUM_ID),"album not deleted !");
+        
+    }
     
     //TODO remocao de photo deve remover locations nos diversos
     //     albums, mas nao os proprios albums !!!

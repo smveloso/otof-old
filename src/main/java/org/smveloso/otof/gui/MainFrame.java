@@ -75,17 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbumFotos.setBorder(javax.swing.BorderFactory.createTitledBorder("Fotos"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(null);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
@@ -124,17 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbums.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
 
-        tableAlbums.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableAlbums.setModel(null);
         scrollTableAlbums.setViewportView(tableAlbums);
 
         jButton1.setText("Novo");
@@ -281,8 +261,10 @@ public class MainFrame extends javax.swing.JFrame {
                 
         try {
             //TODO validações ...
-            String baseDir = txtOpUpdateAlbumBaseDir.getText();
-            String albumName = txtOpUpdateAlbumName.getText();
+//            String baseDir = txtOpUpdateAlbumBaseDir.getText();
+//            String albumName = txtOpUpdateAlbumName.getText();
+            String baseDir = "foo";
+            String albumName = "foobar";
             Album album = serviceFacade.getAlbumByName(albumName);
             if (null == album) {
                 logger.debug("album will be created: %s",albumName);
@@ -308,7 +290,7 @@ public class MainFrame extends javax.swing.JFrame {
         File baseDir = guiEscolheDiretorio();
         if (null != baseDir) {            
             if (baseDir.exists() && baseDir.isDirectory()) {
-                txtOpUpdateAlbumBaseDir.setText(baseDir.getAbsolutePath());
+                //txtOpUpdateAlbumBaseDir.setText(baseDir.getAbsolutePath());
             } else {
                 guiMostraAviso("Diretório não encontrado.");
             }

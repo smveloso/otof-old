@@ -81,7 +81,8 @@ public class LocationDAOTest extends JpaBaseTest {
         locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
         assertTrue(locations.isEmpty(),"locations should be empty for there is no association between album and photo");
         
-        // case 3: there are more than one associations
+        // case 3: there is more than one association
+        
         
         album = new LocalFileSystemAlbum(); album.setId(4000l);
         photo = new Photo(); photo.setId(4000l);

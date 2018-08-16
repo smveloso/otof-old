@@ -23,23 +23,36 @@ import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
 public class MainFrame extends javax.swing.JFrame {
 
     private static final Logger logger = LoggerFactory.getLogger(MainFrame.class);
+
+    private MainFrameState state;
+    
+    private ServiceFacade serviceFacade;
+    
+    private AlbumListTableModel albumListTableModel;
     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        logger.debug(">>> MainFrame()");
         initLookAndFeel();
+        beforeInitComponents();
         initComponents();
-        serviceFacade = ServiceFacade.getInstance();
-        this.albumListTableModel.associateToState(state);
+        afterInitComponents();
     }
 
-    private MainFrameState state = new MainFrameState();
+    private void beforeInitComponents() {
+        logger.debug(">>> beforeInitComponents()");
+        serviceFacade = ServiceFacade.getInstance();
+        this.state = new MainFrameState();
+        this.albumListTableModel = new AlbumListTableModel();
+        this.albumListTableModel.associateToState(state);
+    }
     
-    private ServiceFacade serviceFacade;
+    private void afterInitComponents() {
+        logger.debug(">>> afterInitComponents()");
+    }
     
-    private AlbumListTableModel albumListTableModel = new AlbumListTableModel();
-
     public AlbumListTableModel getAlbumListTableModel() {
         return albumListTableModel;
     }

@@ -51,6 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
+        this.tableAlbums.getSelectionModel().addListSelectionListener(state);
     }
     
     public AlbumListTableModel getAlbumListTableModel() {
@@ -291,12 +292,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
 
     private void btnOpNovoAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpNovoAlbumActionPerformed
-        LocalFileSystemAlbum a = new LocalFileSystemAlbum();
-        a.setId(GregorianCalendar.getInstance().getTimeInMillis()); a.setName(GregorianCalendar.getInstance().getTime().toString()); a.setServerSide(false);a.setMountPointAsString("/var/opt");
-        
         List<Album> newAlbumList = new ArrayList<>();
-        newAlbumList.add(a);
+        LocalFileSystemAlbum a;
         
+        for (int k=0;k<10;++k) {
+            a = new LocalFileSystemAlbum();
+            a.setId((long) k); a.setName("ALBUM_" + k); a.setServerSide(false);a.setMountPointAsString("/var/opt/album_" + k);
+            newAlbumList.add(a);
+        }
         getMainFrameState().setAlbumList(newAlbumList);
     }//GEN-LAST:event_btnOpNovoAlbumActionPerformed
 

@@ -4,10 +4,16 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Album;
 
-public class MainFrameState {
+public class MainFrameState implements ListSelectionListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(MainFrameState.class);
+    
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -32,6 +38,12 @@ public class MainFrameState {
         pcs.firePropertyChange(MainFrameProperties.SET_ALBUM_LIST.name(), old, this.albumList);
     }
 
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        logger.trace(">>> valueChanged(...)");
+        logger.trace("Adjusting ?" + e.getValueIsAdjusting());
+        logger.trace("First     : " + e.getFirstIndex());
+        logger.trace("Last      : " + e.getLastIndex());                 
+    }
 
-    
 }

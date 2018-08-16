@@ -67,8 +67,8 @@ public class MainFrame extends javax.swing.JFrame {
         pnlAlbums = new javax.swing.JPanel();
         scrollTableAlbums = new javax.swing.JScrollPane();
         tableAlbums = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnOpNovoAlbum = new javax.swing.JButton();
+        btnOpRemoverAlbum = new javax.swing.JButton();
         btnOpUpdateAlbum = new javax.swing.JButton();
         pnlHouseKeeping = new javax.swing.JPanel();
         pnlBottom = new javax.swing.JPanel();
@@ -141,14 +141,14 @@ public class MainFrame extends javax.swing.JFrame {
         tableAlbums.setModel(getAlbumListTableModel());
         scrollTableAlbums.setViewportView(tableAlbums);
 
-        jButton1.setText("Novo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnOpNovoAlbum.setText("Novo");
+        btnOpNovoAlbum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnOpNovoAlbumActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Remover");
+        btnOpRemoverAlbum.setText("Remover");
 
         btnOpUpdateAlbum.setText("Sincronizar");
         btnOpUpdateAlbum.addActionListener(new java.awt.event.ActionListener() {
@@ -166,16 +166,16 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrollTableAlbums, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlAlbumsLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnOpNovoAlbum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnOpRemoverAlbum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        pnlAlbumsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnOpUpdateAlbum, jButton1, jButton2});
+        pnlAlbumsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnOpNovoAlbum, btnOpRemoverAlbum, btnOpUpdateAlbum});
 
         pnlAlbumsLayout.setVerticalGroup(
             pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,8 +183,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(scrollTableAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(btnOpNovoAlbum)
+                    .addComponent(btnOpRemoverAlbum)
                     .addComponent(btnOpUpdateAlbum))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
@@ -277,7 +277,7 @@ public class MainFrame extends javax.swing.JFrame {
         actionIniciarAtualizacaoAlbum();
     }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnOpNovoAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpNovoAlbumActionPerformed
         LocalFileSystemAlbum a = new LocalFileSystemAlbum();
         a.setId(GregorianCalendar.getInstance().getTimeInMillis()); a.setName(GregorianCalendar.getInstance().getTime().toString()); a.setServerSide(false);a.setMountPointAsString("/var/opt");
         
@@ -285,7 +285,7 @@ public class MainFrame extends javax.swing.JFrame {
         newAlbumList.add(a);
         
         getMainFrameState().setAlbumList(newAlbumList);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnOpNovoAlbumActionPerformed
 
     //
     // ACTIONS
@@ -397,9 +397,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnOpNovoAlbum;
+    private javax.swing.JButton btnOpRemoverAlbum;
     private javax.swing.JButton btnOpUpdateAlbum;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

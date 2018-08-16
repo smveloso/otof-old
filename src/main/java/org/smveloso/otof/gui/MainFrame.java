@@ -2,10 +2,12 @@ package org.smveloso.otof.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import org.hibernate.id.GUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.facade.FacadeException;
@@ -29,8 +31,11 @@ public class MainFrame extends javax.swing.JFrame {
         initLookAndFeel();
         initComponents();
         serviceFacade = ServiceFacade.getInstance();
+        this.albumListTableModel.associateToState(state);
     }
 
+    private MainFrameState state = new MainFrameState();
+    
     private ServiceFacade serviceFacade;
     
     private AlbumListTableModel albumListTableModel = new AlbumListTableModel();
@@ -39,19 +44,10 @@ public class MainFrame extends javax.swing.JFrame {
         return albumListTableModel;
     }
 
-    // TODO para um 'state'
-    private List<Album> albumList = new ArrayList<>();
-
-    public List<Album> getAlbumList() {
-        return albumList;
+    private MainFrameState getMainFrameState() {
+        return this.state;
     }
-
-    public void setAlbumList(List<Album> albumList) {
-        this.albumList = albumList;
-        //TODO via 'state' e 'pcs'
-        getAlbumListTableModel().setAlbums(albumList);
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -283,12 +279,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         LocalFileSystemAlbum a = new LocalFileSystemAlbum();
-        a.setId(100l); a.setName("foo one"); a.setServerSide(false);a.setMountPointAsString("/var/opt");
+        a.setId(GregorianCalendar.getInstance().getTimeInMillis()); a.setName(GregorianCalendar.getInstance().getTime().toString()); a.setServerSide(false);a.setMountPointAsString("/var/opt");
         
         List<Album> newAlbumList = new ArrayList<>();
         newAlbumList.add(a);
-        setAlbumList(newAlbumList);
-
+        
+        getMainFrameState().setAlbumList(newAlbumList);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //

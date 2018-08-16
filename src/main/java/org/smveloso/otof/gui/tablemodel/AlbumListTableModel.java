@@ -1,18 +1,22 @@
 package org.smveloso.otof.gui.tablemodel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.smveloso.otof.gui.MainFrameProperties;
+import org.smveloso.otof.gui.MainFrameState;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 
-public class AlbumListTableModel extends AbstractTableModel {
+public class AlbumListTableModel extends AbstractTableModel implements PropertyChangeListener {
 
     private static final Logger logger = LoggerFactory.getLogger(AlbumListTableModel.class);
     
-    private List<Album> albums = new ArrayList<>();
+    private MainFrameState mainFrameState;
     
     // id, name, serverside, mountpoint(!!!), nro of photos (ira variar cf tipo de album (!!!))
     //TODO como lidar com tipos diferentes de album ?
@@ -37,10 +41,18 @@ public class AlbumListTableModel extends AbstractTableModel {
                                                                Boolean.class,
                                                                String.class,
                                                                Integer.class};
+
+    private List<Album> getAlbums() {
+        if (null == mainFrameState) {
+            return new ArrayList<>();
+        } else {
+            return mainFrameState.getAlbumList();
+        }
+    }
     
     @Override
     public int getRowCount() {
-        return albums.size();
+        return getAlbums().size();
     }
 
     @Override
@@ -50,7 +62,7 @@ public class AlbumListTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Album album = albums.get(rowIndex);
+        Album album = getAlbums().get(rowIndex);
         Object result = null;
         switch (columnIndex) {
             case 0: result = album.getId(); break;
@@ -71,13 +83,19 @@ public class AlbumListTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return COLUMN_NAMES[column];
     }
+
+    public void associateToState(MainFrameState mainFrameState) {
+        this.mainFrameState = mainFrameState;
+        this.mainFrameState.addPropertyChangeListener(this);
+    }
     
-    public void setAlbums(List<Album> albums) {
-        if (albums == null) {
-            throw new IllegalArgumentException("null album!");
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        logger.trace(">>> propertyChange: "+ evt.getPropertyName());
+        if (evt.getPropertyName().equals(MainFrameProperties.SET_ALBUM_LIST.name())) {
+            logger.trace("firing table data changed");
+            fireTableDataChanged();
         }
-        this.albums = albums;
-        fireTableDataChanged();
     }
     
 }

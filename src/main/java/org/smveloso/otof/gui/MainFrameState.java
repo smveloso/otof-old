@@ -20,6 +20,8 @@ public class MainFrameState {
 
     private List<Album> albumList = new ArrayList<>();
 
+    private Album currentAlbum;
+    
     public List<Album> getAlbumList() {
         return albumList;
     }

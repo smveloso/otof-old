@@ -84,6 +84,21 @@ public class AlbumListTableModel extends AbstractTableModel implements PropertyC
         return COLUMN_NAMES[column];
     }
 
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        logger.warn(">>> setValueAt(...): " + rowIndex + "," + columnIndex);
+        logger.warn("VALUE:" + aValue);
+        super.setValueAt(aValue, rowIndex, columnIndex); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        //TODO revisar !!!
+        return true;
+    }
+
+    
+    
     public void associateToState(MainFrameState mainFrameState) {
         this.mainFrameState = mainFrameState;
         this.mainFrameState.addPropertyChangeListener(this);

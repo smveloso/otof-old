@@ -153,6 +153,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnlAlbums.setBorder(javax.swing.BorderFactory.createTitledBorder("Albums"));
 
         tableAlbums.setModel(getAlbumListTableModel());
+        tableAlbums.setName("tableAlbums"); // NOI18N
         tableAlbums.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollTableAlbums.setViewportView(tableAlbums);
 

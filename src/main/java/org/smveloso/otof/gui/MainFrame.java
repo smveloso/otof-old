@@ -51,7 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
-        this.tableAlbums.getSelectionModel().addListSelectionListener(state);
+        this.tableAlbums.getSelectionModel().addListSelectionListener(state.albumListSelectionListener);
     }
     
     public AlbumListTableModel getAlbumListTableModel() {

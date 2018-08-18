@@ -6,7 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.hibernate.id.GUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
-        this.tableAlbums.getSelectionModel().addListSelectionListener(state.albumListSelectionListener);
+        this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
     }
     
     public AlbumListTableModel getAlbumListTableModel() {
@@ -431,4 +434,30 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable tableAlbums;
     private javax.swing.JTabbedPane tabpnlMain;
     // End of variables declaration//GEN-END:variables
+
+    ListSelectionListener albumListSelectionListener = new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            logger.trace(">>> albumListSelectionListener.valueChanged(...)");
+            logger.trace("Adjusting ?" + e.getValueIsAdjusting());
+            logger.trace("First     : " + e.getFirstIndex());
+            logger.trace("Last      : " + e.getLastIndex());                 
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            logger.trace("CLASS IS: " + lsm.getClass().toString());
+            logger.trace("MIN  : " + lsm.getMinSelectionIndex());
+            logger.trace("MAX  : " + lsm.getMaxSelectionIndex());
+            logger.trace("MODE : " + lsm.getSelectionMode());
+            // expect single-selection mode
+            if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = lsm.getMinSelectionIndex();
+                    if (lsm.isSelectedIndex(index)) {
+                        //TODO what about table sorting ?
+                        getMainFrameState().setCurrentAlbumIndex(index);
+                    }
+                }
+            }
+        }
+    };
+
 }

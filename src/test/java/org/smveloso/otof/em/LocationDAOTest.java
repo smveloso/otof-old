@@ -183,7 +183,7 @@ public class LocationDAOTest extends JpaBaseTest {
 
     */
 
-    @Test
+    @Test(groups="jpa-test")
     public void testPathUniquenessInAlbum() throws Exception {
         Location location = LocationDAO.getInstance().findLocation(3000l);
         assertNotNull(location,"cant test: no location");
@@ -212,6 +212,51 @@ public class LocationDAOTest extends JpaBaseTest {
         }
         
     }
+
+    @Test(groups="jpa-test")
+    public void testGetNumberOfPhotosInAllbum() throws Exception {
+        Album album = new LocalFileSystemAlbum();
+        album.setId(4000l);
+        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 1, "wrong count of photos in album");
+        album.setId(5000l);
+        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 2, "wrong count of photos in album");
+    }
+
+    @Test(groups="jpa-test")
+    public void testGetAllbumPhotos() throws Exception {
+        logger.trace(">>> testGetAlbumPhoto()");
+        
+        Album album = new LocalFileSystemAlbum();
+        album.setId(4000l);
+        List<Photo> list = LocationDAO.getInstance().getAlbumPhotos(album, 0, 0);
+
+        for (Photo photo:list) {
+            logger.trace("PHOTO: " + photo.getId() + ":" + photo.getFileDigest());
+        }
+        
+        assertEquals(list.size(), 1, "wrong count of photos in album");
+        assertEquals(list.get(0).getId().longValue(),4000l,"wrong photo returned in list");
+        
+        album.setId(5000l);
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 0, 0);
+        assertEquals(list.size(), 2, "wrong count of photos in album");
+        assertEquals(list.get(0).getId().longValue(),5000l,"wrong photo returned in list (0)");
+        assertEquals(list.get(1).getId().longValue(),6000l,"wrong photo returned in list (1)"); 
+        
+        album.setId(8000l);
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 0, 0);
+        assertEquals(list.size(), 20, "wrong count of photos in album");
+        
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 1, 5);
+        assertEquals(list.size(), 5, "wrong count of photos in album");
+        assertEquals(list.get(0).getId().intValue(), 8001, "wrong first photo in page (1)");
+
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 2, 5);
+        assertEquals(list.size(), 5, "wrong count of photos in album");
+        assertEquals(list.get(0).getId().intValue(), 8006, "wrong first photo in page (2)");
+        
+    }
+
     
     @Override
     protected void prepareSettings() {

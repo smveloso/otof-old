@@ -1,6 +1,6 @@
 <configuration debug="true">
 
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <appender name="OTOF" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
     <file>otof-test.log</file>
     
@@ -8,7 +8,7 @@
        <!-- rollover daily -->
        <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
        <!-- each file should be at most 1MB, keep 5 days worth of history, but at most 20MB -->
-       <maxFileSize>1MB</maxFileSize>    
+       <maxFileSize>10MB</maxFileSize>    
        <maxHistory>5</maxHistory>
        <totalSizeCap>20MB</totalSizeCap>
     </rollingPolicy>
@@ -18,7 +18,34 @@
     </encoder>
   </appender>
 
-  <root level="debug">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <file>otof-test-others.log</file>
+    
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+       <!-- rollover daily -->
+       <fileNamePattern>mylog-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+       <!-- each file should be at most 1MB, keep 5 days worth of history, but at most 20MB -->
+       <maxFileSize>10MB</maxFileSize>    
+       <maxHistory>5</maxHistory>
+       <totalSizeCap>20MB</totalSizeCap>
+    </rollingPolicy>
+    
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+
+  <logger name="org.hibernate" level="INFO" additivity="FALSE">
+      <appender-ref ref="FILE"/>
+  </logger> 
+    
+  <logger name="org.smveloso.otof" level="TRACE" additivity="FALSE"> 
+      <appender-ref ref="OTOF"/>
+  </logger>
+
+  <root level="trace">
     <appender-ref ref="FILE" />
   </root>
 </configuration>

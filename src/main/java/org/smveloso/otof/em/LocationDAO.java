@@ -1,18 +1,24 @@
 package org.smveloso.otof.em;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.exception.NonexistentEntityException;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.util.Misc;
 
 /**
  *
@@ -20,6 +26,8 @@ import org.smveloso.otof.model.Photo;
  */
 public class LocationDAO extends DAO implements Serializable {
 
+    private final Logger logger = LoggerFactory.getLogger(LocationDAO.class);;
+    
     private static LocationDAO instance = null;
     
     private LocationDAO() {
@@ -167,6 +175,41 @@ public class LocationDAO extends DAO implements Serializable {
         } finally {
             em.close();
         }        
+    }
+
+    public int getNumberOfPhotosInAlbum(Album album) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("select distinct(loc.photo.id) from Location loc where loc.album.id = :albumid");
+            return q.setParameter("albumid", album.getId()).getResultList().size();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Photo> getAlbumPhotos(Album album, int page, int pagesize) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("select distinct loc.photo from Location loc where loc.album.id = :albumid",Photo.class);
+            q.setParameter("albumid",album.getId());
+                       
+            if (page != 0 && pagesize != 0) {
+                q.setFirstResult(Misc.getStartIndex(pagesize, page));
+                q.setMaxResults(pagesize);                
+            }
+            
+            List<Photo> photos = q.getResultList();
+ 
+            // breaks when paginating
+            //photos.sort((Photo o1, Photo o2) -> o1.getId().compareTo(o2.getId()));
+            
+            return photos;
+            
+        } catch (NoResultException notFoundIsOK) {
+            return new ArrayList<>();
+        } finally {
+            em.close();
+        }                    
     }
     
 }

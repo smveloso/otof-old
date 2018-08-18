@@ -12,7 +12,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicListUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.smveloso.otof.em.AlbumDAO;
+import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.model.Album;
+import org.smveloso.otof.model.Photo;
 
 public class MainFrameState  {
 
@@ -28,9 +31,15 @@ public class MainFrameState  {
         this.pcs.removePropertyChangeListener(listener);
     }
 
+    // backend do albumlistablemodel
     private List<Album> albumList = new ArrayList<>();
 
+    // backend do albumphotostablemodel
+    private List<Photo> albumPhotosList = new ArrayList<>();
+    
     private Album currentAlbum;
+
+    private Integer currentPageInAlbumPhotos = 1;
     
     public List<Album> getAlbumList() {
         return albumList;
@@ -42,20 +51,26 @@ public class MainFrameState  {
         pcs.firePropertyChange(MainFrameProperties.SET_ALBUM_LIST.name(), old, this.albumList);
     }
 
-    ListSelectionListener albumListSelectionListener = new ListSelectionListener() {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            logger.trace(">>> albumListSelectionListener.valueChanged(...)");
-            logger.trace("Adjusting ?" + e.getValueIsAdjusting());
-            logger.trace("First     : " + e.getFirstIndex());
-            logger.trace("Last      : " + e.getLastIndex());                 
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-            logger.trace("CLASS IS: " + lsm.getClass().toString());
-            if (lsm instanceof Component) {
-                String tableName = ((Component) lsm).getName();
-                logger.trace("Component: " + tableName);
-            }
-        }            
-    };
+    public List<Photo> getAlbumPhotosList() {
+        return albumPhotosList;
+    }
+    
+    private Album getCurrentAlbum() {
+        return currentAlbum;
+    }
 
+    public void setCurrentAlbumIndex(int index) {
+        setCurrentAlbum(getAlbumList().get(index));
+    }
+    
+    private void setCurrentAlbum(Album currentAlbum) {
+        Album old = this.currentAlbum;
+        this.currentAlbum = currentAlbum;
+        this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(old, currentPageInAlbumPhotos, 10);
+        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.currentAlbum);
+    }
+
+
+    
+    
 }

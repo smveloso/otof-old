@@ -190,19 +190,17 @@ public class LocationDAO extends DAO implements Serializable {
     public List<Photo> getAlbumPhotos(Album album, int page, int pagesize) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createQuery("select distinct loc.photo from Location loc where loc.album.id = :albumid",Photo.class);
+            Query q = em.createQuery("select distinct p from Photo p inner join Location loc " +
+                                     "on p.id = loc.photo.id where loc.album.id = :albumid order by p.id",Photo.class);
             q.setParameter("albumid",album.getId());
                        
-            if (page != 0 && pagesize != 0) {
+            if (page > 0 && pagesize > 0) {
                 q.setFirstResult(Misc.getStartIndex(pagesize, page));
                 q.setMaxResults(pagesize);                
             }
             
             List<Photo> photos = q.getResultList();
- 
-            // breaks when paginating
-            //photos.sort((Photo o1, Photo o2) -> o1.getId().compareTo(o2.getId()));
-            
+             
             return photos;
             
         } catch (NoResultException notFoundIsOK) {

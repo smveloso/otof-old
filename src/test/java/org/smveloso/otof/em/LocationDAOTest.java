@@ -217,9 +217,11 @@ public class LocationDAOTest extends JpaBaseTest {
     public void testGetNumberOfPhotosInAllbum() throws Exception {
         Album album = new LocalFileSystemAlbum();
         album.setId(4000l);
-        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 1, "wrong count of photos in album");
+        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 1, "wrong count of photos in album (1)");
         album.setId(5000l);
-        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 2, "wrong count of photos in album");
+        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 2, "wrong count of photos in album (2)");
+        album.setId(8000l);
+        assertEquals(LocationDAO.getInstance().getNumberOfPhotosInAlbum(album), 20, "wrong count of photos in album (3)");
     }
 
     @Test(groups="jpa-test")
@@ -254,7 +256,15 @@ public class LocationDAOTest extends JpaBaseTest {
         list = LocationDAO.getInstance().getAlbumPhotos(album, 2, 5);
         assertEquals(list.size(), 5, "wrong count of photos in album");
         assertEquals(list.get(0).getId().intValue(), 8006, "wrong first photo in page (2)");
-        
+
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 2, 5);
+        assertEquals(list.size(), 5, "wrong count of photos in album");
+        assertEquals(list.get(0).getId().intValue(), 8006, "wrong first photo in page (2)");
+
+        // pagina nao existe
+        list = LocationDAO.getInstance().getAlbumPhotos(album, 20, 5);
+        assertEquals(list.size(), 0, "wrong count of photos in album (should be empty)");
+
     }
 
     

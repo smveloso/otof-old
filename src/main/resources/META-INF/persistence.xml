@@ -11,10 +11,7 @@
     <class>org.smveloso.otof.model.Location</class>
     <class>org.smveloso.otof.model.LocalFileSystemAlbum</class>
     <properties>
-      <!--
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/otofdatabase;MVCC=true;TRACE_LEVEL_SYSTEM_OUT=3;LOCK_TIMEOUT=10000"/>        
-      -->
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/otofdatabase;MVCC=true"/>
+      <property name="javax.persistence.jdbc.url" value="${jdbc.url}"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>

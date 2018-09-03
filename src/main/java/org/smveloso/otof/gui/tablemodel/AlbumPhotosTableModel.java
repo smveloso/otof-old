@@ -9,8 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.gui.MainFrameProperties;
 import org.smveloso.otof.gui.MainFrameState;
-import org.smveloso.otof.model.Album;
-import org.smveloso.otof.model.LocalFileSystemAlbum;
+import org.smveloso.otof.model.Photo;
 
 public class AlbumPhotosTableModel extends AbstractTableModel implements PropertyChangeListener {
 
@@ -25,28 +24,28 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
     //TODO localization someday ?
     
     private static final String COL_NAME_ID = "ID";
-    private static final String COL_NAME_NAME = "nome";
-    private static final String COL_NAME_SERVER_SIDE = "remoto ?";
-    private static final String COL_NAME_MOUNT_POINT = "mount point";
-    private static final String COL_NAME_NRO_FOTOS = "fotos";
+    private static final String COL_NAME_DATE_TAKEN = "data";
+    private static final String COL_NAME_FILE_NAME = "file name";
+    private static final String COL_NAME_FILE_SIZE = "file size";
+    private static final String COL_NAME_FILE_DIGEST = "file digest";
     
     private static final String[] COLUMN_NAMES = new String[] {COL_NAME_ID,
-                                                               COL_NAME_NAME,
-                                                               COL_NAME_SERVER_SIDE,
-                                                               COL_NAME_MOUNT_POINT,
-                                                               COL_NAME_NRO_FOTOS};
+                                                               COL_NAME_DATE_TAKEN,
+                                                               COL_NAME_FILE_NAME,
+                                                               COL_NAME_FILE_SIZE,
+                                                               COL_NAME_FILE_DIGEST};
     
     private static final Class[] COLUMN_CLASSES = new Class[] {Integer.class,
                                                                String.class,
-                                                               Boolean.class,
                                                                String.class,
-                                                               Integer.class};
+                                                               Long.class,
+                                                               String.class};
 
-    private List<Album> getAlbumPhotos() {
+    private List<Photo> getAlbumPhotos() {
         if (null == mainFrameState) {
             return new ArrayList<>();
         } else {
-            return mainFrameState.getAlbumList();
+            return mainFrameState.getAlbumPhotosList();
         }
     }
     
@@ -62,14 +61,15 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Album album = getAlbumPhotos().get(rowIndex);
+        Photo photo = getAlbumPhotos().get(rowIndex);
         Object result = null;
         switch (columnIndex) {
-            case 0: result = album.getId(); break;
-            case 1: result = album.getName(); break;
-            case 2: result = album.isServerSide(); break;
-            case 3: result = ((LocalFileSystemAlbum) album).getMountPointAsString(); break;
-            case 4: result = -1; break;
+            case 0: result = photo.getId(); break;
+            case 1: result = photo.getDateTaken(); break;
+            case 2: result = "todo"; break;   // file name is recorded in location, not in photo. 
+                                              // there maybe more than one file per photo per album
+            case 3: result = photo.getFileSize(); break;
+            case 4: result = photo.getFileDigest(); break;
         }
         return result;
     }

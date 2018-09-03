@@ -18,6 +18,7 @@ import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
+import org.smveloso.otof.gui.tablemodel.AlbumPhotosTableModel;
 
 /**
  *
@@ -32,6 +33,8 @@ public class MainFrame extends javax.swing.JFrame {
     private ServiceFacade serviceFacade;
     
     private AlbumListTableModel albumListTableModel;
+    
+    private AlbumPhotosTableModel albumPhotosTableModel;
     
     /**
      * Creates new form MainFrame
@@ -50,6 +53,8 @@ public class MainFrame extends javax.swing.JFrame {
         this.state = new MainFrameState();
         this.albumListTableModel = new AlbumListTableModel();
         this.albumListTableModel.associateToState(state);
+        this.albumPhotosTableModel = new AlbumPhotosTableModel();
+        this.albumPhotosTableModel.associateToState(state);
     }
     
     private void afterInitComponents() {
@@ -61,6 +66,10 @@ public class MainFrame extends javax.swing.JFrame {
         return albumListTableModel;
     }
 
+    public AlbumPhotosTableModel getAlbumPhotosTableModel() {
+        return albumPhotosTableModel;
+    }
+    
     private MainFrameState getMainFrameState() {
         return this.state;
     }
@@ -78,9 +87,9 @@ public class MainFrame extends javax.swing.JFrame {
         pnlSearch = new javax.swing.JPanel();
         pnlAlbumTab = new javax.swing.JPanel();
         pnlAlbumFotos = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
+        scrollTableAlbumFotos = new javax.swing.JScrollPane();
+        tableAlbumFotos = new javax.swing.JTable();
+        pnlFotoPreview = new javax.swing.JPanel();
         pnlAlbums = new javax.swing.JPanel();
         scrollTableAlbums = new javax.swing.JScrollPane();
         tableAlbums = new javax.swing.JTable();
@@ -109,26 +118,19 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlAlbumFotos.setBorder(javax.swing.BorderFactory.createTitledBorder("Fotos"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        tableAlbumFotos.setModel(getAlbumPhotosTableModel());
+        scrollTableAlbumFotos.setViewportView(tableAlbumFotos);
 
-            },
-            new String [] {
+        pnlFotoPreview.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
 
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnlFotoPreviewLayout = new javax.swing.GroupLayout(pnlFotoPreview);
+        pnlFotoPreview.setLayout(pnlFotoPreviewLayout);
+        pnlFotoPreviewLayout.setHorizontalGroup(
+            pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 314, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlFotoPreviewLayout.setVerticalGroup(
+            pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 242, Short.MAX_VALUE)
         );
 
@@ -138,9 +140,9 @@ public class MainFrame extends javax.swing.JFrame {
             pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnlAlbumFotosLayout.setVerticalGroup(
@@ -148,8 +150,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -421,16 +423,16 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOpNovoAlbum;
     private javax.swing.JButton btnOpRemoverAlbum;
     private javax.swing.JButton btnOpUpdateAlbum;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel pnlAlbumFotos;
     private javax.swing.JPanel pnlAlbumTab;
     private javax.swing.JPanel pnlAlbums;
     private javax.swing.JPanel pnlBottom;
+    private javax.swing.JPanel pnlFotoPreview;
     private javax.swing.JPanel pnlHouseKeeping;
     private javax.swing.JPanel pnlSearch;
+    private javax.swing.JScrollPane scrollTableAlbumFotos;
     private javax.swing.JScrollPane scrollTableAlbums;
+    private javax.swing.JTable tableAlbumFotos;
     private javax.swing.JTable tableAlbums;
     private javax.swing.JTabbedPane tabpnlMain;
     // End of variables declaration//GEN-END:variables

@@ -60,6 +60,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
+        loadAllAlbums();
+    }
+
+    /** loads ALL albums into state */
+    private void loadAllAlbums() {
+        logger.debug(">> loadAllAlbums()");
+        try {
+            this.state.setAlbumList(serviceFacade.getAllAlbums());
+        } catch (FacadeException e) {
+            guiMostraAviso("ERRO:" + e.getMessage());
+        }
+        logger.debug("<< loadAllAlbums()");
     }
     
     public AlbumListTableModel getAlbumListTableModel() {
@@ -96,6 +108,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnOpNovoAlbum = new javax.swing.JButton();
         btnOpRemoverAlbum = new javax.swing.JButton();
         btnOpUpdateAlbum = new javax.swing.JButton();
+        btnOpRefreshAlbumList = new javax.swing.JButton();
         pnlHouseKeeping = new javax.swing.JPanel();
         pnlBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
@@ -178,6 +191,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnOpRefreshAlbumList.setText("R");
+        btnOpRefreshAlbumList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpRefreshAlbumListActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlAlbumsLayout = new javax.swing.GroupLayout(pnlAlbums);
         pnlAlbums.setLayout(pnlAlbumsLayout);
         pnlAlbumsLayout.setHorizontalGroup(
@@ -185,14 +205,15 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlAlbumsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollTableAlbums, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scrollTableAlbums, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
                     .addGroup(pnlAlbumsLayout.createSequentialGroup()
                         .addComponent(btnOpNovoAlbum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpRemoverAlbum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnOpRefreshAlbumList, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -206,7 +227,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOpNovoAlbum)
                     .addComponent(btnOpRemoverAlbum)
-                    .addComponent(btnOpUpdateAlbum))
+                    .addComponent(btnOpUpdateAlbum)
+                    .addComponent(btnOpRefreshAlbumList))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
@@ -309,6 +331,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
         getMainFrameState().setAlbumList(newAlbumList);
     }//GEN-LAST:event_btnOpNovoAlbumActionPerformed
+
+    private void btnOpRefreshAlbumListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpRefreshAlbumListActionPerformed
+        loadAllAlbums();
+    }//GEN-LAST:event_btnOpRefreshAlbumListActionPerformed
 
     //
     // ACTIONS
@@ -421,6 +447,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnOpNovoAlbum;
+    private javax.swing.JButton btnOpRefreshAlbumList;
     private javax.swing.JButton btnOpRemoverAlbum;
     private javax.swing.JButton btnOpUpdateAlbum;
     private javax.swing.JPanel pnlAlbumFotos;
@@ -455,6 +482,7 @@ public class MainFrame extends javax.swing.JFrame {
                     int index = lsm.getMinSelectionIndex();
                     if (lsm.isSelectedIndex(index)) {
                         //TODO what about table sorting ?
+                        logger.debug("INDEX IS: " + index);
                         getMainFrameState().setCurrentAlbumIndex(index);
                     }
                 }

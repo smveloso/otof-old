@@ -60,13 +60,17 @@ public class MainFrameState  {
     }
 
     public void setCurrentAlbumIndex(int index) {
+        logger.debug(">>> setCurrentAlbumIndex() : " + index);
         setCurrentAlbum(getAlbumList().get(index));
+        logger.debug("<<< setCurrentAlbumIndex()");
     }
     
     private void setCurrentAlbum(Album currentAlbum) {
+        logger.debug(">>> setCurrentAlbum()");
+        logger.trace("ALBUM: " + ((currentAlbum != null)?currentAlbum.getName():"null"));
         Album old = this.currentAlbum;
         this.currentAlbum = currentAlbum;
-        this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(old, currentPageInAlbumPhotos, 10);
+        this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(currentAlbum, currentPageInAlbumPhotos, 10);
         pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.currentAlbum);
     }
 

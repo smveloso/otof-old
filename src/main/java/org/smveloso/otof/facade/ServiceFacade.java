@@ -1,5 +1,6 @@
 package org.smveloso.otof.facade;
 
+import java.util.List;
 import org.smveloso.otof.service.AlbumUpdater;
 import org.smveloso.otof.gui.job.LocalFileSystemAlbumUpdaterJob;
 import java.util.concurrent.ExecutionException;
@@ -38,6 +39,10 @@ public class ServiceFacade {
         return instance;
     }
 
+    public List<Album> getAllAlbums() throws FacadeException {
+        return albumDAO.findAlbumEntities();
+    }
+    
     /** @return O album encontrado ou null.
      */
     public Album getAlbumByName(String albumName) throws FacadeException {

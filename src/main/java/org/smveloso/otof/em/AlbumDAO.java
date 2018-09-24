@@ -11,6 +11,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.em.exception.NonexistentEntityException;
 import org.smveloso.otof.model.Album;
@@ -22,6 +24,8 @@ import org.smveloso.otof.model.Photo;
  */
 public class AlbumDAO extends DAO implements Serializable {
 
+    private static final Logger logger = LoggerFactory.getLogger(AlbumDAO.class);
+    
     private static AlbumDAO instance;
     
     private AlbumDAO() {
@@ -45,7 +49,7 @@ public class AlbumDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     } catch (Throwable any) {
@@ -73,7 +77,7 @@ public class AlbumDAO extends DAO implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -94,7 +98,7 @@ public class AlbumDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -108,6 +112,8 @@ public class AlbumDAO extends DAO implements Serializable {
     }
 
     private List<Album> findAlbumEntities(boolean all, int maxResults, int firstResult) {
+        logger.debug(">>> findAlbumEntities(...)");
+        logger.trace("(all,max,first) :: " + all + " " + maxResults + " " + firstResult);
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -117,9 +123,10 @@ public class AlbumDAO extends DAO implements Serializable {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
+            logger.debug("<<< findAlbumEntities(...)");
             return q.getResultList();
         } finally {
-            em.close();
+            closeEM(em);
         }
     }
 
@@ -128,7 +135,7 @@ public class AlbumDAO extends DAO implements Serializable {
         try {
             return em.find(Album.class, id);
         } finally {
-            em.close();
+            closeEM(em);
         }
     }
 
@@ -152,7 +159,7 @@ public class AlbumDAO extends DAO implements Serializable {
         } catch (PersistenceException e) {
             throw new EmException("Erro ao buscar album por nome: " + e.getMessage(), e);
         } finally {
-            em.close();
+            closeEM(em);
         }
         return album;
     }
@@ -166,7 +173,7 @@ public class AlbumDAO extends DAO implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            closeEM(em);
         }
     }
     

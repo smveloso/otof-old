@@ -55,13 +55,27 @@ public class MainFrameState  {
         return albumPhotosList;
     }
     
-    private Album getCurrentAlbum() {
+    //TODO diferenciar por tab: album de qual tab ??
+    public Album getCurrentAlbum() {
         return currentAlbum;
     }
 
+    //TODO diferenciar por tab: album de qual tab ??
+    public boolean isAlbumSelected() {
+        return (getCurrentAlbum() != null);
+    }
+    
+    public void clearCurrentAlbumIndex() {
+        setCurrentAlbumIndex(-1);
+    }
+    
     public void setCurrentAlbumIndex(int index) {
         logger.debug(">>> setCurrentAlbumIndex() : " + index);
-        setCurrentAlbum(getAlbumList().get(index));
+        if (index == -1) {
+            setCurrentAlbum(null);
+        } else {
+            setCurrentAlbum(getAlbumList().get(index));
+        }
         logger.debug("<<< setCurrentAlbumIndex()");
     }
     
@@ -70,11 +84,15 @@ public class MainFrameState  {
         logger.trace("ALBUM: " + ((currentAlbum != null)?currentAlbum.getName():"null"));
         Album old = this.currentAlbum;
         this.currentAlbum = currentAlbum;
-        this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(currentAlbum, currentPageInAlbumPhotos, 10);
+        if (currentAlbum != null) {
+            this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(currentAlbum, currentPageInAlbumPhotos, 10);
+        } else {
+            this.albumPhotosList = new ArrayList<>();
+        }
         pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.currentAlbum);
     }
 
-
+    
     
     
 }

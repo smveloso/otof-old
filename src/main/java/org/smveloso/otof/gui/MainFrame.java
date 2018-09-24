@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import org.hibernate.id.GUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.smveloso.otof.em.JpaManager;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
@@ -45,6 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         beforeInitComponents();
         initComponents();
         afterInitComponents();
+        logger.debug("<<< MainFrame()");
     }
 
     private void beforeInitComponents() {
@@ -55,16 +57,18 @@ public class MainFrame extends javax.swing.JFrame {
         this.albumListTableModel.associateToState(state);
         this.albumPhotosTableModel = new AlbumPhotosTableModel();
         this.albumPhotosTableModel.associateToState(state);
+        logger.debug("<<< beforeInitComponents()");
     }
     
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
-        loadAllAlbums();
+        actionLoadAllAlbums();
+        logger.debug("<<< afterInitComponents()");
     }
 
     /** loads ALL albums into state */
-    private void loadAllAlbums() {
+    private void actionLoadAllAlbums() {
         logger.debug(">> loadAllAlbums()");
         try {
             this.state.setAlbumList(serviceFacade.getAllAlbums());
@@ -113,7 +117,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnlBottom = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("OTOF");
 
         javax.swing.GroupLayout pnlSearchLayout = new javax.swing.GroupLayout(pnlSearch);
@@ -316,10 +320,6 @@ public class MainFrame extends javax.swing.JFrame {
         actionFechar();
     }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
-        actionIniciarAtualizacaoAlbum();
-    }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
-
     private void btnOpNovoAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpNovoAlbumActionPerformed
         List<Album> newAlbumList = new ArrayList<>();
         LocalFileSystemAlbum a;
@@ -333,32 +333,33 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpNovoAlbumActionPerformed
 
     private void btnOpRefreshAlbumListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpRefreshAlbumListActionPerformed
-        loadAllAlbums();
+        actionLoadAllAlbums();
     }//GEN-LAST:event_btnOpRefreshAlbumListActionPerformed
+
+    private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
+        actionAtualizarAlbum();
+    }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
 
     //
     // ACTIONS
     //
     
     private void actionFechar() {
-        this.setVisible(false);
+        JpaManager.getInstance().finish();
         this.dispose();
     }
     
-    private void actionIniciarAtualizacaoAlbum() {
-                
+    private void actionAtualizarAlbum() {
+               
+        logger.debug(">>> actionAtualizarAlbum()");
+        
+        if (!getMainFrameState().isAlbumSelected()) {
+            guiMostraAviso("Por favor selecione um álbum para atualizar");
+            return;
+        }
+        
         try {
-            //TODO validações ...
-//            String baseDir = txtOpUpdateAlbumBaseDir.getText();
-//            String albumName = txtOpUpdateAlbumName.getText();
-            String baseDir = "foo";
-            String albumName = "foobar";
-            Album album = serviceFacade.getAlbumByName(albumName);
-            if (null == album) {
-                logger.debug("album will be created: %s",albumName);
-                album = serviceFacade.newLocalFileSystemAlbum(albumName, baseDir);
-            }
-            logger.debug("calling serviceFacade to performAlbumUpdate ...");
+            Album album = getMainFrameState().getCurrentAlbum(); //serviceFacade.getAlbumByName(albumName);
             serviceFacade.performAlbumUpdate(album);
         } catch (FacadeException e) {
             String msg = e.getMessage();
@@ -371,6 +372,8 @@ public class MainFrame extends javax.swing.JFrame {
         } finally {
             
         }
+
+        logger.debug("<<< actionAtualizarAlbum()");
 
     }
     
@@ -480,10 +483,14 @@ public class MainFrame extends javax.swing.JFrame {
             if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
                 if (!e.getValueIsAdjusting()) {
                     int index = lsm.getMinSelectionIndex();
-                    if (lsm.isSelectedIndex(index)) {
+                    if (index == -1) {
+                        getMainFrameState().clearCurrentAlbumIndex();
+                    } else if (lsm.isSelectedIndex(index)) {
                         //TODO what about table sorting ?
                         logger.debug("INDEX IS: " + index);
                         getMainFrameState().setCurrentAlbumIndex(index);
+                    } else {
+                        logger.warn("dont know what to do ...");
                     }
                 }
             }

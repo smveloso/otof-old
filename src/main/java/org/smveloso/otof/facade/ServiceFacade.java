@@ -40,6 +40,7 @@ public class ServiceFacade {
     }
 
     public List<Album> getAllAlbums() throws FacadeException {
+        logger.debug(">>> <<< getAllAlbums()");
         return albumDAO.findAlbumEntities();
     }
     

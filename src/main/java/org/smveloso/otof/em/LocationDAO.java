@@ -146,6 +146,7 @@ public class LocationDAO extends DAO implements Serializable {
     
     //TODO what to do with multiple locations in the same album (should I even allow it ?)
     public Location findLocationInAlbumByPath(Album album, String path) {
+        logger.debug(">>> findLocationInAlbumByPath(Album,String)");
         EntityManager em = getEntityManager();
         try {
             Location location = 
@@ -153,8 +154,10 @@ public class LocationDAO extends DAO implements Serializable {
                                    Location.class)
                     .setParameter("path", path).setParameter("aid", album.getId())
                     .getSingleResult();
+            logger.debug("<<< findLocationInAlbumByPath(Album,String)");
             return location;
         } catch (NoResultException notFoundIsOK) {
+            logger.debug("<<< findLocationInAlbumByPath(Album,String) => null");
             return null;
         } finally {
             em.close();

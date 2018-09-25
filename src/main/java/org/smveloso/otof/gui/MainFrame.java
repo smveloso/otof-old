@@ -377,7 +377,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             Album album = getMainFrameState().getAlbum();
             serviceFacade.performAlbumUpdate(album);
-            state.setAlbum(album); // refresh
+            actionSelecionarAlbum(album);
             
         } catch (FacadeException e) {
             String msg = e.getMessage();

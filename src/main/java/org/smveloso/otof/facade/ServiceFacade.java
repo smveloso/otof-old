@@ -7,11 +7,13 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.AlbumDAO;
+import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
+import org.smveloso.otof.model.Photo;
 import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
 
 /**
@@ -24,10 +26,12 @@ public class ServiceFacade {
     
     private final PhotoDAO photoDAO;
     private final AlbumDAO albumDAO;
+    private final LocationDAO locationDAO;;
     
     private ServiceFacade() {
         photoDAO = PhotoDAO.getInstance();
-        albumDAO = AlbumDAO.getInstance();        
+        albumDAO = AlbumDAO.getInstance(); 
+        locationDAO = LocationDAO.getInstance();
     }
   
     private static ServiceFacade instance = null;
@@ -42,6 +46,11 @@ public class ServiceFacade {
     public List<Album> getAllAlbums() throws FacadeException {
         logger.debug(">>> <<< getAllAlbums()");
         return albumDAO.findAlbumEntities();
+    }
+
+    public List<Photo> getAlbumPhotos(Album album) throws FacadeException {
+        logger.debug(">>> <<< getAlbumPhotos()");
+        return locationDAO.getAlbumPhotos(album, 0, 0);
     }
     
     /** @return O album encontrado ou null.
@@ -101,5 +110,5 @@ public class ServiceFacade {
     public int getTotalPhotoCount() {
         return photoDAO.getTotalPhotoCount();
     }
-    
+        
 }

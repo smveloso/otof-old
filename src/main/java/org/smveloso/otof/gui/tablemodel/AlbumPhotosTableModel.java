@@ -105,7 +105,8 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         logger.trace(">>> propertyChange: "+ evt.getPropertyName());
-        if (evt.getPropertyName().equals(MainFrameProperties.SET_CURRENT_ALBUM.name())) {
+        //if (evt.getPropertyName().equals(MainFrameProperties.SET_CURRENT_ALBUM.name())) {
+        if (evt.getPropertyName().equals(MainFrameProperties.SET_CURRENT_ALBUM_PHOTO_LIST.name())) {
             logger.trace("firing table data changed");
             fireTableDataChanged();
         }

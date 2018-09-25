@@ -1,19 +1,11 @@
 package org.smveloso.otof.gui;
 
-import java.awt.Component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicListUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.smveloso.otof.em.AlbumDAO;
-import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Photo;
 
@@ -37,9 +29,18 @@ public class MainFrameState  {
     // backend do albumphotostablemodel
     private List<Photo> albumPhotosList = new ArrayList<>();
     
-    private Album currentAlbum;
+    private Album album;
 
     private Integer currentPageInAlbumPhotos = 1;
+
+    public Integer getCurrentPageInAlbumPhotos() {
+        return currentPageInAlbumPhotos;
+    }
+
+    public void setCurrentPageInAlbumPhotos(Integer currentPageInAlbumPhotos) {
+        throw new UnsupportedOperationException("not ready");
+        //this.currentPageInAlbumPhotos = currentPageInAlbumPhotos;
+    }
     
     public List<Album> getAlbumList() {
         return albumList;
@@ -56,43 +57,34 @@ public class MainFrameState  {
     }
     
     //TODO diferenciar por tab: album de qual tab ??
-    public Album getCurrentAlbum() {
-        return currentAlbum;
+    public Album getAlbum() {
+        return album;
     }
 
     //TODO diferenciar por tab: album de qual tab ??
     public boolean isAlbumSelected() {
-        return (getCurrentAlbum() != null);
+        return (getAlbum() != null);
     }
     
-    public void clearCurrentAlbumIndex() {
-        setCurrentAlbumIndex(-1);
+    public void clearCurrentAlbum() {
+        setAlbum(null);
     }
     
-    public void setCurrentAlbumIndex(int index) {
-        logger.debug(">>> setCurrentAlbumIndex() : " + index);
-        if (index == -1) {
-            setCurrentAlbum(null);
-        } else {
-            setCurrentAlbum(getAlbumList().get(index));
-        }
-        logger.debug("<<< setCurrentAlbumIndex()");
+    public void setAlbum(Album album) {
+        logger.debug(">>> setAlbum()");
+        logger.trace("ALBUM: " + ((album != null)?album.toString():"null"));
+        Album old = this.album;
+        this.album = album;
+        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.album);
+        logger.debug("<<< setAlbum()");
     }
     
-    private void setCurrentAlbum(Album currentAlbum) {
-        logger.debug(">>> setCurrentAlbum()");
-        logger.trace("ALBUM: " + ((currentAlbum != null)?currentAlbum.getName():"null"));
-        Album old = this.currentAlbum;
-        this.currentAlbum = currentAlbum;
-        if (currentAlbum != null) {
-            this.albumPhotosList = LocationDAO.getInstance().getAlbumPhotos(currentAlbum, currentPageInAlbumPhotos, 10);
-        } else {
-            this.albumPhotosList = new ArrayList<>();
-        }
-        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.currentAlbum);
+    public void setAlbumPhotosList(List<Photo> albumPhotosList) {
+        logger.debug(">>> setAlbumPhotosList()");
+        List<Photo> old = this.albumPhotosList;
+        this.albumPhotosList = albumPhotosList;
+        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM_PHOTO_LIST.name(), old, this.albumPhotosList);
+        logger.debug("<<< setAlbumPhotosList()");
     }
-
-    
-    
     
 }

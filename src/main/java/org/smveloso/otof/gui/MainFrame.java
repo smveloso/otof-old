@@ -1,16 +1,12 @@
 package org.smveloso.otof.gui;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import org.hibernate.id.GUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.JpaManager;
@@ -20,6 +16,7 @@ import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
 import org.smveloso.otof.gui.tablemodel.AlbumPhotosTableModel;
+import org.smveloso.otof.model.Photo;
 
 /**
  *
@@ -65,17 +62,6 @@ public class MainFrame extends javax.swing.JFrame {
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
         actionLoadAllAlbums();
         logger.debug("<<< afterInitComponents()");
-    }
-
-    /** loads ALL albums into state */
-    private void actionLoadAllAlbums() {
-        logger.debug(">> loadAllAlbums()");
-        try {
-            this.state.setAlbumList(serviceFacade.getAllAlbums());
-        } catch (FacadeException e) {
-            guiMostraAviso("ERRO:" + e.getMessage());
-        }
-        logger.debug("<< loadAllAlbums()");
     }
     
     public AlbumListTableModel getAlbumListTableModel() {
@@ -349,6 +335,36 @@ public class MainFrame extends javax.swing.JFrame {
         this.dispose();
     }
     
+    /** loads ALL albums into state */
+    private void actionLoadAllAlbums() {
+        logger.debug(">> loadAllAlbums()");
+        try {
+            this.state.setAlbumList(serviceFacade.getAllAlbums());
+        } catch (FacadeException e) {
+            guiMostraAviso("ERRO:" + e.getMessage());
+        }
+        logger.debug("<< loadAllAlbums()");
+    }    
+
+    private void actionSelecionarAlbum(Album album) {
+        logger.debug(">>> actionSelecionarAlbum(Album)");
+        getMainFrameState().setAlbum(album);
+        actionAtualizarListaFotos(album);
+        logger.debug("<<< actionSelecionarAlbum(Album)");        
+    }
+
+    private void actionAtualizarListaFotos(Album album) {
+        logger.debug(">>> actionAtualizarListaFotos(Album)");
+        try {
+            List<Photo> albumPhotos = serviceFacade.getAlbumPhotos(album);
+            getMainFrameState().setAlbumPhotosList(albumPhotos);
+        } catch (FacadeException e) {
+            String msg = e.getMessage();
+            JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
+        }
+        logger.debug("<<< actionAtualizarListaFotos(Album)");        
+    }
+    
     private void actionAtualizarAlbum() {
                
         logger.debug(">>> actionAtualizarAlbum()");
@@ -359,8 +375,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         try {
-            Album album = getMainFrameState().getCurrentAlbum(); //serviceFacade.getAlbumByName(albumName);
+            Album album = getMainFrameState().getAlbum();
             serviceFacade.performAlbumUpdate(album);
+            state.setAlbum(album); // refresh
+            
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
@@ -376,45 +394,11 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug("<<< actionAtualizarAlbum()");
 
     }
-    
-    private void actionVarreduraEscolherDiretorioBase() {
-        File baseDir = guiEscolheDiretorio();
-        if (null != baseDir) {            
-            if (baseDir.exists() && baseDir.isDirectory()) {
-                //txtOpUpdateAlbumBaseDir.setText(baseDir.getAbsolutePath());
-            } else {
-                guiMostraAviso("Diretório não encontrado.");
-            }
-        }
-    }
-    
+
     //
     // GUI STUFF
     //
-    
-    private File guiEscolheDiretorio() {
-        File arquivo = null;
-        JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.dir")));
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int op = chooser.showOpenDialog(this);
-        if (op == JFileChooser.APPROVE_OPTION) {
-            arquivo = chooser.getSelectedFile();
-        }
-        return arquivo;
-    }
-    
-    private File guiEscolheArquivo() {
-        File arquivo = null;
-        JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.dir")));
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int op = chooser.showOpenDialog(this);
-        if (op == JFileChooser.APPROVE_OPTION) {
-            arquivo = chooser.getSelectedFile();
-        }
-        return arquivo;
-    }
-    
-    
+  
     private void guiMostraAviso(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -470,25 +454,22 @@ public class MainFrame extends javax.swing.JFrame {
     ListSelectionListener albumListSelectionListener = new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
-            logger.trace(">>> albumListSelectionListener.valueChanged(...)");
-            logger.trace("Adjusting ?" + e.getValueIsAdjusting());
-            logger.trace("First     : " + e.getFirstIndex());
-            logger.trace("Last      : " + e.getLastIndex());                 
+            logger.trace(">>> albumListSelectionListener.valueChanged(...)");                
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-            logger.trace("CLASS IS: " + lsm.getClass().toString());
-            logger.trace("MIN  : " + lsm.getMinSelectionIndex());
-            logger.trace("MAX  : " + lsm.getMaxSelectionIndex());
-            logger.trace("MODE : " + lsm.getSelectionMode());
             // expect single-selection mode
             if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
                 if (!e.getValueIsAdjusting()) {
                     int index = lsm.getMinSelectionIndex();
                     if (index == -1) {
-                        getMainFrameState().clearCurrentAlbumIndex();
+                        getMainFrameState().setAlbum(null);
                     } else if (lsm.isSelectedIndex(index)) {
                         //TODO what about table sorting ?
                         logger.debug("INDEX IS: " + index);
-                        getMainFrameState().setCurrentAlbumIndex(index);
+                        // TODO pegar do state ?
+                        Album album = getMainFrameState().getAlbumList().get(index); 
+                        // TODO ou pegar do model ? 
+                        // Album album = albumListTableModel.getAlbums().get(index);  <=== model chama state
+                        actionSelecionarAlbum(album);
                     } else {
                         logger.warn("dont know what to do ...");
                     }

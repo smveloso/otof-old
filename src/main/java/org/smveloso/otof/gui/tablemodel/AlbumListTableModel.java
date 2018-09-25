@@ -42,7 +42,7 @@ public class AlbumListTableModel extends AbstractTableModel implements PropertyC
                                                                String.class,
                                                                Integer.class};
 
-    private List<Album> getAlbums() {
+    public List<Album> getAlbums() {
         if (null == mainFrameState) {
             return new ArrayList<>();
         } else {

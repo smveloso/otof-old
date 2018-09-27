@@ -16,6 +16,18 @@ import net.coobird.thumbnailator.Thumbnailator;
  */
 public class DefaultThumbUtil implements ThumbUtil {
 
+    private static DefaultThumbUtil instance = null;
+    
+    private DefaultThumbUtil() {
+    }
+    
+    public static synchronized DefaultThumbUtil getInstance() {
+        if (null == instance) {
+            instance = new DefaultThumbUtil();
+        }
+        return instance;
+    }
+    
     @Override
     public byte[] makeRawThumb(File file, int width, int height) {
         ByteArrayOutputStream os = new ByteArrayOutputStream();

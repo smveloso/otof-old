@@ -171,6 +171,7 @@ public class LocationDAO extends DAO implements Serializable {
     }
 
     public List<Location> findLocationInAlbumByPhoto(Album album, Photo photo) {
+        logger.trace(">>> findLocationInAlbumByPhoto(Album album, Photo photo)");
         EntityManager em = getEntityManager();
         try {
             List<Location> locations = 
@@ -180,11 +181,13 @@ public class LocationDAO extends DAO implements Serializable {
                     .getResultList();
             return locations;
         } catch (NoResultException notFoundIsOK) {
+            logger.trace("not found");
             return null;
         } finally {
             if (em != null) {
                 closeEM(em);
             }
+            logger.trace("<<< findLocationInAlbumByPhoto(Album album, Photo photo)");
         }        
     }
 

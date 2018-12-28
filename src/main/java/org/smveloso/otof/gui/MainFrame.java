@@ -1,7 +1,9 @@
 package org.smveloso.otof.gui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
@@ -10,13 +12,16 @@ import javax.swing.event.ListSelectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.JpaManager;
+import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
 import org.smveloso.otof.gui.tablemodel.PhotoListTableModel;
+import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 
 /**
  *
@@ -93,6 +98,7 @@ public class MainFrame extends javax.swing.JFrame {
         scrollTableAlbumFotos = new javax.swing.JScrollPane();
         tableAlbumFotos = new javax.swing.JTable();
         pnlFotoPreview = new javax.swing.JPanel();
+        lblThumbnail = new javax.swing.JLabel();
         pnlAlbums = new javax.swing.JPanel();
         scrollTableAlbums = new javax.swing.JScrollPane();
         tableAlbums = new javax.swing.JTable();
@@ -123,6 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnlAlbumFotos.setBorder(javax.swing.BorderFactory.createTitledBorder("Fotos"));
 
         tableAlbumFotos.setModel(getAlbumPhotosTableModel());
+        tableAlbumFotos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollTableAlbumFotos.setViewportView(tableAlbumFotos);
 
         pnlFotoPreview.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
@@ -131,11 +138,17 @@ public class MainFrame extends javax.swing.JFrame {
         pnlFotoPreview.setLayout(pnlFotoPreviewLayout);
         pnlFotoPreviewLayout.setHorizontalGroup(
             pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 314, Short.MAX_VALUE)
+            .addGroup(pnlFotoPreviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblThumbnail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlFotoPreviewLayout.setVerticalGroup(
             pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 242, Short.MAX_VALUE)
+            .addGroup(pnlFotoPreviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblThumbnail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlAlbumFotosLayout = new javax.swing.GroupLayout(pnlAlbumFotos);
@@ -357,9 +370,52 @@ public class MainFrame extends javax.swing.JFrame {
     private void actionSelecionarPhoto(Photo photo) {
         logger.debug(">>> actionSelecionarPhoto(Photo)");
         getMainFrameState().setPhoto(photo);
+        actionAtualizarThumbnail(photo);
         logger.debug("<<< actionSelecionarPhoto(Photo)");
     }
     
+    private void actionAtualizarThumbnail(Photo photo) {
+        logger.debug(">>> actionAtualizarThumbnail(Photo photo)");
+        // A Photo does not point to a file or set of files.
+        // There may be several files in several albums.
+        // I'll use the knowledge of the current selected album
+        //  and trust that I can find at least a location in it.
+        if (photo != null) {
+            Album selectedAlbum = getMainFrameState().getAlbum();
+            
+            // sanity
+            if (null == selectedAlbum) throw new IllegalStateException("BOOM: album could not be null at this point.");
+
+            List<Location> locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(selectedAlbum, photo);
+
+            // sanity
+            if (null == locations) throw new IllegalStateException("BOOM: it seems no location was found by DAO");
+            if (locations.isEmpty()) throw new IllegalStateException("BOOM: empty list of locations not acceptable at this point");
+
+            // Take the first and trust our luck ...
+            Location location = locations.get(0);
+            File file = new File(location.getPath());
+    
+            logger.trace("FILE: " + file.getAbsolutePath());
+            
+            // sanity
+            if (!(file.isFile()) || !(file.canRead())) throw new RuntimeException("WARN: CAN'T READ FILE");
+            
+            byte[] raw = DefaultThumbUtil.getInstance().makeRawThumb(file, pnlFotoPreview.getWidth(), pnlFotoPreview.getHeight());
+            ImageIcon imgIcon = new ImageIcon(raw);
+            lblThumbnail.setIcon(imgIcon);
+
+        } else {
+            actionClearThumbnail();
+        }
+        logger.debug("<<< actionAtualizarThumbnail(Photo photo)");
+    }
+    
+    private void actionClearThumbnail() {
+        logger.debug(">>> actionClearThumbnail()");
+        lblThumbnail.setIcon(null);
+        logger.debug("<<< actionClearThumbnail()");
+    }
     
     private void actionAtualizarListaFotos(Album album) {
         logger.debug(">>> actionAtualizarListaFotos(Album)");
@@ -451,6 +507,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnOpRefreshAlbumList;
     private javax.swing.JButton btnOpRemoverAlbum;
     private javax.swing.JButton btnOpUpdateAlbum;
+    private javax.swing.JLabel lblThumbnail;
     private javax.swing.JPanel pnlAlbumFotos;
     private javax.swing.JPanel pnlAlbumTab;
     private javax.swing.JPanel pnlAlbums;
@@ -497,15 +554,11 @@ public class MainFrame extends javax.swing.JFrame {
             if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
                 if (!e.getValueIsAdjusting()) {
                     int index = lsm.getMinSelectionIndex();
+                    logger.debug("INDEX IS: " + index);
                     if (index == -1) {
-                        getMainFrameState().setPhoto(null);
+                        actionSelecionarPhoto(null);
                     } else if (lsm.isSelectedIndex(index)) {
-                        //TODO what about table sorting ?
-                        logger.debug("INDEX IS: " + index);
-                        // TODO pegar do state ?
                         Photo photo = getMainFrameState().getPhotosList().get(index); 
-                        // TODO ou pegar do model ? 
-                        // Album album = albumListTableModel.getAlbums().get(index);  <=== model chama state
                         actionSelecionarPhoto(photo);
                     } else {
                         logger.warn("dont know what to do ...");
@@ -513,7 +566,5 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         }
-    };
-
-    
+    };   
 }

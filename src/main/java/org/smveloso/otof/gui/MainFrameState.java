@@ -105,5 +105,5 @@ public class MainFrameState  {
         pcs.firePropertyChange(MainFrameProperties.SET_PHOTO_LIST.name(), old, this.photosList);
         logger.debug("<<< setAlbumPhotosList()");
     }
-    
+   
 }

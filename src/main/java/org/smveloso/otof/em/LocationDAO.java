@@ -49,7 +49,7 @@ public class LocationDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -72,7 +72,7 @@ public class LocationDAO extends DAO implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -93,7 +93,7 @@ public class LocationDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -118,7 +118,9 @@ public class LocationDAO extends DAO implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }
     }
 
@@ -140,7 +142,9 @@ public class LocationDAO extends DAO implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }
     }
     
@@ -160,7 +164,9 @@ public class LocationDAO extends DAO implements Serializable {
             logger.debug("<<< findLocationInAlbumByPath(Album,String) => null");
             return null;
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }
     }
 
@@ -176,7 +182,9 @@ public class LocationDAO extends DAO implements Serializable {
         } catch (NoResultException notFoundIsOK) {
             return null;
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }        
     }
 
@@ -186,7 +194,9 @@ public class LocationDAO extends DAO implements Serializable {
             Query q = em.createQuery("select distinct(loc.photo.id) from Location loc where loc.album.id = :albumid");
             return q.setParameter("albumid", album.getId()).getResultList().size();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }
     }
     
@@ -209,7 +219,9 @@ public class LocationDAO extends DAO implements Serializable {
         } catch (NoResultException notFoundIsOK) {
             return new ArrayList<>();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }                    
     }
     

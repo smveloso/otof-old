@@ -86,9 +86,7 @@ public class AlbumListTableModel extends AbstractTableModel implements PropertyC
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        logger.warn(">>> setValueAt(...): " + rowIndex + "," + columnIndex);
-        logger.warn("VALUE:" + aValue);
-        super.setValueAt(aValue, rowIndex, columnIndex); //To change body of generated methods, choose Tools | Templates.
+        super.setValueAt(aValue, rowIndex, columnIndex);
     }
 
     @Override

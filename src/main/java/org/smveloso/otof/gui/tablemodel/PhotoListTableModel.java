@@ -11,7 +11,7 @@ import org.smveloso.otof.gui.MainFrameProperties;
 import org.smveloso.otof.gui.MainFrameState;
 import org.smveloso.otof.model.Photo;
 
-public class AlbumPhotosTableModel extends AbstractTableModel implements PropertyChangeListener {
+public class PhotoListTableModel extends AbstractTableModel implements PropertyChangeListener {
 
    private static final Logger logger = LoggerFactory.getLogger(AlbumListTableModel.class);
     
@@ -41,17 +41,17 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
                                                                Long.class,
                                                                String.class};
 
-    private List<Photo> getAlbumPhotos() {
+    private List<Photo> getAPhotos() {
         if (null == mainFrameState) {
             return new ArrayList<>();
         } else {
-            return mainFrameState.getAlbumPhotosList();
+            return mainFrameState.getPhotosList();
         }
     }
     
     @Override
     public int getRowCount() {
-        return getAlbumPhotos().size();
+        return getAPhotos().size();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Photo photo = getAlbumPhotos().get(rowIndex);
+        Photo photo = getAPhotos().get(rowIndex);
         Object result = null;
         switch (columnIndex) {
             case 0: result = photo.getId(); break;
@@ -86,9 +86,7 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        logger.warn(">>> setValueAt(...): " + rowIndex + "," + columnIndex);
-        logger.warn("VALUE:" + aValue);
-        super.setValueAt(aValue, rowIndex, columnIndex); //To change body of generated methods, choose Tools | Templates.
+        super.setValueAt(aValue, rowIndex, columnIndex);
     }
 
     @Override
@@ -105,8 +103,7 @@ public class AlbumPhotosTableModel extends AbstractTableModel implements Propert
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         logger.trace(">>> propertyChange: "+ evt.getPropertyName());
-        //if (evt.getPropertyName().equals(MainFrameProperties.SET_CURRENT_ALBUM.name())) {
-        if (evt.getPropertyName().equals(MainFrameProperties.SET_CURRENT_ALBUM_PHOTO_LIST.name())) {
+        if (evt.getPropertyName().equals(MainFrameProperties.SET_PHOTO_LIST.name())) {
             logger.trace("firing table data changed");
             fireTableDataChanged();
         }

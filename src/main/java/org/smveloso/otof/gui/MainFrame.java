@@ -15,7 +15,7 @@ import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
-import org.smveloso.otof.gui.tablemodel.AlbumPhotosTableModel;
+import org.smveloso.otof.gui.tablemodel.PhotoListTableModel;
 import org.smveloso.otof.model.Photo;
 
 /**
@@ -32,7 +32,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private AlbumListTableModel albumListTableModel;
     
-    private AlbumPhotosTableModel albumPhotosTableModel;
+    private PhotoListTableModel albumPhotosTableModel;
     
     /**
      * Creates new form MainFrame
@@ -52,7 +52,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.state = new MainFrameState();
         this.albumListTableModel = new AlbumListTableModel();
         this.albumListTableModel.associateToState(state);
-        this.albumPhotosTableModel = new AlbumPhotosTableModel();
+        this.albumPhotosTableModel = new PhotoListTableModel();
         this.albumPhotosTableModel.associateToState(state);
         logger.debug("<<< beforeInitComponents()");
     }
@@ -60,6 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void afterInitComponents() {
         logger.debug(">>> afterInitComponents()");
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
+        this.tableAlbumFotos.getSelectionModel().addListSelectionListener(photoListSelectionListener);
         actionLoadAllAlbums();
         logger.debug("<<< afterInitComponents()");
     }
@@ -68,7 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         return albumListTableModel;
     }
 
-    public AlbumPhotosTableModel getAlbumPhotosTableModel() {
+    public PhotoListTableModel getAlbumPhotosTableModel() {
         return albumPhotosTableModel;
     }
     
@@ -353,11 +354,24 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug("<<< actionSelecionarAlbum(Album)");        
     }
 
+    private void actionSelecionarPhoto(Photo photo) {
+        logger.debug(">>> actionSelecionarPhoto(Photo)");
+        getMainFrameState().setPhoto(photo);
+        logger.debug("<<< actionSelecionarPhoto(Photo)");
+    }
+    
+    
     private void actionAtualizarListaFotos(Album album) {
         logger.debug(">>> actionAtualizarListaFotos(Album)");
         try {
-            List<Photo> albumPhotos = serviceFacade.getAlbumPhotos(album);
-            getMainFrameState().setAlbumPhotosList(albumPhotos);
+            List<Photo> albumPhotos;
+            if (null == album) {
+                logger.debug("null album, will set empty list of photos");
+                albumPhotos = new ArrayList<>();
+            } else {
+                albumPhotos = serviceFacade.getAlbumPhotos(album);
+            }            
+            getMainFrameState().setPhotosList(albumPhotos);
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
@@ -460,15 +474,11 @@ public class MainFrame extends javax.swing.JFrame {
             if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
                 if (!e.getValueIsAdjusting()) {
                     int index = lsm.getMinSelectionIndex();
+                    logger.debug("INDEX IS: " + index);
                     if (index == -1) {
-                        getMainFrameState().setAlbum(null);
+                        actionSelecionarAlbum(null);
                     } else if (lsm.isSelectedIndex(index)) {
-                        //TODO what about table sorting ?
-                        logger.debug("INDEX IS: " + index);
-                        // TODO pegar do state ?
                         Album album = getMainFrameState().getAlbumList().get(index); 
-                        // TODO ou pegar do model ? 
-                        // Album album = albumListTableModel.getAlbums().get(index);  <=== model chama state
                         actionSelecionarAlbum(album);
                     } else {
                         logger.warn("dont know what to do ...");
@@ -478,4 +488,32 @@ public class MainFrame extends javax.swing.JFrame {
         }
     };
 
+    ListSelectionListener photoListSelectionListener = new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            logger.trace(">>> photoListSelectionListener.valueChanged(...)");                
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            // expect single-selection mode
+            if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = lsm.getMinSelectionIndex();
+                    if (index == -1) {
+                        getMainFrameState().setPhoto(null);
+                    } else if (lsm.isSelectedIndex(index)) {
+                        //TODO what about table sorting ?
+                        logger.debug("INDEX IS: " + index);
+                        // TODO pegar do state ?
+                        Photo photo = getMainFrameState().getPhotosList().get(index); 
+                        // TODO ou pegar do model ? 
+                        // Album album = albumListTableModel.getAlbums().get(index);  <=== model chama state
+                        actionSelecionarPhoto(photo);
+                    } else {
+                        logger.warn("dont know what to do ...");
+                    }
+                }
+            }
+        }
+    };
+
+    
 }

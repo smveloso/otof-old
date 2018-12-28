@@ -42,7 +42,7 @@ public class PhotoDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -65,7 +65,7 @@ public class PhotoDAO extends DAO implements Serializable {
             throw ex;
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -86,7 +86,7 @@ public class PhotoDAO extends DAO implements Serializable {
             em.getTransaction().commit();
         } finally {
             if (em != null) {
-                em.close();
+                closeEM(em);
             }
         }
     }
@@ -111,7 +111,9 @@ public class PhotoDAO extends DAO implements Serializable {
             }
             return q.getResultList();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }    
         }
     }
         
@@ -120,7 +122,9 @@ public class PhotoDAO extends DAO implements Serializable {
         try {
             return em.find(Photo.class, id);
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
         }
     }
 
@@ -135,7 +139,9 @@ public class PhotoDAO extends DAO implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
             System.out.println("<< getTotalPhotoCont");
         }
     }    
@@ -155,7 +161,9 @@ public class PhotoDAO extends DAO implements Serializable {
         } catch (PersistenceException e) {
             throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(), e);
         } finally {
-            em.close();
+            if (em != null) {
+                closeEM(em);
+            }
             System.out.println("<< findFotoByDigest");
         }
         return foto;

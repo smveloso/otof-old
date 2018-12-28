@@ -27,10 +27,12 @@ public class MainFrameState  {
     private List<Album> albumList = new ArrayList<>();
 
     // backend do albumphotostablemodel
-    private List<Photo> albumPhotosList = new ArrayList<>();
+    private List<Photo> photosList = new ArrayList<>();
     
     private Album album;
 
+    private Photo photo;
+    
     private Integer currentPageInAlbumPhotos = 1;
 
     public Integer getCurrentPageInAlbumPhotos() {
@@ -52,8 +54,8 @@ public class MainFrameState  {
         pcs.firePropertyChange(MainFrameProperties.SET_ALBUM_LIST.name(), old, this.albumList);
     }
 
-    public List<Photo> getAlbumPhotosList() {
-        return albumPhotosList;
+    public List<Photo> getPhotosList() {
+        return photosList;
     }
     
     //TODO diferenciar por tab: album de qual tab ??
@@ -61,15 +63,22 @@ public class MainFrameState  {
         return album;
     }
 
+    //TODO diferenciar por tab: foto de qual tab ??
+    public Photo getPhoto() {
+        return photo;
+    }
+    
     //TODO diferenciar por tab: album de qual tab ??
     public boolean isAlbumSelected() {
         return (getAlbum() != null);
     }
     
+    //TODO diferenciar por tab
     public void clearCurrentAlbum() {
         setAlbum(null);
     }
     
+    //TODO diferenciar por tab
     public void setAlbum(Album album) {
         logger.debug(">>> setAlbum()");
         logger.trace("ALBUM: " + ((album != null)?album.toString():"null"));
@@ -78,12 +87,22 @@ public class MainFrameState  {
         pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM.name(), old, this.album);
         logger.debug("<<< setAlbum()");
     }
+
+    public void setPhoto(Photo photo) {
+        logger.debug(">>> setPhoto()");
+        logger.trace("PHOTO: " + ((photo != null)?photo.toString():"null"));
+        Photo old = this.photo;
+        this.photo = photo;
+        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_PHOTO.name(), old, this.photo);
+        logger.debug("<<< setPhoto()");
+    }
     
-    public void setAlbumPhotosList(List<Photo> albumPhotosList) {
+    //TODO diferenciar por tab
+    public void setPhotosList(List<Photo> photosList) {
         logger.debug(">>> setAlbumPhotosList()");
-        List<Photo> old = this.albumPhotosList;
-        this.albumPhotosList = albumPhotosList;
-        pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_ALBUM_PHOTO_LIST.name(), old, this.albumPhotosList);
+        List<Photo> old = this.photosList;
+        this.photosList = photosList;
+        pcs.firePropertyChange(MainFrameProperties.SET_PHOTO_LIST.name(), old, this.photosList);
         logger.debug("<<< setAlbumPhotosList()");
     }
     

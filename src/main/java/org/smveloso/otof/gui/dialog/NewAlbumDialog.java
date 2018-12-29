@@ -1,5 +1,6 @@
 package org.smveloso.otof.gui.dialog;
 
+import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +59,15 @@ public class NewAlbumDialog extends javax.swing.JDialog {
         logger.trace("<<< actionCreateLFSAAlbum()");
     }
     
+    private void actionLFSASelectMountPoint() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Select the album's mount point");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            txtLFSAMountPoint.setText(chooser.getSelectedFile().getAbsolutePath());            
+        }
+    }
+    
     private void actionFechar() {
         logger.trace(">>> actionFechar()");
         this.setVisible(false);
@@ -89,6 +99,11 @@ public class NewAlbumDialog extends javax.swing.JDialog {
         lblLFSAMountPoint.setText("Mount point in local filesystem");
 
         btnLFSASearch.setText("jButton1");
+        btnLFSASearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLFSASearchActionPerformed(evt);
+            }
+        });
 
         btnLFSACreate.setText("Create");
         btnLFSACreate.addActionListener(new java.awt.event.ActionListener() {
@@ -191,6 +206,10 @@ public class NewAlbumDialog extends javax.swing.JDialog {
         setCompleted(false);
         actionFechar();
     }//GEN-LAST:event_btnLFSACancelActionPerformed
+
+    private void btnLFSASearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLFSASearchActionPerformed
+        actionLFSASelectMountPoint();
+    }//GEN-LAST:event_btnLFSASearchActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLFSACancel;

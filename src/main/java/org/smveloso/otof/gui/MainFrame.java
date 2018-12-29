@@ -15,6 +15,7 @@ import org.smveloso.otof.em.JpaManager;
 import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
+import org.smveloso.otof.gui.dialog.NewAlbumDialog;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
@@ -321,15 +322,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnOpNovoAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpNovoAlbumActionPerformed
-        List<Album> newAlbumList = new ArrayList<>();
-        LocalFileSystemAlbum a;
-        
-        for (int k=0;k<10;++k) {
-            a = new LocalFileSystemAlbum();
-            a.setId((long) k); a.setName("ALBUM_" + k); a.setServerSide(false);a.setMountPointAsString("/var/opt/album_" + k);
-            newAlbumList.add(a);
-        }
-        getMainFrameState().setAlbumList(newAlbumList);
+        actionCriarNovoAlbum();
     }//GEN-LAST:event_btnOpNovoAlbumActionPerformed
 
     private void btnOpRefreshAlbumListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpRefreshAlbumListActionPerformed
@@ -360,6 +353,31 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug("<< loadAllAlbums()");
     }    
 
+    private void actionCriarNovoAlbum() {
+        logger.debug(">>> actionCriarNovoAlbum()");
+        NewAlbumDialog dialog = null;
+        
+        try {
+            dialog = new NewAlbumDialog(this, true);
+            dialog.setVisible(true);        
+            if (dialog.isCompleted()) {
+                // only LFS albums are supported
+                ServiceFacade.getInstance().newLocalFileSystemAlbum(dialog.getNewAlbumName(), dialog.getNewAlbumPath());
+                actionLoadAllAlbums();
+            } else {
+                logger.trace("Canceled by user.");
+            }
+        } catch (FacadeException e) {
+            String msg = e.getMessage();
+            JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
+        } finally {
+            logger.trace("Disposing of newalbumdialog");
+            if (null != dialog) dialog.dispose();
+            logger.debug("<<< actionCriarNovoAlbum()");
+        }
+
+    }
+    
     private void actionSelecionarAlbum(Album album) {
         logger.debug(">>> actionSelecionarAlbum(Album)");
         getMainFrameState().setAlbum(album);

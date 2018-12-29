@@ -118,11 +118,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlSearch.setLayout(pnlSearchLayout);
         pnlSearchLayout.setHorizontalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1027, Short.MAX_VALUE)
+            .addGap(0, 1137, Short.MAX_VALUE)
         );
         pnlSearchLayout.setVerticalGroup(
             pnlSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Search", pnlSearch);
@@ -135,21 +135,23 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlFotoPreview.setBorder(javax.swing.BorderFactory.createTitledBorder("Preview"));
 
+        lblThumbnail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout pnlFotoPreviewLayout = new javax.swing.GroupLayout(pnlFotoPreview);
         pnlFotoPreview.setLayout(pnlFotoPreviewLayout);
         pnlFotoPreviewLayout.setHorizontalGroup(
             pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlFotoPreviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblThumbnail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblThumbnail, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlFotoPreviewLayout.setVerticalGroup(
             pnlFotoPreviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlFotoPreviewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblThumbnail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addComponent(lblThumbnail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlAlbumFotosLayout = new javax.swing.GroupLayout(pnlAlbumFotos);
@@ -158,18 +160,18 @@ public class MainFrame extends javax.swing.JFrame {
             pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pnlAlbumFotosLayout.setVerticalGroup(
             pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAlbumFotosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlAlbumFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlFotoPreview, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scrollTableAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -210,7 +212,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlAlbumsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollTableAlbums, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
+                    .addComponent(scrollTableAlbums, javax.swing.GroupLayout.DEFAULT_SIZE, 1079, Short.MAX_VALUE)
                     .addGroup(pnlAlbumsLayout.createSequentialGroup()
                         .addComponent(btnOpNovoAlbum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -218,7 +220,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpUpdateAlbum, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnOpRefreshAlbumList, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnOpRefreshAlbumList)))
                 .addContainerGap())
         );
 
@@ -227,14 +229,13 @@ public class MainFrame extends javax.swing.JFrame {
         pnlAlbumsLayout.setVerticalGroup(
             pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAlbumsLayout.createSequentialGroup()
-                .addComponent(scrollTableAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTableAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlAlbumsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOpNovoAlbum)
                     .addComponent(btnOpRemoverAlbum)
                     .addComponent(btnOpUpdateAlbum)
-                    .addComponent(btnOpRefreshAlbumList))
-                .addGap(0, 12, Short.MAX_VALUE))
+                    .addComponent(btnOpRefreshAlbumList)))
         );
 
         javax.swing.GroupLayout pnlAlbumTabLayout = new javax.swing.GroupLayout(pnlAlbumTab);
@@ -244,7 +245,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlAlbumTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlAlbumTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 1113, Short.MAX_VALUE)
                     .addComponent(pnlAlbums, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -254,8 +255,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pnlAlbums, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnlAlbumFotos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabpnlMain.addTab("Album", pnlAlbumTab);
@@ -264,11 +265,11 @@ public class MainFrame extends javax.swing.JFrame {
         pnlHouseKeeping.setLayout(pnlHouseKeepingLayout);
         pnlHouseKeepingLayout.setHorizontalGroup(
             pnlHouseKeepingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1027, Short.MAX_VALUE)
+            .addGap(0, 1137, Short.MAX_VALUE)
         );
         pnlHouseKeepingLayout.setVerticalGroup(
             pnlHouseKeepingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Limpeza", pnlHouseKeeping);
@@ -304,14 +305,15 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabpnlMain)
-            .addComponent(pnlBottom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(tabpnlMain)
+                .addComponent(tabpnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnlBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -419,7 +421,11 @@ public class MainFrame extends javax.swing.JFrame {
             // sanity
             if (!(file.isFile()) || !(file.canRead())) throw new RuntimeException("WARN: CAN'T READ FILE");
             
-            byte[] raw = DefaultThumbUtil.getInstance().makeRawThumb(file, pnlFotoPreview.getWidth(), pnlFotoPreview.getHeight());
+            int width = pnlFotoPreview.getWidth();
+            int height = pnlFotoPreview.getHeight();
+            logger.trace("W: " + width);
+            logger.trace("H: " + height);
+            byte[] raw = DefaultThumbUtil.getInstance().makeRawThumb(file, width, height);
             ImageIcon imgIcon = new ImageIcon(raw);
             lblThumbnail.setIcon(imgIcon);
 

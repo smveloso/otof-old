@@ -24,16 +24,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="tabpnlMain" alignment="0" max="32767" attributes="0"/>
-          <Component id="pnlBottom" alignment="1" max="32767" attributes="0"/>
+          <Component id="tabpnlMain" max="32767" attributes="0"/>
+          <Component id="pnlBottom" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="tabpnlMain" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <Component id="tabpnlMain" min="-2" pref="631" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnlBottom" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,12 +56,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1027" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1137" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="589" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="604" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -80,7 +81,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnlAlbumFotos" alignment="0" max="32767" attributes="0"/>
+                          <Component id="pnlAlbumFotos" alignment="0" pref="1113" max="32767" attributes="0"/>
                           <Component id="pnlAlbums" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -93,8 +94,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnlAlbums" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnlAlbumFotos" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnlAlbumFotos" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -114,9 +115,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="scrollTableAlbumFotos" min="-2" pref="639" max="-2" attributes="0"/>
+                          <Component id="scrollTableAlbumFotos" min="-2" pref="733" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="pnlFotoPreview" max="32767" attributes="0"/>
+                          <Component id="pnlFotoPreview" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -125,9 +126,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="scrollTableAlbumFotos" pref="0" max="32767" attributes="0"/>
-                              <Component id="pnlFotoPreview" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="pnlFotoPreview" min="-2" max="-2" attributes="0"/>
+                              <Component id="scrollTableAlbumFotos" min="-2" pref="350" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -168,7 +169,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblThumbnail" max="32767" attributes="0"/>
+                              <Component id="lblThumbnail" min="-2" pref="320" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -177,14 +178,17 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblThumbnail" max="32767" attributes="0"/>
-                              <EmptySpace pref="215" max="32767" attributes="0"/>
+                              <Component id="lblThumbnail" min="-2" pref="200" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="lblThumbnail">
+                      <Properties>
+                        <Property name="horizontalAlignment" type="int" value="0"/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -205,7 +209,7 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="scrollTableAlbums" pref="969" max="32767" attributes="0"/>
+                              <Component id="scrollTableAlbums" pref="1079" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="btnOpNovoAlbum" linkSize="1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -213,7 +217,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnOpUpdateAlbum" linkSize="1" min="-2" pref="132" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="btnOpRefreshAlbumList" min="-2" pref="42" max="-2" attributes="0"/>
+                                  <Component id="btnOpRefreshAlbumList" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -223,7 +227,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="scrollTableAlbums" min="-2" pref="184" max="-2" attributes="0"/>
+                          <Component id="scrollTableAlbums" min="-2" pref="131" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnOpNovoAlbum" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -231,7 +235,6 @@
                               <Component id="btnOpUpdateAlbum" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnOpRefreshAlbumList" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -302,12 +305,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1027" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="1137" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="589" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="604" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

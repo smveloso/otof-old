@@ -13,6 +13,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Photo;
 
 /**
@@ -21,6 +23,8 @@ import org.smveloso.otof.model.Photo;
  */
 public class PhotoDAO extends DAO implements Serializable {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhotoDAO.class);;
+    
     private static PhotoDAO instance;
     
     private PhotoDAO() {
@@ -168,4 +172,10 @@ public class PhotoDAO extends DAO implements Serializable {
         }
         return foto;
     }    
+    
+    public byte[] getThumbnail(Photo photo) {
+        logger.warn("getThumbnail is a STUB!!!");
+        return null;
+    }
+    
 }

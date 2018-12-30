@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.JpaManager;
 import org.smveloso.otof.em.LocationDAO;
+import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.gui.dialog.NewAlbumDialog;
@@ -39,6 +40,10 @@ public class MainFrame extends javax.swing.JFrame {
     private AlbumListTableModel albumListTableModel;
     
     private PhotoListTableModel albumPhotosTableModel;
+
+    int thumbWidth;
+    int thumbHeight;
+
     
     /**
      * Creates new form MainFrame
@@ -67,6 +72,8 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug(">>> afterInitComponents()");
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
         this.tableFotos.getSelectionModel().addListSelectionListener(photoListSelectionListener);
+        thumbWidth = pnlFotoPreview.getWidth();
+        thumbHeight = pnlFotoPreview.getHeight();
         actionLoadAllAlbums();
         logger.debug("<<< afterInitComponents()");
     }
@@ -403,7 +410,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpRefreshAlbumListActionPerformed
 
     private void btnOpUpdateAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpUpdateAlbumActionPerformed
-        actionAtualizarAlbum();
+        actionSyncAlbum();
     }//GEN-LAST:event_btnOpUpdateAlbumActionPerformed
 
     //
@@ -454,7 +461,19 @@ public class MainFrame extends javax.swing.JFrame {
     private void actionSelecionarAlbum(Album album) {
         logger.debug(">>> actionSelecionarAlbum(Album)");
         getMainFrameState().setAlbum(album);
-        actionAtualizarListaFotos(album);
+        List<Photo> albumPhotos = null;
+        try {
+            if (null == album) {
+                logger.trace("null album, will set empty list of photos");
+                albumPhotos = new ArrayList<>();
+            } else {
+                albumPhotos = serviceFacade.getAlbumPhotos(album);
+            }     
+        } catch (FacadeException e) {
+            String msg = e.getMessage();
+            JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
+        }
+        actionAtualizarListaFotos(albumPhotos);
         logger.debug("<<< actionSelecionarAlbum(Album)");        
     }
 
@@ -464,43 +483,62 @@ public class MainFrame extends javax.swing.JFrame {
         actionAtualizarThumbnail(photo);
         logger.debug("<<< actionSelecionarPhoto(Photo)");
     }
+
+    private void actionAtualizarThumbnail(byte[] raw) {
+        logger.debug(">>> actionAtualizarThumbnail(byte[])");
+        ImageIcon imgIcon = new ImageIcon(raw);
+        lblThumbnail.setIcon(imgIcon);
+        logger.debug("<<< actionAtualizarThumbnail(byte[])");
+    }
     
     private void actionAtualizarThumbnail(Photo photo) {
         logger.debug(">>> actionAtualizarThumbnail(Photo photo)");
-        // A Photo does not point to a file or set of files.
-        // There may be several files in several albums.
-        // I'll use the knowledge of the current selected album
-        //  and trust that I can find at least a location in it.
         if (photo != null) {
-            Album selectedAlbum = getMainFrameState().getAlbum();
-            
-            // sanity
-            if (null == selectedAlbum) throw new IllegalStateException("BOOM: album could not be null at this point.");
 
-            List<Location> locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(selectedAlbum, photo);
-
-            // sanity
-            if (null == locations) throw new IllegalStateException("BOOM: it seems no location was found by DAO");
-            if (locations.isEmpty()) throw new IllegalStateException("BOOM: empty list of locations not acceptable at this point");
-
-            // Take the first and trust our luck ...
-            Location location = locations.get(0);
-            File file = new File(location.getPath());
-    
-            logger.trace("FILE: " + file.getAbsolutePath());
+            byte[] raw = PhotoDAO.getInstance().getThumbnail(photo);
             
-            // sanity
-            if (!(file.isFile()) || !(file.canRead())) throw new RuntimeException("WARN: CAN'T READ FILE");
-            
-            int width = pnlFotoPreview.getWidth();
-            int height = pnlFotoPreview.getHeight();
-            logger.trace("W: " + width);
-            logger.trace("H: " + height);
-            byte[] raw = DefaultThumbUtil.getInstance().makeRawThumb(file, width, height);
-            ImageIcon imgIcon = new ImageIcon(raw);
-            lblThumbnail.setIcon(imgIcon);
+            if (raw != null) {            
+                // A thumbnail was found pre-computed.
+                logger.debug("Found a pre-computed thumbnail.");
+                actionAtualizarThumbnail(raw);
+            } else {
+                // Try to compute it from a file that is associated with the photo.
+                logger.debug("Looking for a file to compute thumbnail.");
+                
+                // A Photo does not point to a file or set of files.
+                // There may be several files in several albums.
+                // Any location will do to compute a thumbnail.
+                
+                List<Location> locations = LocationDAO.getInstance().findPhotoLocations(photo);
+                
+                // sanity
+                if (null == locations) throw new IllegalStateException("BOOM: it seems no location was found by DAO");
+                if (locations.isEmpty()) throw new IllegalStateException("BOOM: empty list of locations not acceptable at this point");
+
+                // Try each location in turn until one succeeds ...
+
+                for (Location location:locations) {
+                    File file = new File(location.getPath());
+                    logger.trace("FILE: " + file.getAbsolutePath());
+                    // sanity
+                    if (!(file.isFile()) || !(file.canRead())) {
+                        logger.debug("No good !");
+                    } else {
+                        raw = DefaultThumbUtil.getInstance().makeRawThumb(file, thumbWidth, thumbHeight);
+                        actionAtualizarThumbnail(raw);
+                        break;
+                    }
+                }
+                
+                if (null == raw) {
+                    //TODO: carregar uma imagem padrão de 'sem thumbnail'
+                    logger.warn("NO THUMBNAIL.");
+                }
+
+            }
 
         } else {
+            logger.debug("Photo is null: clearing thumbnail.");
             actionClearThumbnail();
         }
         logger.debug("<<< actionAtualizarThumbnail(Photo photo)");
@@ -512,27 +550,20 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug("<<< actionClearThumbnail()");
     }
     
-    private void actionAtualizarListaFotos(Album album) {
-        logger.debug(">>> actionAtualizarListaFotos(Album)");
-        try {
-            List<Photo> albumPhotos;
-            if (null == album) {
-                logger.debug("null album, will set empty list of photos");
-                albumPhotos = new ArrayList<>();
-            } else {
-                albumPhotos = serviceFacade.getAlbumPhotos(album);
-            }            
-            getMainFrameState().setPhotosList(albumPhotos);
-        } catch (FacadeException e) {
-            String msg = e.getMessage();
-            JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
-        }
-        logger.debug("<<< actionAtualizarListaFotos(Album)");        
+    /** <p/> Carrega a lista de fotos que
+     *       deve ser exibida na tabela.
+     * 
+     * @param List<Photo>
+     */
+    private void actionAtualizarListaFotos(List<Photo> photos) {
+        logger.debug(">>> actionAtualizarListaFotos(List<Photo>)");
+        getMainFrameState().setPhotosList(photos);
+        logger.debug("<<< actionAtualizarListaFotos(List<Photo>)");
     }
     
-    private void actionAtualizarAlbum() {
+    private void actionSyncAlbum() {
                
-        logger.debug(">>> actionAtualizarAlbum()");
+        logger.debug(">>> actionSyncAlbum()");
         
         if (!getMainFrameState().isAlbumSelected()) {
             guiMostraAviso("Por favor selecione um álbum para atualizar");
@@ -542,21 +573,15 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             Album album = getMainFrameState().getAlbum();
             serviceFacade.performAlbumUpdate(album);
-            actionSelecionarAlbum(album);
-            
+            actionSelecionarAlbum(album);            
         } catch (FacadeException e) {
             String msg = e.getMessage();
             JOptionPane.showMessageDialog(this,msg,"Houve um erro",JOptionPane.ERROR_MESSAGE);
-        /*
-        } catch (InterruptedException | ExecutionException e) {
-            //throw new FacadeException("Job interrupted or failed: " + e.getMessage());
-            JOptionPane.showMessageDialog(this,e.getMessage(),"Houve um erro",JOptionPane.ERROR_MESSAGE);
-        */ 
         } finally {
             
         }
 
-        logger.debug("<<< actionAtualizarAlbum()");
+        logger.debug("<<< actionSyncAlbum()");
 
     }
 

@@ -78,13 +78,18 @@ public class MainFrameState  {
         pcs.firePropertyChange(MainFrameProperties.SET_CURRENT_PHOTO.name(), old, this.photo);
         logger.debug("<<< setPhoto()");
     }
-    
+
+    /** <p/> Define o conteúdo da lista de Photos.
+     *  <p/> Dispara MainFrameProperties.SET_PHOTO_LIST
+     * 
+     * @param photosList 
+     */
     public void setPhotosList(List<Photo> photosList) {
-        logger.debug(">>> setAlbumPhotosList()");
+        logger.debug(">>> setPhotosList()");
         List<Photo> old = this.photosList;
         this.photosList = photosList;
         pcs.firePropertyChange(MainFrameProperties.SET_PHOTO_LIST.name(), old, this.photosList);
-        logger.debug("<<< setAlbumPhotosList()");
+        logger.debug("<<< setPhotosList()");
     }
    
 }

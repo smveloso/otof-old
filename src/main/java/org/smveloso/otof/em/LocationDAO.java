@@ -148,7 +148,6 @@ public class LocationDAO extends DAO implements Serializable {
         }
     }
     
-    //TODO what to do with multiple locations in the same album (should I even allow it ?)
     public Location findLocationInAlbumByPath(Album album, String path) {
         logger.debug(">>> findLocationInAlbumByPath(Album,String)");
         EntityManager em = getEntityManager();
@@ -191,6 +190,26 @@ public class LocationDAO extends DAO implements Serializable {
         }        
     }
 
+    public List<Location> findPhotoLocations(Photo photo) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Location> locations = 
+                    em.createQuery("select l from Location l where l.photo.id = :pid", 
+                                   Location.class)
+                    .setParameter("pid", photo.getId())
+                    .getResultList();
+            return locations;
+        } catch (NoResultException notFoundIsOK) {
+            logger.trace("not found");
+            return null;
+        } finally {
+            if (em != null) {
+                closeEM(em);
+            }
+            logger.trace("<<< findLocationInAlbumByPhoto(Album album, Photo photo)");
+        }
+    }
+    
     public int getNumberOfPhotosInAlbum(Album album) {
         EntityManager em = getEntityManager();
         try {

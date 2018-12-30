@@ -23,26 +23,13 @@ public class MainFrameState  {
         this.pcs.removePropertyChangeListener(listener);
     }
 
-    // backend do albumlistablemodel
     private List<Album> albumList = new ArrayList<>();
 
-    // backend do albumphotostablemodel
     private List<Photo> photosList = new ArrayList<>();
     
     private Album album;
 
     private Photo photo;
-    
-    private Integer currentPageInAlbumPhotos = 1;
-
-    public Integer getCurrentPageInAlbumPhotos() {
-        return currentPageInAlbumPhotos;
-    }
-
-    public void setCurrentPageInAlbumPhotos(Integer currentPageInAlbumPhotos) {
-        throw new UnsupportedOperationException("not ready");
-        //this.currentPageInAlbumPhotos = currentPageInAlbumPhotos;
-    }
     
     public List<Album> getAlbumList() {
         return albumList;

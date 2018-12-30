@@ -45,27 +45,22 @@ public class MainFrameState  {
         return photosList;
     }
     
-    //TODO diferenciar por tab: album de qual tab ??
     public Album getAlbum() {
         return album;
     }
 
-    //TODO diferenciar por tab: foto de qual tab ??
     public Photo getPhoto() {
         return photo;
     }
     
-    //TODO diferenciar por tab: album de qual tab ??
     public boolean isAlbumSelected() {
         return (getAlbum() != null);
     }
     
-    //TODO diferenciar por tab
     public void clearCurrentAlbum() {
         setAlbum(null);
     }
     
-    //TODO diferenciar por tab
     public void setAlbum(Album album) {
         logger.debug(">>> setAlbum()");
         logger.trace("ALBUM: " + ((album != null)?album.toString():"null"));
@@ -84,7 +79,6 @@ public class MainFrameState  {
         logger.debug("<<< setPhoto()");
     }
     
-    //TODO diferenciar por tab
     public void setPhotosList(List<Photo> photosList) {
         logger.debug(">>> setAlbumPhotosList()");
         List<Photo> old = this.photosList;

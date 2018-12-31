@@ -1,3 +1,11 @@
+select p.id,p.datetaken,p.filedigest, l.path from photo p inner join location l   on l.photo_id = p.id  where p.DATETAKEN < '2010-12-31' AND p.DATETAKEN > '2010-12-01' order by p.filedigest
+
+select P.ID,L.ALBUM_ID , L.PATH, A.MOUNTPOINTASSTRING  
+from PHOTO P inner join LOCATION L on P.id = L.photo_id
+inner join LOCALFILESYSTEMALBUM A on A.id = L.album_id
+where P.DATETAKEN is null
+order by P.ID
+
 --alter table FOTO add column (duplicate boolean);
 --alter table FOTO add column (unidades varchar(255));
 

@@ -1,13 +1,24 @@
 package org.smveloso.otof.em;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
 import org.dbunit.operation.DatabaseOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.smveloso.otof.model.Album;
+import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.model.Thumbnail;
 import org.smveloso.otof.test.JpaBaseTest;
+import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PhotoDAOTest extends JpaBaseTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhotoDAOTest.class);
+    
     // Neste sistema, a hibernatefactory é alocada
     // implicitamente (vide DAO e JpaManager.
     
@@ -22,7 +33,7 @@ public class PhotoDAOTest extends JpaBaseTest {
     
     @Test
     public void testGetTotalPhotoCount() {
-        System.out.println(Thread.currentThread().getId() + ">>>> PhotoDAOTest.getTotalPhotoCount");
+        logger.debug(Thread.currentThread().getId() + ">>>> PhotoDAOTest.getTotalPhotoCount");
         PhotoDAO instance = PhotoDAO.getInstance();
         int expResult = 1;
         int result = instance.getTotalPhotoCount();
@@ -31,18 +42,71 @@ public class PhotoDAOTest extends JpaBaseTest {
 
     @Test
     public void testFindFotoByDigest()  throws Exception {
-        System.out.println(Thread.currentThread().getId() + ">>> PhotoDAOTest.testFindFotoByDigest");
+        logger.debug(Thread.currentThread().getId() + ">>> PhotoDAOTest.testFindFotoByDigest");
         PhotoDAO instance = PhotoDAO.getInstance();
         String digest = "12345678901234567890";
         Photo photo = instance.findFotoByDigest(digest);
-        System.out.println("FOTO IS NULL ? " + (null == photo));
+        logger.debug("FOTO IS NULL ? " + (null == photo));
         Assert.assertNotNull(photo,"Foto nao encontrada por digest.");
         
     }
 
+    @Test
+    public void testThumbnail() throws Exception {
+        logger.debug(">>> testThumbnail()");
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = instance.findFoto(1000l);
+        
+        Assert.assertNotNull(photo,"cant test: photo not found by id.");
+        
+        // does it point to a valid location ?
+        
+        //TODO: (start) refactor after merging branch 'SEARCH': use LocationDAO.findPhotoLocations        
+        Album album = AlbumDAO.getInstance().findAlbum(1000l);
+        Assert.assertNotNull(album, "cant test: album not found");
+        Assert.assertEquals(album.getName(),"PHOTOTEST ALBUM","cant test: wrong album");
+        List<Location> locations = LocationDAO.getInstance().findLocationInAlbumByPhoto(album, photo);
+        //TODO: (end) refactor after merging branch 'SEARCH': use LocationDAO.findPhotoLocations        
+
+        Assert.assertNotNull(locations,"cant test: null list of locations");
+        Assert.assertFalse(locations.isEmpty(),"cant test: empty list of locations");
+        Assert.assertFalse(locations.size() > 1,"should not test: multiple locations not expected");
+                
+        String path = locations.get(0).getPath();
+        File testFile = new File(path);
+        
+        Assert.assertTrue(testFile.exists(),"cant test: test file not found");
+        Assert.assertTrue(testFile.isFile(),"cant test: test file not a file");
+        Assert.assertTrue(testFile.canRead(),"cant test: test file not readable");
+
+        int W = 200;
+        int H = 200;
+        Thumbnail thumbnail = new Thumbnail();
+        thumbnail.setContents(DefaultThumbUtil.getInstance().makeRawThumb(testFile, W, H));
+        thumbnail.setWidth(W);
+        thumbnail.setHeight(H);
+        
+        //TODO should also test cascading and 'inverseness'
+        Assert.assertNull(photo.thumbnails,"cant test: list of thumbs in photo should be null");
+        photo.thumbnails = new HashSet<Thumbnail>();
+        photo.thumbnails.add(thumbnail);
+        
+        PhotoDAO.getInstance().update(photo);
+
+        // now we query for it ... must improve this ...
+        
+        Photo storedPhoto = PhotoDAO.getInstance().findFoto(1000l);
+        Assert.assertNotNull(storedPhoto,"photo null");
+        Assert.assertNotNull(storedPhoto.thumbnails,"thumb set is null");
+        Assert.assertFalse(storedPhoto.thumbnails.isEmpty(),"thumb set is empty");
+        
+        logger.debug("<<< testThumbnail()");
+
+    }
+
     @Override
     protected void prepareSettings() {
-        System.out.println(Thread.currentThread().getId() + ">>> PhotoDAOTest.prepareSettings");
+        logger.debug(Thread.currentThread().getId() + ">>> PhotoDAOTest.prepareSettings");
         dataSetLocation = "org/smveloso/otof/em/photoDAOTestDS.xml";
         beforeTestOperations.add(DatabaseOperation.DELETE_ALL);
         beforeTestOperations.add(DatabaseOperation.CLEAN_INSERT);

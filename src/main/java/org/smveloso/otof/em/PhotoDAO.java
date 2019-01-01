@@ -13,6 +13,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Photo;
 
 /**
@@ -21,6 +23,8 @@ import org.smveloso.otof.model.Photo;
  */
 public class PhotoDAO extends DAO implements Serializable {
 
+    private static final Logger logger = LoggerFactory.getLogger(PhotoDAO.class);
+    
     private static PhotoDAO instance;
     
     private PhotoDAO() {
@@ -116,15 +120,28 @@ public class PhotoDAO extends DAO implements Serializable {
             }    
         }
     }
-        
+    
     public Photo findFoto(Long id) {
+        return findFoto(id,false);
+    }
+    
+    public Photo findFoto(Long id, boolean loadThumbnails) {
+        logger.trace(">>> findPhoto(Long,boolean)");
+        logger.trace("LOAD THUMBS? " + loadThumbnails);
         EntityManager em = getEntityManager();
+        Photo photo;
         try {
-            return em.find(Photo.class, id);
+            photo = em.find(Photo.class, id);
+            if (loadThumbnails) {
+                int size = photo.thumbnails.size();
+                logger.trace("THUMBS: " + size);
+            }
+            return photo;
         } finally {
             if (em != null) {
                 closeEM(em);
             }
+            logger.trace("<<< findPhoto(Long,boolean)");
         }
     }
 

@@ -3,5 +3,5 @@
     <ALBUM ID="1000" NAME="PHOTOTEST ALBUM" SERVERSIDE="false" />
     <LOCALFILESYSTEMALBUM id="1000" mountpointasstring="jpeg" />
     <PHOTO id="1000" DATETAKEN="2010-01-01 14:00:00" FILEDIGEST="12345678901234567890" FILESIZE="10240" />    
-    <LOCATION ID="1000" ALBUM_ID="1000" PHOTO_ID="1000" PATH="jpeg/foto-1.jpg" />    <!-- todo: use relative paths in location -->
+    <LOCATION ID="1000" ALBUM_ID="1000" PHOTO_ID="1000" PATH="${project.build.directory}/test-classes/jpeg/foto-1.jpg" />    <!-- todo: use relative paths in location -->
 </dataset>

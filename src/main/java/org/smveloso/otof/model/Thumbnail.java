@@ -44,10 +44,6 @@ public class Thumbnail implements Serializable {
     @Basic(fetch = FetchType.LAZY, optional = false)
     private byte[] contents;
     
-    @ManyToOne
-    @JoinColumn(name = "photo_id")
-    private Photo photo;
-
     public int getWidth() {
         return width;
     }
@@ -70,14 +66,6 @@ public class Thumbnail implements Serializable {
 
     public void setContents(byte[] contents) {
         this.contents = contents;
-    }
-
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
     }
     
     @Override

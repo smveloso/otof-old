@@ -2,6 +2,13 @@
 <dataset>
     <ALBUM ID="1000" NAME="PHOTOTEST ALBUM" SERVERSIDE="false" />
     <LOCALFILESYSTEMALBUM id="1000" mountpointasstring="jpeg" />
+
     <PHOTO id="1000" DATETAKEN="2010-01-01 14:00:00" FILEDIGEST="12345678901234567890" FILESIZE="10240" />    
     <LOCATION ID="1000" ALBUM_ID="1000" PHOTO_ID="1000" PATH="${project.build.directory}/test-classes/jpeg/foto-1.jpg" />    <!-- todo: use relative paths in location -->
+
+    <PHOTO id="1001" DATETAKEN="2012-01-01 14:00:00" FILEDIGEST="ABCDEABCDEABCDEABCDE" FILESIZE="1024"/>
+    
+    <THUMBNAIL id="1" PHOTO_ID="1001" WIDTH="200" HEIGHT="200" CONTENTS="[FILE]${project.build.directory}/test-classes/jpeg/foto-1-thumb-200x200.jpg"  />    
+    
+    
 </dataset>

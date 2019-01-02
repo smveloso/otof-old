@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.model.Thumbnail;
 
 /**
  *
@@ -132,7 +133,7 @@ public class PhotoDAO extends DAO implements Serializable {
         Photo photo;
         try {
             photo = em.find(Photo.class, id);
-            if (loadThumbnails) {
+            if (loadThumbnails && (null != photo)) {
                 int size = photo.thumbnails.size();
                 logger.trace("THUMBS: " + size);
             }
@@ -145,6 +146,21 @@ public class PhotoDAO extends DAO implements Serializable {
         }
     }
 
+    public Thumbnail findThumbnail(Long id) {
+        logger.trace(">>> fundThumbnail(Long)");
+        EntityManager em = getEntityManager();
+        Thumbnail thumbnail;
+        try {
+            thumbnail = em.find(Thumbnail.class,id);
+            return thumbnail;
+        } finally {
+            if (em != null) {
+                closeEM(em);
+            }
+        logger.trace("<<< fundThumbnail(Long)");
+        }
+    }
+    
     public int getTotalPhotoCount() {
             System.out.println(">> getTotalPhotoCont");
 

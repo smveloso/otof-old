@@ -1,9 +1,10 @@
 package org.smveloso.otof.em;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import org.dbunit.operation.DatabaseOperation;
+import org.hibernate.LazyInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.model.Album;
@@ -35,7 +36,7 @@ public class PhotoDAOTest extends JpaBaseTest {
     public void testGetTotalPhotoCount() {
         logger.debug(Thread.currentThread().getId() + ">>>> PhotoDAOTest.getTotalPhotoCount");
         PhotoDAO instance = PhotoDAO.getInstance();
-        int expResult = 1;
+        int expResult = 2;
         int result = instance.getTotalPhotoCount();
         Assert.assertEquals(expResult, result);
     }
@@ -52,10 +53,10 @@ public class PhotoDAOTest extends JpaBaseTest {
     }
 
     @Test
-    public void testThumbnail() throws Exception {
-        logger.debug(">>> testThumbnail()");
+    public void testThumbnail1() throws Exception {
+        logger.debug(">>> testThumbnail1()");
         PhotoDAO instance = PhotoDAO.getInstance();
-        Photo photo = instance.findFoto(1000l);
+        Photo photo = instance.findFoto(1000l,true);
         
         Assert.assertNotNull(photo,"cant test: photo not found by id.");
         
@@ -87,23 +88,71 @@ public class PhotoDAOTest extends JpaBaseTest {
         thumbnail.setHeight(H);
         
         //TODO should also test cascading and 'inverseness'
-        Assert.assertNull(photo.thumbnails,"cant test: list of thumbs in photo should be null");
-        photo.thumbnails = new HashSet<Thumbnail>();
+        Assert.assertTrue(photo.thumbnails.isEmpty(),"cant test: list of thumbs in photo should be empty");
+        photo.thumbnails = new ArrayList<>();
         photo.thumbnails.add(thumbnail);
         
         PhotoDAO.getInstance().update(photo);
 
         // now we query for it ... must improve this ...
         
-        Photo storedPhoto = PhotoDAO.getInstance().findFoto(1000l);
+        Photo storedPhoto = PhotoDAO.getInstance().findFoto(1000l,true);
         Assert.assertNotNull(storedPhoto,"photo null");
         Assert.assertNotNull(storedPhoto.thumbnails,"thumb set is null");
         Assert.assertFalse(storedPhoto.thumbnails.isEmpty(),"thumb set is empty");
         
-        logger.debug("<<< testThumbnail()");
+        logger.debug("<<< testThumbnail1()");
 
     }
 
+    @Test
+    public void testThumbnail2() throws Exception {
+        logger.debug(">>> testThumbnail12()");
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = instance.findFoto(1001l);
+        
+        try {
+            photo.thumbnails.size();
+            Assert.fail("A 'lazy' exception was expected here.");
+        } catch (LazyInitializationException expected) {
+        }
+        
+        photo = instance.findFoto(1001l, true);
+        
+        Assert.assertNotNull(photo.thumbnails,"null thumbs");
+        Assert.assertFalse(photo.thumbnails.isEmpty(),"empty thumbs");
+        Assert.assertEquals(photo.thumbnails.size(),1, "should have exactly one thumb");
+        
+        Assert.assertNotNull(photo,"cant test: photo not found by id.");
+        logger.debug("<<< testThumbnail12()");
+    }    
+
+    @Test
+    public void testThumbnail3() throws Exception {
+        logger.debug(">>> testThumbnail13()");
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = instance.findFoto(1001l,true);
+                
+        Assert.assertNotNull(photo.thumbnails,"null thumbs");
+        Assert.assertFalse(photo.thumbnails.isEmpty(),"empty thumbs");
+        Assert.assertEquals(photo.thumbnails.size(),1, "should have exactly one thumb");
+        Assert.assertEquals((long) photo.thumbnails.get(0).getId(),1l,"id not as expected");
+        
+        Thumbnail thumbnail = instance.findThumbnail(1l);
+        Assert.assertNotNull(thumbnail,"Thumbnail not found before photo destruction.");
+        
+        instance.destroy(1001l);
+        
+        photo = instance.findFoto(1001l,true);
+        Assert.assertNull(photo,"photo not null after destruction");
+        
+        thumbnail = instance.findThumbnail(1l);
+        Assert.assertNull(thumbnail,"Thumbnail after before photo destruction.");
+                
+        logger.debug("<<< testThumbnail13()");
+    }    
+
+    
     @Override
     protected void prepareSettings() {
         logger.debug(Thread.currentThread().getId() + ">>> PhotoDAOTest.prepareSettings");

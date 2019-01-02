@@ -1,6 +1,7 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +87,15 @@ public class Photo implements Serializable {
         this.fileSize = fileSize;
     }
 
+    public void addThumbnail(Thumbnail thumbnail) {
+        if (null == thumbnails) {
+            thumbnails = new ArrayList<>();
+        }
+        if (!thumbnails.contains(thumbnail)) {
+            thumbnails.add(thumbnail);
+        }
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

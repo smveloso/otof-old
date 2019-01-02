@@ -152,6 +152,32 @@ public class PhotoDAOTest extends JpaBaseTest {
         logger.debug("<<< testThumbnail13()");
     }    
 
+    @Test
+    public void testThumbnail4() throws Exception {
+        logger.debug(">>> testThumbnail14()");
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = instance.findFoto(1001l,true);
+                
+        Assert.assertNotNull(photo.thumbnails,"null thumbs");
+        Assert.assertFalse(photo.thumbnails.isEmpty(),"empty thumbs");
+        Assert.assertEquals(photo.thumbnails.size(),1, "should have exactly one thumb");
+        Assert.assertEquals((long) photo.thumbnails.get(0).getId(),1l,"id not as expected");
+        
+        Thumbnail thumbnail = instance.findThumbnail(1l);
+        Assert.assertNotNull(thumbnail,"Thumbnail not found before photo destruction.");
+        
+        instance.destroyThumbnail(1l);
+        
+        thumbnail = instance.findThumbnail(1l);
+        Assert.assertNull(thumbnail,"Thumbnail found after destruction.");
+        
+        // photo must still be there !!!!
+        photo = instance.findFoto(1001l,true);
+        Assert.assertNotNull(photo,"null photo");        
+        Assert.assertTrue(photo.thumbnails.isEmpty(),"expected empty thumbs after thumb removal");
+                
+        logger.debug("<<< testThumbnail14()");
+    }
     
     @Override
     protected void prepareSettings() {

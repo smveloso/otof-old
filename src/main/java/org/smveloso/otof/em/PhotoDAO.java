@@ -96,6 +96,27 @@ public class PhotoDAO extends DAO implements Serializable {
         }
     }
 
+    public void destroyThumbnail(Long id) throws NonexistentEntityException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Thumbnail thumbnail;
+            try {
+                thumbnail = em.getReference(Thumbnail.class, id);
+                thumbnail.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The thumbnail with id " + id + " no longer exists.", enfe);
+            }
+            em.remove(thumbnail);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                closeEM(em);
+            }
+        }
+    }
+    
     public List<Photo> findFotoEntities() {
         return findFotoEntities(true, -1, -1);
     }

@@ -202,7 +202,7 @@
                         <artifactId>hibernate-maven-plugin</artifactId>
                         <version>2.1.1</version>
                         <configuration>
-                            <execute>true</execute>
+                            <execute>false</execute>
                         </configuration>
                     </plugin>                                                    
                 </plugins>

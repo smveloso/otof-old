@@ -1,6 +1,7 @@
 package org.smveloso.otof.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,8 @@ import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
+import org.smveloso.otof.model.Thumbnail;
+import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 
 /**
  *
@@ -118,6 +121,11 @@ public abstract class AlbumUpdater {
                     photo.setFileDigest(digest);
                     photo.setDateTaken(JpegUtil.safeGetDataTirada(this.lastProcessedFile));                                        
                     photo.setFileSize(this.lastProcessedFile.length());
+                    Thumbnail thumbnail = new Thumbnail();
+                    thumbnail.setWidth(320);
+                    thumbnail.setHeight(200);
+                    thumbnail.setContents(DefaultThumbUtil.getInstance().makeRawThumb(lastProcessedFile, 320, 200));
+                    photo.addThumbnail(thumbnail);
                     photoDAO.create(photo);                    
                 } else {
                     logger.trace("i've seen this photo before");
@@ -127,9 +135,9 @@ public abstract class AlbumUpdater {
                 Location location = LocationDAO.getInstance().findLocationInAlbumByPath(album, path);
                 
                 if (null == location) {
-                    // this photo is not associated to this album in any path
+                    // this photo is not associated to this album in THIS path
                     // go ahead and associate it
-                    logger.trace("photo NOT associated to album");
+                    logger.trace("photo NOT associated to album in this path");
                     location = new Location();
                     location.setAlbum(album);
                     location.setPhoto(photo);
@@ -141,7 +149,7 @@ public abstract class AlbumUpdater {
                     if (existingDigest.equals(digest)) {
                         // an identical photo is already associated to the album
                         // in that particular path. nothing to do. log it ?
-                        logger.trace("photo ALREADY associated to album");
+                        logger.trace("photo ALREADY associated to album in this path");
                     } else {
                         // there is a photo associated to the album
                         // at this path, but it is a different photo                        

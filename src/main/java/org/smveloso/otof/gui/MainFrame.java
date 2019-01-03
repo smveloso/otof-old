@@ -495,8 +495,12 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug(">>> actionAtualizarThumbnail(Photo photo)");
         if (photo != null) {
 
-            byte[] raw = PhotoDAO.getInstance().getThumbnail(photo);
-            
+            byte[] raw = null;
+            Photo photoWithThumbs = PhotoDAO.getInstance().findFoto(photo.getId(),true);
+            if (!photoWithThumbs.thumbnails.isEmpty()) {
+                raw = photoWithThumbs.thumbnails.get(0).getContents();
+            }
+                        
             if (raw != null) {            
                 // A thumbnail was found pre-computed.
                 logger.debug("Found a pre-computed thumbnail.");

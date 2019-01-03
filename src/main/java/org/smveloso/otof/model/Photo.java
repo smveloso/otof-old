@@ -1,13 +1,19 @@
 package org.smveloso.otof.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -44,6 +50,10 @@ public class Photo implements Serializable {
 
     @OneToMany(mappedBy = "photo")
     public Set<Location> locations;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "photo_id")
+    public List<Thumbnail> thumbnails;
     
     public Long getId() {
         return id;
@@ -77,6 +87,15 @@ public class Photo implements Serializable {
         this.fileSize = fileSize;
     }
 
+    public void addThumbnail(Thumbnail thumbnail) {
+        if (null == thumbnails) {
+            thumbnails = new ArrayList<>();
+        }
+        if (!thumbnails.contains(thumbnail)) {
+            thumbnails.add(thumbnail);
+        }
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

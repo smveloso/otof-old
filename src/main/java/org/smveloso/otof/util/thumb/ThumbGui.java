@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -21,6 +22,12 @@ public class ThumbGui extends javax.swing.JFrame {
      */
     public ThumbGui() {
         initComponents();
+        sliderLargura.setLabelTable(sliderLargura.createStandardLabels(100, 10));
+        sliderLargura.setPaintLabels(true);
+        sliderAltura.setLabelTable(sliderAltura.createStandardLabels(100, 10));
+        sliderAltura.setPaintLabels(true);
+
+        
     }
 
     /**
@@ -37,13 +44,15 @@ public class ThumbGui extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         sliderLargura = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        sliderAltrua = new javax.swing.JSlider();
+        sliderAltura = new javax.swing.JSlider();
         lblThumbnail = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtInputFileName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtOutputFileName = new javax.swing.JTextField();
+        btnInputSearch = new javax.swing.JButton();
+        btnOutputSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Thumb Test");
@@ -59,17 +68,19 @@ public class ThumbGui extends javax.swing.JFrame {
 
         jLabel3.setText("Largura:");
 
-        sliderLargura.setMajorTickSpacing(10);
+        sliderLargura.setMajorTickSpacing(40);
+        sliderLargura.setMaximum(1000);
         sliderLargura.setMinimum(10);
-        sliderLargura.setMinorTickSpacing(5);
-        sliderLargura.setPaintLabels(true);
+        sliderLargura.setMinorTickSpacing(40);
+        sliderLargura.setPaintTicks(true);
 
         jLabel4.setText("Altura:");
 
-        sliderAltrua.setMajorTickSpacing(10);
-        sliderAltrua.setMinimum(10);
-        sliderAltrua.setMinorTickSpacing(5);
-        sliderAltrua.setPaintLabels(true);
+        sliderAltura.setMajorTickSpacing(40);
+        sliderAltura.setMaximum(1000);
+        sliderAltura.setMinimum(10);
+        sliderAltura.setMinorTickSpacing(40);
+        sliderAltura.setPaintTicks(true);
 
         javax.swing.GroupLayout panelDimensoesLayout = new javax.swing.GroupLayout(panelDimensoes);
         panelDimensoes.setLayout(panelDimensoesLayout);
@@ -85,11 +96,11 @@ public class ThumbGui extends javax.swing.JFrame {
                     .addGroup(panelDimensoesLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sliderAltrua, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(sliderAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
-        panelDimensoesLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {sliderAltrua, sliderLargura});
+        panelDimensoesLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {sliderAltura, sliderLargura});
 
         panelDimensoesLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel3, jLabel4});
 
@@ -102,14 +113,14 @@ public class ThumbGui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelDimensoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sliderAltrua, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                    .addComponent(sliderAltura, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
-        panelDimensoesLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {sliderAltrua, sliderLargura});
+        panelDimensoesLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {sliderAltura, sliderLargura});
 
         lblThumbnail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblThumbnail.setBorder(javax.swing.BorderFactory.createTitledBorder("Visualização"));
+        lblThumbnail.setBorder(javax.swing.BorderFactory.createTitledBorder("Visualização (tamanho fixo)"));
         lblThumbnail.setMaximumSize(new java.awt.Dimension(260, 561));
         lblThumbnail.setMinimumSize(new java.awt.Dimension(260, 561));
 
@@ -123,6 +134,15 @@ public class ThumbGui extends javax.swing.JFrame {
 
         txtOutputFileName.setText("/home/sergio/Env/code/otof-old/");
 
+        btnInputSearch.setText("...");
+        btnInputSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInputSearchActionPerformed(evt);
+            }
+        });
+
+        btnOutputSearch.setText("...");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,11 +154,12 @@ public class ThumbGui extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtOutputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(txtInputFileName))
-                .addContainerGap())
+                    .addComponent(txtInputFileName)
+                    .addComponent(txtOutputFileName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnInputSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOutputSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,11 +167,13 @@ public class ThumbGui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtInputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInputSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtOutputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOutputFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOutputSearch))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,7 +201,7 @@ public class ThumbGui extends javax.swing.JFrame {
                 .addComponent(panelDimensoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblThumbnail, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(btnGerar)
                 .addContainerGap())
         );
@@ -190,6 +213,34 @@ public class ThumbGui extends javax.swing.JFrame {
         actionGerar();
     }//GEN-LAST:event_btnGerarActionPerformed
 
+    private void btnInputSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInputSearchActionPerformed
+        actionSearchInput();
+    }//GEN-LAST:event_btnInputSearchActionPerformed
+
+    private void actionSearchInput() {
+        File file = actionChooseFile();
+        if (null != file) {
+            txtInputFileName.setText(file.getAbsolutePath());
+        }
+    }
+
+    private void actionSearchOutput() {
+        File file = actionChooseFile();
+        if (null != file) {
+            txtOutputFileName.setText(file.getAbsolutePath());
+        }
+    }
+    
+    private File actionChooseFile() {
+        File file = null;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if (chooser.showOpenDialog(this) ==  JFileChooser.APPROVE_OPTION) {
+            file = chooser.getSelectedFile();
+        }
+        return file;
+    }
+    
     private void actionGerar() {
         
         System.out.println(">>> actionGerar()");
@@ -197,11 +248,14 @@ public class ThumbGui extends javax.swing.JFrame {
         File infile = new File(txtInputFileName.getText());
         File outfile = new File(txtOutputFileName.getText());
         int width = sliderLargura.getValue();
-        int height = sliderAltrua.getValue();
+        int height = sliderAltura.getValue();
         
         // get raw data for jpeg
         System.err.println("Extraindo raw para dimensões: " + width + ":" + height);
         byte[] raw = DefaultThumbUtil.getInstance().makeRawThumb(infile, width, height);
+        byte[] rawToDisplay = DefaultThumbUtil.getInstance().makeRawThumb(infile, 200, 300);
+        
+        
         
         // output to file
         System.err.println("Salvando em: " + outfile.getAbsolutePath());
@@ -224,7 +278,7 @@ public class ThumbGui extends javax.swing.JFrame {
         // output to jlabel
         System.err.println("JLabel ...");
         try {
-            ImageIcon imgIcon = new ImageIcon(raw);
+            ImageIcon imgIcon = new ImageIcon(rawToDisplay);
             lblThumbnail.setIcon(imgIcon);
             
         } finally {
@@ -275,6 +329,8 @@ public class ThumbGui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGerar;
+    private javax.swing.JButton btnInputSearch;
+    private javax.swing.JButton btnOutputSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -282,7 +338,7 @@ public class ThumbGui extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblThumbnail;
     private javax.swing.JPanel panelDimensoes;
-    private javax.swing.JSlider sliderAltrua;
+    private javax.swing.JSlider sliderAltura;
     private javax.swing.JSlider sliderLargura;
     private javax.swing.JTextField txtInputFileName;
     private javax.swing.JTextField txtOutputFileName;

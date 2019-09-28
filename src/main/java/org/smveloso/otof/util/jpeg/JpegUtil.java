@@ -30,7 +30,8 @@ public class JpegUtil {
         try {
             //extractAttributes(file);
             Metadata metadata = ImageMetadataReader.readMetadata(file);
-            ExifSubIFDDirectory directory = metadata.getDirectory(ExifSubIFDDirectory.class);
+            //TODO check if there are more 'directories'
+            ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
             if (null != directory) {
                 String tagName = directory.getTagName(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
                 if (null != tagName) {

@@ -60,6 +60,8 @@ public class PhotoDAOTest extends JpaBaseTest {
         
         Assert.assertNotNull(photo,"cant test: photo not found by id.");
         
+        logger.debug("located photo");
+        
         // does it point to a valid location ?
         
         //TODO: (start) refactor after merging branch 'SEARCH': use LocationDAO.findPhotoLocations        
@@ -75,6 +77,8 @@ public class PhotoDAOTest extends JpaBaseTest {
                 
         String path = locations.get(0).getPath();
         File testFile = new File(path);
+
+        logger.debug("location is: " + path);
         
         Assert.assertTrue(testFile.exists(),"cant test: test file not found");
         Assert.assertTrue(testFile.isFile(),"cant test: test file not a file");
@@ -87,13 +91,17 @@ public class PhotoDAOTest extends JpaBaseTest {
         thumbnail.setWidth(W);
         thumbnail.setHeight(H);
         
+        logger.debug("thumbnail created");        
+        
         //TODO should also test cascading and 'inverseness'
         Assert.assertTrue(photo.thumbnails.isEmpty(),"cant test: list of thumbs in photo should be empty");
         photo.thumbnails = new ArrayList<>();
-        photo.thumbnails.add(thumbnail);
+        photo.addThumbnail(thumbnail);
         
+        logger.debug("about to update photo ...");        
         PhotoDAO.getInstance().update(photo);
-
+        logger.debug("updated photo");        
+        
         // now we query for it ... must improve this ...
         
         Photo storedPhoto = PhotoDAO.getInstance().findFoto(1000l,true);
@@ -107,7 +115,7 @@ public class PhotoDAOTest extends JpaBaseTest {
 
     @Test
     public void testThumbnail2() throws Exception {
-        logger.debug(">>> testThumbnail12()");
+        logger.debug(">>> testThumbnail2()");
         PhotoDAO instance = PhotoDAO.getInstance();
         Photo photo = instance.findFoto(1001l);
         
@@ -124,12 +132,12 @@ public class PhotoDAOTest extends JpaBaseTest {
         Assert.assertEquals(photo.thumbnails.size(),1, "should have exactly one thumb");
         
         Assert.assertNotNull(photo,"cant test: photo not found by id.");
-        logger.debug("<<< testThumbnail12()");
+        logger.debug("<<< testThumbnail2()");
     }    
 
     @Test
     public void testThumbnail3() throws Exception {
-        logger.debug(">>> testThumbnail13()");
+        logger.debug(">>> testThumbnail3()");
         PhotoDAO instance = PhotoDAO.getInstance();
         Photo photo = instance.findFoto(1001l,true);
                 
@@ -149,12 +157,12 @@ public class PhotoDAOTest extends JpaBaseTest {
         thumbnail = instance.findThumbnail(1l);
         Assert.assertNull(thumbnail,"Thumbnail after before photo destruction.");
                 
-        logger.debug("<<< testThumbnail13()");
+        logger.debug("<<< testThumbnail3()");
     }    
 
     @Test
     public void testThumbnail4() throws Exception {
-        logger.debug(">>> testThumbnail14()");
+        logger.debug(">>> testThumbnail4()");
         PhotoDAO instance = PhotoDAO.getInstance();
         Photo photo = instance.findFoto(1001l,true);
                 
@@ -176,7 +184,7 @@ public class PhotoDAOTest extends JpaBaseTest {
         Assert.assertNotNull(photo,"null photo");        
         Assert.assertTrue(photo.thumbnails.isEmpty(),"expected empty thumbs after thumb removal");
                 
-        logger.debug("<<< testThumbnail14()");
+        logger.debug("<<< testThumbnail4()");
     }
     
     @Override

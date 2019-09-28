@@ -201,13 +201,23 @@ public class PhotoDAO extends DAO implements Serializable {
     }    
 
     public Photo findFotoByDigest(String digest) throws EmException {
+        return findFotoByDigest(digest, false);
+    }
+    
+    public Photo findFotoByDigest(String digest, boolean loadThumbnails) throws EmException {
         System.out.println(">> findFotoByDigest");
-        Photo foto = null;
+        logger.trace("LOAD THUMBS? " + loadThumbnails);
+
+        Photo photo = null;
         EntityManager em = getEntityManager();
         try {
             TypedQuery<Photo> tq = em.createNamedQuery("Photo.byDigest", Photo.class);
             tq.setParameter("digest", digest);
-            foto = tq.getSingleResult();
+            photo = tq.getSingleResult();
+            if (loadThumbnails && (null != photo)) {
+                int size = photo.thumbnails.size();
+                logger.trace("THUMBS: " + size);
+            }            
         } catch (NoResultException e) {
             //throw new EmException("Erro ao buscar foto por digest: " + e.getMessage(),e);
         } catch (NonUniqueResultException e) {
@@ -220,6 +230,6 @@ public class PhotoDAO extends DAO implements Serializable {
             }
             System.out.println("<< findFotoByDigest");
         }
-        return foto;
+        return photo;
     }    
 }

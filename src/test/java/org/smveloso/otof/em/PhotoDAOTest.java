@@ -1,7 +1,7 @@
 package org.smveloso.otof.em;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.LazyInitializationException;
@@ -12,6 +12,7 @@ import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
 import org.smveloso.otof.model.Thumbnail;
 import org.smveloso.otof.test.JpaBaseTest;
+import org.smveloso.otof.util.date.DateUtil;
 import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -36,11 +37,62 @@ public class PhotoDAOTest extends JpaBaseTest {
     public void testGetTotalPhotoCount() {
         logger.debug(Thread.currentThread().getId() + ">>>> PhotoDAOTest.getTotalPhotoCount");
         PhotoDAO instance = PhotoDAO.getInstance();
-        int expResult = 2;
+        int expResult = 3;
         int result = instance.getTotalPhotoCount();
         Assert.assertEquals(expResult, result);
     }
 
+    @Test
+    public void testCreatePhoto() throws Exception {
+        logger.debug(Thread.currentThread().getId() + ">>>> PhotoDAOTest.testCreatePhoto");
+        
+        String digest = "101010101010";
+        
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = new Photo();
+        photo.setDateTaken(DateUtil.makeDate(2015, 1, 1, 14, 0, 0));
+        photo.setFileDigest(digest);
+        photo.setFileSize(1024l);
+        instance.create(photo);
+        
+        Photo photo2 = instance.findFotoByDigest(digest, true);
+        Assert.assertNotNull(photo2,"Foto nao encontrada por digest");
+
+        Thumbnail thumbnail = new Thumbnail();
+        thumbnail.setContents(new byte[] {0,0,0});
+        thumbnail.setWidth(100);
+        thumbnail.setHeight(100);
+        logger.debug("thumbnail created");        
+        
+        photo2.addThumbnail(thumbnail);
+        instance.update(photo2);        
+        
+        Photo photo3 = instance.findFotoByDigest(digest, true);
+        Assert.assertNotNull(photo3,"Foto nao encontrada por digest");
+        Assert.assertNotNull(photo3.getThumbnails(), "Null thumbnails");
+        Assert.assertFalse(photo3.getThumbnails().isEmpty(), "Empty thumbnails list");
+        Assert.assertTrue(photo3.getThumbnails().size() == 1, "Wrong number of thumbnails");
+        logger.trace("THUMB: " + photo3.getThumbnails().get(0).getId());
+        
+    
+    }
+    
+    @Test
+    public void testUpdatePhoto() throws Exception {
+        logger.debug(Thread.currentThread().getId() + ">>>> PhotoDAOTest.testUpdatePhoto");
+        PhotoDAO instance = PhotoDAO.getInstance();
+        Photo photo = instance.findFotoByDigest("22222222222222222222");
+        Assert.assertNotNull(photo,"Foto nao encontrada por digest");
+        Assert.assertEquals(photo.getDateTaken().getTime(),DateUtil.makeDate(2010, 1, 1, 14, 0, 0).getTime(),"Wrong initial date in photo.");
+        Date newDate = DateUtil.makeDate(2014,1,1,14,0,0);
+        photo.setDateTaken(newDate);
+        instance.update(photo);
+        Photo newPhoto = instance.findFotoByDigest("22222222222222222222");
+        Assert.assertNotNull(newPhoto,"Foto nao encontrada por digest");
+        Assert.assertEquals(newPhoto.getDateTaken().getTime(),newDate.getTime(),"Wrong updated date in photo.");
+    }
+    
+    
     @Test
     public void testFindFotoByDigest()  throws Exception {
         logger.debug(Thread.currentThread().getId() + ">>> PhotoDAOTest.testFindFotoByDigest");
@@ -95,7 +147,6 @@ public class PhotoDAOTest extends JpaBaseTest {
         
         //TODO should also test cascading and 'inverseness'
         Assert.assertTrue(photo.thumbnails.isEmpty(),"cant test: list of thumbs in photo should be empty");
-        photo.thumbnails = new ArrayList<>();
         photo.addThumbnail(thumbnail);
         
         logger.debug("about to update photo ...");        

@@ -95,6 +95,10 @@ public class Photo implements Serializable {
             thumbnails.add(thumbnail);
         }
     }
+
+    public List<Thumbnail> getThumbnails() {
+        return this.thumbnails;
+    }
     
     @Override
     public int hashCode() {

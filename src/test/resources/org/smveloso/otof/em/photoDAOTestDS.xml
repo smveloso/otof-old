@@ -9,6 +9,8 @@
     <PHOTO id="1001" DATETAKEN="2012-01-01 14:00:00" FILEDIGEST="ABCDEABCDEABCDEABCDE" FILESIZE="1024"/>
     
     <THUMBNAIL id="1" PHOTO_ID="1001" WIDTH="200" HEIGHT="200" CONTENTS="[FILE]${project.build.directory}/test-classes/jpeg/foto-1-thumb-200x200.jpg"  />    
+
+    <PHOTO id="2000" DATETAKEN="2010-01-01 14:00:00" FILEDIGEST="22222222222222222222" FILESIZE="10240" />    
     
     
 </dataset>

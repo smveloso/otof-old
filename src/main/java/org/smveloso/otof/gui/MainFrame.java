@@ -16,6 +16,7 @@ import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.gui.dialog.NewAlbumDialog;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
+import org.smveloso.otof.gui.tablemodel.LocationListTableModel;
 import org.smveloso.otof.gui.tablemodel.PhotoListTableModel;
 import org.smveloso.otof.model.Photo;
 
@@ -35,6 +36,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private PhotoListTableModel albumPhotosTableModel;
 
+    private LocationListTableModel locationsTableModel;
+    
     int thumbWidth;
     int thumbHeight;
 
@@ -54,11 +57,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void beforeInitComponents() {
         logger.debug(">>> beforeInitComponents()");
         serviceFacade = ServiceFacade.getInstance();
+
         this.state = new MainFrameState();
+
         this.albumListTableModel = new AlbumListTableModel();
         this.albumListTableModel.associateToState(state);
+        
         this.albumPhotosTableModel = new PhotoListTableModel();
         this.albumPhotosTableModel.associateToState(state);
+        
+        this.locationsTableModel = new LocationListTableModel();
+        this.locationsTableModel.associateToState(state);
+        
         logger.debug("<<< beforeInitComponents()");
     }
     
@@ -66,6 +76,8 @@ public class MainFrame extends javax.swing.JFrame {
         logger.debug(">>> afterInitComponents()");
         this.tableAlbums.getSelectionModel().addListSelectionListener(albumListSelectionListener);
         this.tableFotos.getSelectionModel().addListSelectionListener(photoListSelectionListener);
+        this.tableLocations.getSelectionModel().addListSelectionListener(locationListSelectionListener);
+        
         thumbWidth = pnlFotoPreview.getWidth();
         thumbHeight = pnlFotoPreview.getHeight();
         actionLoadAllAlbums();
@@ -110,6 +122,8 @@ public class MainFrame extends javax.swing.JFrame {
         txtFotosGotToPage = new javax.swing.JTextField();
         bntFotosNextPage = new javax.swing.JButton();
         btnFotosPreviousPage = new javax.swing.JButton();
+        scrollTableLocations = new javax.swing.JScrollPane();
+        tableLocations = new javax.swing.JTable();
         tabpnlCriterios = new javax.swing.JTabbedPane();
         pnlAlbums = new javax.swing.JPanel();
         scrollTableAlbums = new javax.swing.JScrollPane();
@@ -213,6 +227,19 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        tableLocations.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrollTableLocations.setViewportView(tableLocations);
+
         javax.swing.GroupLayout pnlFotosLayout = new javax.swing.GroupLayout(pnlFotos);
         pnlFotos.setLayout(pnlFotosLayout);
         pnlFotosLayout.setHorizontalGroup(
@@ -221,7 +248,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlFotosPagination, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollTableFotos))
+                    .addComponent(scrollTableFotos)
+                    .addComponent(scrollTableLocations))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -231,10 +259,13 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlFotosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlFotosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlFotoPreview, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(scrollTableFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlFotosPagination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlFotosLayout.createSequentialGroup()
+                        .addComponent(scrollTableFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addComponent(scrollTableLocations, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlFotosPagination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlFotoPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -331,8 +362,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(tabpnlCriterios, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlFotos, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addComponent(pnlFotos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         tabpnlMain.addTab("Fotos", pnlSearchTab);
@@ -345,7 +376,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         pnlHouseKeepingLayout.setVerticalGroup(
             pnlHouseKeepingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
 
         tabpnlMain.addTab("Limpeza", pnlHouseKeeping);
@@ -603,8 +634,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSearchTab;
     private javax.swing.JScrollPane scrollTableAlbums;
     private javax.swing.JScrollPane scrollTableFotos;
+    private javax.swing.JScrollPane scrollTableLocations;
     private javax.swing.JTable tableAlbums;
     private javax.swing.JTable tableFotos;
+    private javax.swing.JTable tableLocations;
     private javax.swing.JTabbedPane tabpnlCriterios;
     private javax.swing.JTabbedPane tabpnlMain;
     private javax.swing.JTextField txtFotosCurrentPage;
@@ -657,4 +690,28 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
     };   
+
+    ListSelectionListener locationListSelectionListener = new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            logger.trace(">>> locationListSelectionListener.valueChanged(...)");                
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            // expect single-selection mode
+            if (lsm.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = lsm.getMinSelectionIndex();
+                    logger.debug("INDEX IS: " + index);
+                    if (index == -1) {
+                        actionSelecionarPhoto(null);
+                    } else if (lsm.isSelectedIndex(index)) {
+                        Photo photo = getMainFrameState().getPhotosList().get(index); 
+                        actionSelecionarPhoto(photo);
+                    } else {
+                        logger.warn("dont know what to do ...");
+                    }
+                }
+            }
+        }
+    };   
+
 }

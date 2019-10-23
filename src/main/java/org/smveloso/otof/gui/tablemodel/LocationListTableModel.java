@@ -9,17 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.gui.MainFrameProperties;
 import org.smveloso.otof.gui.MainFrameState;
+import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
 
-public class PhotoListTableModel extends AbstractTableModel implements PropertyChangeListener {
+public class LocationListTableModel extends AbstractTableModel implements PropertyChangeListener {
 
-   private static final Logger logger = LoggerFactory.getLogger(PhotoListTableModel.class);
+   private static final Logger logger = LoggerFactory.getLogger(LocationListTableModel.class);
     
     private MainFrameState mainFrameState;
     
     // id, name, serverside, mountpoint(!!!), nro of photos (ira variar cf tipo de album (!!!))
     //TODO como lidar com tipos diferentes de album ?
-    private static final Integer COLUMNS = 5;
+    private static final Integer COLUMNS = 6;
 
     //TODO localization someday ?
     
@@ -28,30 +29,34 @@ public class PhotoListTableModel extends AbstractTableModel implements PropertyC
     private static final String COL_NAME_FILE_NAME = "file name";
     private static final String COL_NAME_FILE_SIZE = "file size";
     private static final String COL_NAME_FILE_DIGEST = "file digest";
+    private static final String COL_NAME_ALBUM = "album";
+    
     
     private static final String[] COLUMN_NAMES = new String[] {COL_NAME_ID,
                                                                COL_NAME_DATE_TAKEN,
                                                                COL_NAME_FILE_NAME,
                                                                COL_NAME_FILE_SIZE,
-                                                               COL_NAME_FILE_DIGEST};
+                                                               COL_NAME_FILE_DIGEST,
+                                                               COL_NAME_ALBUM};
     
     private static final Class[] COLUMN_CLASSES = new Class[] {Integer.class,
                                                                String.class,
                                                                String.class,
                                                                Long.class,
+                                                               String.class,
                                                                String.class};
 
-    private List<Photo> getAPhotos() {
+    private List<Location> getAllLocations() {
         if (null == mainFrameState) {
             return new ArrayList<>();
         } else {
-            return mainFrameState.getPhotosList();
+            return mainFrameState.getLocationsList();
         }
     }
     
     @Override
     public int getRowCount() {
-        return getAPhotos().size();
+        return getAllLocations().size();
     }
 
     @Override
@@ -61,15 +66,15 @@ public class PhotoListTableModel extends AbstractTableModel implements PropertyC
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Photo photo = getAPhotos().get(rowIndex);
+        Location location = getAllLocations().get(rowIndex);
         Object result = null;
         switch (columnIndex) {
-            case 0: result = photo.getId(); break;
-            case 1: result = photo.getDateTaken(); break;
-            case 2: result = "todo"; break;   // file name is recorded in location, not in photo. 
-                                              // there maybe more than one file per photo per album
-            case 3: result = photo.getFileSize(); break;
-            case 4: result = photo.getFileDigest(); break;
+            case 0: result = location.getId(); break;
+            case 1: result = location.getPhoto().getDateTaken(); break;
+            case 2: result = location.getPath(); break;
+            case 3: result = location.getPhoto().getFileSize(); break;
+            case 4: result = location.getPhoto().getFileDigest(); break;
+            case 5: result = location.getAlbum().getName();
         }
         return result;
     }
@@ -103,7 +108,7 @@ public class PhotoListTableModel extends AbstractTableModel implements PropertyC
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         logger.trace(">>> propertyChange: "+ evt.getPropertyName());
-        if (evt.getPropertyName().equals(MainFrameProperties.SET_PHOTO_LIST.name())) {
+        if (evt.getPropertyName().equals(MainFrameProperties.SET_LOCATION_LIST.name())) {
             logger.trace("firing table data changed");
             fireTableDataChanged();
         }

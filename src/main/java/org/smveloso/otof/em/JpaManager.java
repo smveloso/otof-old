@@ -32,7 +32,7 @@ public class JpaManager {
     
     private synchronized void init() {
         if (!isInitialized()) {
-            emFactory = Persistence.createEntityManagerFactory("org.smveloso_otof_jar_1-SNAPSHOTPU");
+            emFactory = Persistence.createEntityManagerFactory("otof-pu");
         }
     }
     

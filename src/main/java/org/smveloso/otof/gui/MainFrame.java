@@ -1,6 +1,5 @@
 package org.smveloso.otof.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -12,18 +11,13 @@ import javax.swing.event.ListSelectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.smveloso.otof.em.JpaManager;
-import org.smveloso.otof.em.LocationDAO;
-import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.facade.FacadeException;
 import org.smveloso.otof.facade.ServiceFacade;
 import org.smveloso.otof.gui.dialog.NewAlbumDialog;
 import org.smveloso.otof.model.Album;
-import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.gui.tablemodel.AlbumListTableModel;
 import org.smveloso.otof.gui.tablemodel.PhotoListTableModel;
-import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
-import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 
 /**
  *
@@ -494,53 +488,13 @@ public class MainFrame extends javax.swing.JFrame {
     private void actionAtualizarThumbnail(Photo photo) {
         logger.debug(">>> actionAtualizarThumbnail(Photo photo)");
         if (photo != null) {
-
-            byte[] raw = null;
-            Photo photoWithThumbs = PhotoDAO.getInstance().findFoto(photo.getId(),true);
-            if (!photoWithThumbs.thumbnails.isEmpty()) {
-                raw = photoWithThumbs.thumbnails.get(0).getContents();
-            }
-                        
-            if (raw != null) {            
-                // A thumbnail was found pre-computed.
-                logger.debug("Found a pre-computed thumbnail.");
-                actionAtualizarThumbnail(raw);
+            byte[] raw = serviceFacade.getThumbnail(photo.getId());                
+            if (null == raw) {
+                //TODO: carregar uma imagem padrão de 'sem thumbnail'
+                logger.warn("NO THUMBNAIL.");
             } else {
-                // Try to compute it from a file that is associated with the photo.
-                logger.debug("Looking for a file to compute thumbnail.");
-                
-                // A Photo does not point to a file or set of files.
-                // There may be several files in several albums.
-                // Any location will do to compute a thumbnail.
-                
-                List<Location> locations = LocationDAO.getInstance().findPhotoLocations(photo);
-                
-                // sanity
-                if (null == locations) throw new IllegalStateException("BOOM: it seems no location was found by DAO");
-                if (locations.isEmpty()) throw new IllegalStateException("BOOM: empty list of locations not acceptable at this point");
-
-                // Try each location in turn until one succeeds ...
-
-                for (Location location:locations) {
-                    File file = new File(location.getPath());
-                    logger.trace("FILE: " + file.getAbsolutePath());
-                    // sanity
-                    if (!(file.isFile()) || !(file.canRead())) {
-                        logger.debug("No good !");
-                    } else {
-                        raw = DefaultThumbUtil.getInstance().makeRawThumb(file, thumbWidth, thumbHeight);
-                        actionAtualizarThumbnail(raw);
-                        break;
-                    }
-                }
-                
-                if (null == raw) {
-                    //TODO: carregar uma imagem padrão de 'sem thumbnail'
-                    logger.warn("NO THUMBNAIL.");
-                }
-
+                actionAtualizarThumbnail(raw);
             }
-
         } else {
             logger.debug("Photo is null: clearing thumbnail.");
             actionClearThumbnail();

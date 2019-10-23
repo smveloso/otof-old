@@ -1,5 +1,6 @@
 package org.smveloso.otof.facade;
 
+import java.io.File;
 import java.util.List;
 import org.smveloso.otof.service.AlbumUpdater;
 import org.smveloso.otof.gui.job.LocalFileSystemAlbumUpdaterJob;
@@ -13,8 +14,10 @@ import org.smveloso.otof.em.exception.EmException;
 import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
+import org.smveloso.otof.model.Location;
 import org.smveloso.otof.model.Photo;
 import org.smveloso.otof.service.LocalFileSystemAlbumUpdater;
+import org.smveloso.otof.util.thumb.DefaultThumbUtil;
 
 /**
  *
@@ -110,5 +113,26 @@ public class ServiceFacade {
     public int getTotalPhotoCount() {
         return photoDAO.getTotalPhotoCount();
     }
+
+    /**
+     * 
+     * @param photoId
+     * @return Binary content of photo or null if photo or content not found
+     */
+    public byte[] getThumbnail(Long photoId) {
+
+        byte[] raw = null;
         
+        Photo photoWithThumbs = PhotoDAO.getInstance().findFoto(photoId, true);
+
+        if (null != photoWithThumbs) { 
+            if (!photoWithThumbs.thumbnails.isEmpty()) {
+                raw = photoWithThumbs.thumbnails.get(0).getContents();
+            }            
+        }
+         
+        return raw;
+        
+    }
+    
 }

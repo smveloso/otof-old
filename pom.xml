@@ -339,13 +339,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <!-- <version>5.4.5.Final</version> -->
-            <version>5.3.3.Final</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
@@ -407,11 +400,23 @@
             <artifactId>cdi</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>datasources</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>jpa</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- hibernate para testes unitarios (arquillian ?) (vai resolver para unit testing tbm ? nem devia depender de jpa para unit testing ... ) -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.3.3.Final</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -426,6 +431,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <!-- TODO: como indicar o persistence unit ? -->
                         <groupId>de.juplo</groupId>
                         <artifactId>hibernate-maven-plugin</artifactId>
                         <version>2.1.1</version>
@@ -460,6 +466,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <!-- TODO: como indicar o persistence unit ? -->
                         <groupId>de.juplo</groupId>
                         <artifactId>hibernate-maven-plugin</artifactId>
                         <version>2.1.1</version>

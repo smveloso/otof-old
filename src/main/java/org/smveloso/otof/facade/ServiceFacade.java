@@ -3,7 +3,8 @@ package org.smveloso.otof.facade;
 import java.io.File;
 import java.util.List;
 import org.smveloso.otof.service.AlbumUpdater;
-import org.smveloso.otof.gui.job.LocalFileSystemAlbumUpdaterJob;
+//TODO dep para gui
+//import org.smveloso.otof.gui.job.LocalFileSystemAlbumUpdaterJob;
 import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,8 @@ import org.smveloso.otof.em.AlbumDAO;
 import org.smveloso.otof.em.LocationDAO;
 import org.smveloso.otof.em.PhotoDAO;
 import org.smveloso.otof.em.exception.EmException;
-import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
+//TODO dep para gui
+//import org.smveloso.otof.gui.swingworker.DisplayMessageSwingWorker;
 import org.smveloso.otof.model.Album;
 import org.smveloso.otof.model.LocalFileSystemAlbum;
 import org.smveloso.otof.model.Location;
@@ -77,6 +79,8 @@ public class ServiceFacade {
     }
     
     //TODO esta tratando apenas um tipo de album
+    //TODO dep para gui
+/*
     public synchronized void performAlbumUpdate(Album album) throws FacadeException {
 
         logger.debug(">> performAlbumUpdate(Album)");
@@ -109,7 +113,8 @@ public class ServiceFacade {
         }
 
     }
-        
+ */
+    
     public int getTotalPhotoCount() {
         return photoDAO.getTotalPhotoCount();
     }

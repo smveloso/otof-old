@@ -492,6 +492,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (null == raw) {
                 //TODO: carregar uma imagem padrão de 'sem thumbnail'
                 logger.warn("NO THUMBNAIL.");
+                actionClearThumbnail();
             } else {
                 actionAtualizarThumbnail(raw);
             }
